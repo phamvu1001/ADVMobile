@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:jarvis/src/pages/chat_page/chatPage.dart';
 import 'package:jarvis/src/pages/home_page/homePage.dart';
+import 'package:jarvis/src/pages/personal_page/personalPage.dart';
 import 'package:jarvis/src/pages/settings_page/settingsPage.dart';
 
 class NavigationMenu extends StatefulWidget{
@@ -13,14 +14,15 @@ class NavigationMenu extends StatefulWidget{
 
 class _NavigationMenuState extends State<NavigationMenu>{
   int _selectedIndex=0;
-  List <IconData> icons=[Icons.home_outlined,Icons.chat_outlined,Icons.settings];
-  List <String> labels=["Home","Chat","Settings"];
+  List <IconData> icons=[ Icons.home_outlined, Icons.chat_outlined, Icons.person, Icons.settings ];
+  List <String> labels=["Home","Chat", "Personal", "Settings"];
   List <Widget> pages=[
     const MyHomePage(title: 'Home'),
     const ChatPage(title: 'Chat'),
+    const PersonalPage(title: 'Personal'),
     const SettingsPage(title: 'Settings'),
   ];
-  List <String> titles=["Home","Chat","Settings"];
+  List <String> titles=["Home","Chat", "Personal", "Settings"];
   final pageController = PageController();
   void onPageChanged(int index) {
     setState(() {
@@ -64,6 +66,7 @@ class _NavigationMenuState extends State<NavigationMenu>{
               setState(() {
                 pageController.jumpToPage(index);
               });
+              Navigator.pop(context);
             },
           );
         },

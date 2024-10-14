@@ -19,6 +19,9 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) =>Scaffold(
     body: Center(
       child: TextButton(
+        style: ButtonStyle(
+          foregroundColor: WidgetStateProperty.all<Color>(Theme.of(context).colorScheme.primary),
+        ),
         child: const Text('Login'),
         onPressed:()=> {
           Navigator.pushNamed(context, Routes.home)
