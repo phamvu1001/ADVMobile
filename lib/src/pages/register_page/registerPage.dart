@@ -23,7 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
     print("Register succesfully");
   }
   void backToLogin() {
-    Navigator.pushNamed(context, Routes.login);
+    Navigator.pop(context);
   }
   @override
   Widget build(BuildContext context) {
@@ -75,13 +75,14 @@ class _RegisterPageState extends State<RegisterPage> {
                 decoration: const InputDecoration(labelText: 'Retype password'),
                 obscureText: true,
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
+                  if (value == null || value.isEmpty ) {
                     return 'Please enter your password';
                   }
+                  if (value != _password) return 'Is not similar to password';
                   return null;
                 },
                 onSaved: (value) {
-                  _password = value!;
+                  _retypePassword = value!;
                 },
               ),
               const SizedBox(height: 20),

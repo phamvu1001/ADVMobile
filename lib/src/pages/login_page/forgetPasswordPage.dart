@@ -10,20 +10,13 @@ class ForgetPasswordPage extends StatefulWidget {
   State<ForgetPasswordPage> createState() => _ForgetPasswordPageState();
 }
 
-class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
+  class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
   final _formKey = GlobalKey<FormState>();
 
 
   void _ForgetPassword() {
-    Navigator.pushNamed(context, Routes.home);
-    // if (_formKey.currentState!.validate()) {
-    //   _formKey.currentState!.save();
-    //
-    //   print('Đăng nhập với tên người dùng: $_username và mật khẩu: $_password');
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     const SnackBar(content: Text('Đăng nhập thành công!')),
-    //   );
-    // }
+    //Navigator.pushNamed(context, Routes.home);
+
   }
 
   @override

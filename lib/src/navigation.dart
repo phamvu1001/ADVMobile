@@ -57,7 +57,7 @@ class _NavigationMenuState extends State<NavigationMenu>{
 
   Widget buildMenuItems(BuildContext context) =>Container(
       width: 200,
-      height:200,
+      height: 500,
       child: ListView.builder(
         itemCount: pages.length,
         itemBuilder: (BuildContext context, int index) {

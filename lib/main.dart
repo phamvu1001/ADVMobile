@@ -33,11 +33,7 @@ class MyApp extends StatelessWidget {
         Routes.personal: (context) => const PersonalPage(title: "Personal"),
         Routes.settings: (context)=> const SettingsPage(title: "Settings"),
         Routes.home:(context) => const NavigationMenu(),
-        Routes.forgetPassword : (context) => const ForgetPasswordPage(),
         Routes.draftEmail : (context) => const DraftEmailPage(title: "Draft Email"),
-        Routes.register : (context) => const RegisterPage(title: "Draft Email"),
-
-
       },
     );
   }

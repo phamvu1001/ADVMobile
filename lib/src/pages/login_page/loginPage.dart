@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jarvis/src/pages/register_page/registerPage.dart';
 import 'package:jarvis/src/routes.dart';
 
 import 'forgetPasswordPage.dart';
@@ -18,23 +19,15 @@ class _LoginPageState extends State<LoginPage> {
   String _password = '';
 
   void _login() {
-    Navigator.pushNamed(context, Routes.draftEmail);
-    //Navigator.pushNamed(context, Routes.home);
-    // if (_formKey.currentState!.validate()) {
-    //   _formKey.currentState!.save();
-    //
-    //   print('Đăng nhập với tên người dùng: $_username và mật khẩu: $_password');
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     const SnackBar(content: Text('Đăng nhập thành công!')),
-    //   );
-    // }
+    Navigator.pushNamed(context, Routes.home);
+
   }
 void _registerBtn ()
   {
-  Navigator.pushNamed(context, Routes.register);
+  Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterPage(title: "Register")));
 }
   void _forgetPassword() {
-    Navigator.pushNamed(context, Routes.forgetPassword);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const ForgetPasswordPage()));
   }
 
   @override
@@ -51,7 +44,7 @@ void _registerBtn ()
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(left: 0, top: 0, right: 0, bottom: 20.0),
+                margin: const EdgeInsets.only(left: 0, top: 0, right: 0, bottom: 20.0),
                 child:
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -77,23 +70,6 @@ void _registerBtn ()
               ),
 
               const Text("Continue with"),
-              // Row(children: [
-              //   Expanded(
-              //     child: ElevatedButton(
-              //       child: const Text("Login"),
-              //       onPressed: () {
-              //         print("In login section");
-              //       },
-              //     ),
-              //   ),
-              //   Expanded(
-              //       child: ElevatedButton(
-              //     child: const Text("Register"),
-              //     onPressed: () {
-              //       print("In login section");
-              //     },
-              //   ))
-              // ]),
               TextFormField(
                 decoration: const InputDecoration(labelText: 'Username'),
                 validator: (value) {

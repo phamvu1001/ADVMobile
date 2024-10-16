@@ -34,9 +34,22 @@ class _DraftEmailPageState extends State<DraftEmailPage> {
             child: ListView.builder(
               itemCount: messages.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  leading: const CircleAvatar(child: Icon(Icons.person)),
-                  title: Text(messages[index]),
+                return Align(
+                  alignment: Alignment.centerRight,
+                  child: ListTile(
+                    trailing: const CircleAvatar(child: Icon(Icons.person)),
+                    title: Container(
+                      padding: const EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        color: Colors.blueAccent,
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      child: Text(
+                        messages[index],
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
                 );
               },
             ),
@@ -92,15 +105,15 @@ class _DraftEmailPageState extends State<DraftEmailPage> {
                     ),
                     DropdownMenuItem<IconData>(
                       value: Icons.accessibility_rounded,
-                      child: Text('GPT 3.5'),
+                      child: Text('GPT 4.0'),
                     ),
                     DropdownMenuItem<IconData>(
                       value: Icons.account_circle_sharp,
-                      child: Text('GPT 3.5'),
+                      child: Text('Gemini'),
                     ),
                     DropdownMenuItem<IconData>(
                       value: Icons.ad_units_rounded,
-                      child: Text('GPT 3.5'),
+                      child: Text('Claude AI '),
                     ),
                   ],
                 ),

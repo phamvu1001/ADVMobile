@@ -13,7 +13,9 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   final List<String> messages = [];
   final TextEditingController _controller = TextEditingController();
-  String? selectedTool = 'GPT 4.0'; // Giá trị mặc định
+  String? selectedTool  = 'GPT 3.5';
+
+
 
   void _sendMessage() {
     if (_controller.text.isNotEmpty) {
@@ -22,6 +24,11 @@ class _ChatPageState extends State<ChatPage> {
         _controller.clear();
       });
     }
+  }
+
+  _toolAi(index)
+  {
+    //if (select)
   }
 
   void _handleHistoryBtn()
@@ -46,50 +53,60 @@ Widget build(BuildContext context) {
           child: ListView.builder(
             itemCount: messages.length,
             itemBuilder: (context, index) {
-              return ListTile(
-                leading: const CircleAvatar(child: Icon(Icons.person)),
-                title: Text(messages[index]),
+              return Align(
+                alignment: Alignment.centerRight,
+                child: ListTile(
+                  trailing: const CircleAvatar(child: Icon(Icons.person)),
+                  title: Container(
+                    padding: const EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                      color: Colors.blueAccent,
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    child: Text(
+                      messages[index],
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
               );
             },
           ),
         ),
 
+
         const Divider(),
         Row(
           children: [
-            Expanded(
-              child: ListTile(
-                leading: const CircleAvatar(child: Icon(Icons.ac_unit)),
-                title: const Text("GPT 4.0"),
-              ),
-            ),
+
             DropdownButton<String>(
+
               value: selectedTool,
               onChanged: (String? newValue) {
                 setState(() {
-                  selectedTool = newValue; // Cập nhật giá trị đã chọn
+                  selectedTool = newValue;
                 });
-                // Xử lý khi chọn tool AI
+
                 if (newValue != null) {
                   print('Selected AI Tool: $newValue');
                 }
               },
-              items: const [
+              items: [
                 DropdownMenuItem<String>(
                   value: 'GPT 3.5',
-                  child: Text('GPT 3.5'),
+                  child: TextButton.icon(onPressed:_toolAi(0) , icon: const Icon(Icons.ac_unit_outlined), label: const Text("GPT 3.5")),
                 ),
                 DropdownMenuItem<String>(
                   value: 'GPT 4.0',
-                  child: Text('GPT 4.0'),
+                  child: TextButton.icon(onPressed:_toolAi(1) , icon: const Icon(Icons.ac_unit_outlined), label: const Text("GPT 4.0")),
                 ),
                 DropdownMenuItem<String>(
                   value: 'DALL·E',
-                  child: Text('DALL·E'),
+                  child: TextButton.icon(onPressed:_toolAi(2) , icon: const Icon(Icons.ac_unit_outlined), label: const Text("Gemini")),
                 ),
                 DropdownMenuItem<String>(
                   value: 'Whisper',
-                  child: Text('Whisper'),
+                  child: TextButton.icon(onPressed:_toolAi(3) , icon: const Icon(Icons.ac_unit_outlined), label: const Text("Claude AI")),
                 ),
               ],
             ),
