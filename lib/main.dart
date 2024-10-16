@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jarvis/src/navigation.dart';
+import 'package:jarvis/src/pages/account_page/upgradeOptionsPage.dart';
 import 'package:jarvis/src/pages/chat_page/chatPage.dart';
 import 'package:jarvis/src/pages/home_page/homePage.dart';
 import 'package:jarvis/src/pages/login_page/loginPage.dart';
@@ -29,7 +30,8 @@ class MyApp extends StatelessWidget {
         Routes.chat: (context)=> const ChatPage(title: "Chat"),
         Routes.personal: (context) => const PersonalPage(title: "Personal"),
         Routes.settings: (context)=> const SettingsPage(title: "Settings"),
-        Routes.home:(context) => const NavigationMenu()
+        Routes.home:(context) => const NavigationMenu(),
+        Routes.upgrade:(context)=>const UpgradeOptionPage(title: "Price")
       },
     );
   }

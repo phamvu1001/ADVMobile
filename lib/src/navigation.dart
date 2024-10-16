@@ -1,8 +1,10 @@
 
 import 'package:flutter/material.dart';
+import 'package:jarvis/src/pages/account_page/accountPage.dart';
 import 'package:jarvis/src/pages/chat_page/chatPage.dart';
 import 'package:jarvis/src/pages/home_page/homePage.dart';
 import 'package:jarvis/src/pages/personal_page/personalPage.dart';
+import 'package:jarvis/src/pages/promt_page/promptPage.dart';
 import 'package:jarvis/src/pages/settings_page/settingsPage.dart';
 
 class NavigationMenu extends StatefulWidget{
@@ -14,15 +16,17 @@ class NavigationMenu extends StatefulWidget{
 
 class _NavigationMenuState extends State<NavigationMenu>{
   int _selectedIndex=0;
-  List <IconData> icons=[ Icons.home_outlined, Icons.chat_outlined, Icons.person, Icons.settings ];
-  List <String> labels=["Home","Chat", "Personal", "Settings"];
+  List <IconData> icons=[ Icons.home_outlined, Icons.chat_outlined, Icons.person, Icons.settings,Icons.library_books_outlined, Icons.account_circle_outlined ];
+  List <String> labels=["Home","Chat", "Personal", "Settings","Promt","Account"];
   List <Widget> pages=[
     const MyHomePage(title: 'Home'),
     const ChatPage(title: 'Chat'),
     const PersonalPage(title: 'Personal'),
     const SettingsPage(title: 'Settings'),
+    const PromptManagementPage(title: "Promt"),
+    const AccountPage(title: "Account"),
   ];
-  List <String> titles=["Home","Chat", "Personal", "Settings"];
+  List <String> titles=["Home","Chat", "Personal", "Settings","Promt","Account"];
   final pageController = PageController();
   void onPageChanged(int index) {
     setState(() {
@@ -54,10 +58,10 @@ class _NavigationMenuState extends State<NavigationMenu>{
   );
 
   Widget buildMenuItems(BuildContext context) =>Container(
-      width: 200,
-      height:200,
+      width: MediaQuery.of(context).size.width,
+      height:MediaQuery.of(context).size.height,
       child: ListView.builder(
-        itemCount: 3,
+        itemCount: 6,
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
             leading:  Icon(icons[index]),
