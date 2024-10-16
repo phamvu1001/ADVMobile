@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:jarvis/src/routes.dart';
 
+import 'forgetPasswordPage.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key, required this.title});
 
@@ -25,6 +27,11 @@ class _LoginPageState extends State<LoginPage> {
     //     const SnackBar(content: Text('Đăng nhập thành công!')),
     //   );
     // }
+
+  }
+  void _forgetPassword()
+  {
+    Navigator.pushNamed(context, Routes.forgetPassword);
   }
 
   @override
@@ -61,16 +68,16 @@ class _LoginPageState extends State<LoginPage> {
                       style: TextStyle(color: Colors.black),
                     )
                   ])),
-              Text("Continue with"),
+              const Text("Continue with"),
               Row(children: [
                 ElevatedButton(
-                  child: Text("Login"),
+                  child: const Text("Login"),
                   onPressed: () {
                     print("In login section");
                   },
                 ),
                 ElevatedButton(
-                  child: Text("Register"),
+                  child: const Text("Register"),
                   onPressed: () {
                     print("In login section");
                   },
@@ -103,9 +110,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 20),
               TextButton(
-                  onPressed: () {
-                    print("Forget password section");
-                  },
+                  onPressed: _forgetPassword,
                   child: const Text('Forget password')),
               ElevatedButton(
                 onPressed: _login,
@@ -113,12 +118,12 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Row(
                 children: [
-                  Text("Don't have an account"),
+                  const Text("Don't have an account"),
                   TextButton(
                       onPressed: () {
                         print("Register");
                       },
-                      child: Text('Register'))
+                      child: const Text('Register'))
                 ],
               )
             ],

@@ -4,4 +4,5 @@ class Routes {
   static const chat = '/chat/';
   static const settings = '/settings/';
   static const personal = '/personal/';
+  static const forgetPassword = '/forgetPassword/';
 }

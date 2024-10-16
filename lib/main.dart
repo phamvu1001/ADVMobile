@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jarvis/src/navigation.dart';
 import 'package:jarvis/src/pages/chat_page/chatPage.dart';
 import 'package:jarvis/src/pages/home_page/homePage.dart';
+import 'package:jarvis/src/pages/login_page/forgetPasswordPage.dart';
 import 'package:jarvis/src/pages/login_page/loginPage.dart';
 import 'package:jarvis/src/pages/personal_page/personalPage.dart';
 import 'package:jarvis/src/pages/settings_page/settingsPage.dart';
@@ -29,7 +30,8 @@ class MyApp extends StatelessWidget {
         Routes.chat: (context)=> const ChatPage(title: "Chat"),
         Routes.personal: (context) => const PersonalPage(title: "Personal"),
         Routes.settings: (context)=> const SettingsPage(title: "Settings"),
-        Routes.home:(context) => const NavigationMenu()
+        Routes.home:(context) => const NavigationMenu(),
+        Routes.forgetPassword : (context) => const ForgetPasswordPage(),
       },
     );
   }
