@@ -5,4 +5,8 @@ class Routes {
   static const settings = '/settings/';
   static const personal = '/personal/';
   static const forgetPassword = '/forgetPassword/';
+  static const draftEmail = '/draftEmail/';
+  static const register = '/register/';
+
+
 }

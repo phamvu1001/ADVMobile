@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:jarvis/src/navigation.dart';
 import 'package:jarvis/src/pages/chat_page/chatPage.dart';
+import 'package:jarvis/src/pages/draftEmail_page/draftEmail.dart';
 import 'package:jarvis/src/pages/home_page/homePage.dart';
 import 'package:jarvis/src/pages/login_page/forgetPasswordPage.dart';
 import 'package:jarvis/src/pages/login_page/loginPage.dart';
 import 'package:jarvis/src/pages/personal_page/personalPage.dart';
+import 'package:jarvis/src/pages/register_page/registerPage.dart';
 import 'package:jarvis/src/pages/settings_page/settingsPage.dart';
 import 'package:jarvis/src/routes.dart';
 
@@ -32,6 +34,10 @@ class MyApp extends StatelessWidget {
         Routes.settings: (context)=> const SettingsPage(title: "Settings"),
         Routes.home:(context) => const NavigationMenu(),
         Routes.forgetPassword : (context) => const ForgetPasswordPage(),
+        Routes.draftEmail : (context) => const DraftEmailPage(title: "Draft Email"),
+        Routes.register : (context) => const RegisterPage(title: "Draft Email"),
+
+
       },
     );
   }

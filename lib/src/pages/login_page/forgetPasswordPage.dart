@@ -40,7 +40,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
 
-              const Text("Continue with"),
+              const Text("Some text for instructions"),
 
               TextFormField(
                 decoration: const InputDecoration(labelText: 'Enter your email'),

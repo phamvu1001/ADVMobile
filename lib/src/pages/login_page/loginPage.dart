@@ -18,7 +18,8 @@ class _LoginPageState extends State<LoginPage> {
   String _password = '';
 
   void _login() {
-    Navigator.pushNamed(context, Routes.home);
+    Navigator.pushNamed(context, Routes.draftEmail);
+    //Navigator.pushNamed(context, Routes.home);
     // if (_formKey.currentState!.validate()) {
     //   _formKey.currentState!.save();
     //
@@ -27,10 +28,12 @@ class _LoginPageState extends State<LoginPage> {
     //     const SnackBar(content: Text('Đăng nhập thành công!')),
     //   );
     // }
-
   }
-  void _forgetPassword()
+void _registerBtn ()
   {
+  Navigator.pushNamed(context, Routes.register);
+}
+  void _forgetPassword() {
     Navigator.pushNamed(context, Routes.forgetPassword);
   }
 
@@ -47,42 +50,50 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    side: const BorderSide(color: Colors.grey),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  ),
-                  onPressed: () {
-                    print("Sign in with Google");
-                  },
-                  child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                    Image.asset(
-                      'lib/assets/google-icon.jpg',
-                      height: 24,
+              Container(
+                margin: EdgeInsets.only(left: 0, top: 0, right: 0, bottom: 20.0),
+                child:
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      side: const BorderSide(color: Colors.grey),
+                      padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     ),
-                    const SizedBox(width: 10),
-                    const Text(
-                      'Sign in with Google',
-                      style: TextStyle(color: Colors.black),
-                    )
-                  ])),
+                    onPressed: () {
+                      print("Sign in with Google");
+                    },
+                    child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                      Image.asset(
+                        'lib/assets/google-icon.jpg',
+                        height: 24,
+                      ),
+                      const SizedBox(width: 10),
+                      const Text(
+                        'Sign in with Google',
+                        style: TextStyle(color: Colors.black),
+                      )
+                    ])),
+              ),
+
               const Text("Continue with"),
-              Row(children: [
-                ElevatedButton(
-                  child: const Text("Login"),
-                  onPressed: () {
-                    print("In login section");
-                  },
-                ),
-                ElevatedButton(
-                  child: const Text("Register"),
-                  onPressed: () {
-                    print("In login section");
-                  },
-                )
-              ]),
+              // Row(children: [
+              //   Expanded(
+              //     child: ElevatedButton(
+              //       child: const Text("Login"),
+              //       onPressed: () {
+              //         print("In login section");
+              //       },
+              //     ),
+              //   ),
+              //   Expanded(
+              //       child: ElevatedButton(
+              //     child: const Text("Register"),
+              //     onPressed: () {
+              //       print("In login section");
+              //     },
+              //   ))
+              // ]),
               TextFormField(
                 decoration: const InputDecoration(labelText: 'Username'),
                 validator: (value) {
@@ -111,18 +122,19 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 20),
               TextButton(
                   onPressed: _forgetPassword,
-                  child: const Text('Forget password')),
+                  child: const Text('Forgot password ?')),
               ElevatedButton(
                 onPressed: _login,
                 child: const Text('Login'),
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text("Don't have an account"),
                   TextButton(
-                      onPressed: () {
-                        print("Register");
-                      },
+                      onPressed:
+                        _registerBtn ,
+
                       child: const Text('Register'))
                 ],
               )
