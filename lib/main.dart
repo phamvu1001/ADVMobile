@@ -5,6 +5,8 @@ import 'package:jarvis/src/pages/chat_page/chatPage.dart';
 import 'package:jarvis/src/pages/home_page/homePage.dart';
 import 'package:jarvis/src/pages/login_page/loginPage.dart';
 import 'package:jarvis/src/pages/personal_page/personalPage.dart';
+import 'package:jarvis/src/pages/promt_page/favouritePromptPage.dart';
+import 'package:jarvis/src/pages/promt_page/promtDetailPage.dart';
 import 'package:jarvis/src/pages/settings_page/settingsPage.dart';
 import 'package:jarvis/src/routes.dart';
 
@@ -31,7 +33,9 @@ class MyApp extends StatelessWidget {
         Routes.personal: (context) => const PersonalPage(title: "Personal"),
         Routes.settings: (context)=> const SettingsPage(title: "Settings"),
         Routes.home:(context) => const NavigationMenu(),
-        Routes.upgrade:(context)=>const UpgradeOptionPage(title: "Price")
+        Routes.upgrade:(context)=>const UpgradeOptionPage(title: "Price"),
+        Routes.favorite:(context)=>const FavouritePromptPage(title: "Favorite"),
+        Routes.detail_promt:(context)=> const PromtDetailPage(title: "Promt Details"),
       },
     );
   }

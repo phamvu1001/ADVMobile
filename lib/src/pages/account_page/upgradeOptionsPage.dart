@@ -13,20 +13,20 @@ class UpgradeOptionPage extends StatelessWidget {
       title: Text(title),
       backgroundColor: Theme.of(context).colorScheme.inversePrimary,
     ),
-    body: LayoutBuilder(builder: (context, constraints)=>
-        GridView.builder(
-          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: constraints.maxWidth<400? constraints.maxWidth :400,
-            crossAxisSpacing: 10.0, // Khoảng cách ngang giữa các phần tử
-            mainAxisSpacing: 10.0,  // Khoảng cách dọc giữa các phần tử
-            childAspectRatio: 0.75,
-          ),
-          shrinkWrap: true,
-          itemCount: 3, // Số lượng phần tử
-          itemBuilder: (context, index) {
-            return buildOptionCard("", Colors.black12);
-          },
-        ),
+    body:
+    ScrollConfiguration(
+      behavior: ScrollBehavior().copyWith(scrollbars: false),
+    child: SingleChildScrollView(
+      child: Wrap(
+        spacing: 8.0,
+        runSpacing: 8.0,
+        children: [
+          buildOptionCard("", Colors.black12),
+          buildOptionCard("", Colors.black12),
+          buildOptionCard("", Colors.black12)
+        ],
+      ),
+    ),
     ),
   );
 }
