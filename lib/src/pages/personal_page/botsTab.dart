@@ -12,6 +12,10 @@ class _BotsTabState extends State<BotsTab> {
   String _selectedType = 'All';
   final TextEditingController _searchController = TextEditingController();
 
+  final TextEditingController _botNameController = TextEditingController();
+  final TextEditingController _botDescriptionController =
+      TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -50,10 +54,7 @@ class _BotsTabState extends State<BotsTab> {
                   const SizedBox(width: 8),
 
                   // Search field
-                  SizedBox(
-                    width: constraints.maxWidth > 400
-                        ? 400
-                        : constraints.maxWidth * 0.6,
+                  Expanded(
                     child: TextFormField(
                       controller: _searchController,
                       decoration: InputDecoration(
@@ -61,20 +62,23 @@ class _BotsTabState extends State<BotsTab> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4.0),
                           borderSide:
-                              const BorderSide(color: Colors.grey, width: 2),
+                              const BorderSide(color: Colors.grey, width: 0),
                         ),
                       ),
                     ),
                   ),
 
-                  // const SizedBox(width: 8),
-                  if (constraints.maxWidth > 600) const Spacer(),
+                  if (constraints.maxWidth > 600)
+                    const SizedBox(
+                      width: 8,
+                    ),
 
                   // Create bot button
                   SizedBox(
                     child: ElevatedButton.icon(
                       onPressed: () {
                         // Handle create bot action
+                        _showCreateBotDialog(context);
                       },
                       icon: const Icon(Icons.add, color: Colors.white),
                       label: const Text(
@@ -128,10 +132,10 @@ class _BotsTabState extends State<BotsTab> {
                   const SizedBox(width: 8),
 
                   // Search field
-                  SizedBox(
-                    width: constraints.maxWidth > 400
-                        ? 400
-                        : constraints.maxWidth * 0.6,
+                  Expanded(
+                    // width: constraints.maxWidth > 400
+                    //     ? 400
+                    //     : constraints.maxWidth * 0.6,
                     child: TextFormField(
                       controller: _searchController,
                       decoration: InputDecoration(
@@ -153,6 +157,7 @@ class _BotsTabState extends State<BotsTab> {
                     child: ElevatedButton.icon(
                       onPressed: () {
                         // Handle create bot action
+                        _showCreateBotDialog(context);
                       },
                       icon: const Icon(Icons.add, color: Colors.white),
                       label: const Text(
@@ -255,5 +260,78 @@ class _BotsTabState extends State<BotsTab> {
         ),
       ],
     );
+  }
+
+  void _showCreateBotDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Create new assistant'),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4.0),
+            ),
+            content: SizedBox(
+              width: MediaQuery.of(context).size.width > 600 ? MediaQuery.of(context).size.width * 0.5 : MediaQuery.of(context).size.width * 0.8,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextFormField(
+                      controller: _botNameController,
+                      decoration: InputDecoration(
+                        hintText: 'Assistant Name',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4.0),
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0),
+                        ),
+                      )),
+                  const SizedBox(height: 8.0),
+                  TextFormField(
+                      controller: _botDescriptionController,
+                      maxLines: 5,
+                      decoration: InputDecoration(
+                        hintText: 'Assistant Description',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4.0),
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 0),
+                        ),
+                      ))
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                style: TextButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4.0),
+                  ),
+                  padding: const EdgeInsets.fromLTRB(8.0, 15.0, 8.0, 15.0),
+                ),
+                child: const Text('Cancel'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Navigate to Bot Preview page
+                },
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4.0),
+                  ),
+                  backgroundColor: const Color.fromARGB(255, 58, 183, 129),
+                  padding: const EdgeInsets.fromLTRB(8.0, 15.0, 8.0, 15.0),
+                ),
+                child: const Text(
+                  'Create',
+                  style: TextStyle(color: Colors.white),
+                ),
+              )
+            ],
+          );
+        });
   }
 }
