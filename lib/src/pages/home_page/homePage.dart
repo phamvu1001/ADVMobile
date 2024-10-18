@@ -17,6 +17,9 @@ class _MyHomePageState extends State<MyHomePage> with AutomaticKeepAliveClientMi
       _counter++;
     });
   }
+  _logOut() {
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +27,13 @@ class _MyHomePageState extends State<MyHomePage> with AutomaticKeepAliveClientMi
     return Scaffold(
       body: Center(
         child: Column(
+
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
+            ElevatedButton(onPressed: _logOut, child: Text("Log Out")),
+            Text("Place LogOut here for testing , move to other places or keep it for test "),
+
+
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
@@ -40,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> with AutomaticKeepAliveClientMi
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+        ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 

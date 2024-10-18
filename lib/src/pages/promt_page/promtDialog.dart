@@ -11,8 +11,8 @@ class PromptDialog extends StatelessWidget{
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: Container(
-        width: MediaQuery.of(context).size.width*2/3.floor()>1200?1200:MediaQuery.of(context).size.width*2/3.floor(),
-        height: MediaQuery.of(context).size.height*2/3.floor() ,
+        width: MediaQuery.of(context).size.width*2/3.floor()>800?800:MediaQuery.of(context).size.width*2/3.floor(),
+        height: MediaQuery.of(context).size.height*2/3.floor() >800?800:MediaQuery.of(context).size.height*2/3.floor(),
         padding: EdgeInsets.all(10.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

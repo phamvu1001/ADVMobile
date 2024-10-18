@@ -8,4 +8,8 @@ class Routes {
   static const favorite="/favorite/";
   static const detail_promt="/detail_promt/";
 
+  static const draftEmail = '/draftEmail/';
+
+
+
 }
