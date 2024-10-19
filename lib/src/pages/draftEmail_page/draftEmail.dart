@@ -15,7 +15,7 @@ class _DraftEmailPageState extends State<DraftEmailPage> {
   final TextEditingController _controller = TextEditingController();
 
   IconData? selectedIcon = Icons.invert_colors_on_sharp;
-
+  bool  isHuman = true;
   void _sendMessage() {
     if (_controller.text.isNotEmpty) {
       setState(() {
@@ -34,26 +34,64 @@ class _DraftEmailPageState extends State<DraftEmailPage> {
             child: ListView.builder(
               itemCount: messages.length,
               itemBuilder: (context, index) {
-                return Align(
-                  alignment: Alignment.centerRight,
-                  child: ListTile(
-                    trailing: const CircleAvatar(child: Icon(Icons.person)),
-                    title: Container(
-                      padding: const EdgeInsets.all(10.0),
-                      decoration: BoxDecoration(
-                        color: Colors.blueAccent,
-                        borderRadius: BorderRadius.circular(15.0),
+
+                bool current = isHuman;
+                isHuman = !isHuman ;
+
+                return current
+                    ? Align(
+                    alignment: Alignment.centerRight,
+                    child: FractionallySizedBox(
+                      widthFactor: 0.8,
+                      child: ListTile(
+                        horizontalTitleGap: 5,
+                        trailing:
+                        const CircleAvatar(child: Icon(Icons.person)),
+                        title: Container(
+                          padding: const EdgeInsets.all(10.0),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .inversePrimary,
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          child: Text(
+                            messages[index],
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ),
                       ),
-                      child: Text(
-                        messages[index],
-                        style: const TextStyle(color: Colors.white),
+                    ))
+
+                    : Align(
+                    alignment: Alignment.centerLeft,
+                    child: FractionallySizedBox(
+                      widthFactor: 0.8,
+                      child: ListTile(
+                        horizontalTitleGap: 5,
+                        leading: const CircleAvatar(
+                            backgroundColor: Colors.black12,
+                            child: Icon(
+                              Icons.person,
+                              color: Colors.black,
+                            )),
+                        title: Container(
+                          padding: const EdgeInsets.all(10.0),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.outline,
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          child: Text(
+                            messages[index],
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                );
+                    ));
               },
             ),
           ),
+
 
           const Divider(),
           Row(
@@ -76,12 +114,15 @@ class _DraftEmailPageState extends State<DraftEmailPage> {
                 Expanded(
                   child: TextField(
                     controller: _controller,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       hintText: 'Type a message...',
                     ),
                   ),
                 ),
-                const SizedBox(width: 10),
+
                 // Send Button
                 IconButton(
                   icon: const Icon(Icons.send),

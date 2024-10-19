@@ -20,14 +20,22 @@ class _LoginPageState extends State<LoginPage> {
 
   void _login() {
     Navigator.pushNamed(context, Routes.home);
-
   }
-void _registerBtn ()
-  {
-  Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterPage(title: "Register")));
-}
+
+  void _signWithGoogle() {
+    print('sign with google ');
+  }
+
+  void _registerBtn() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const RegisterPage(title: "Register")));
+  }
+
   void _forgetPassword() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const ForgetPasswordPage()));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const ForgetPasswordPage()));
   }
 
   @override
@@ -43,35 +51,20 @@ void _registerBtn ()
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Container(
-                margin: const EdgeInsets.only(left: 0, top: 0, right: 0, bottom: 20.0),
-                child:
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      side: const BorderSide(color: Colors.grey),
-                      padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    ),
-                    onPressed: () {
-                      print("Sign in with Google");
-                    },
-                    child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                      Image.asset(
-                        'lib/assets/google-icon.jpg',
-                        height: 24,
-                      ),
-                      const SizedBox(width: 10),
-                      const Text(
-                        'Sign in with Google',
-                        style: TextStyle(color: Colors.black),
-                      )
-                    ])),
+              const FlutterLogo(
+                size: 120,
+                style: FlutterLogoStyle.horizontal,
               ),
-
-              const Text("Continue with"),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Username'),
+
+                decoration: InputDecoration(
+
+                  labelText: 'Username',
+                  border: OutlineInputBorder(
+                    gapPadding: 5,
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your username';
@@ -82,8 +75,14 @@ void _registerBtn ()
                   _username = value!;
                 },
               ),
+              const SizedBox(height: 10, ),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Password'),
+
+                decoration: InputDecoration(
+                    labelText: 'Password',
+                    border: OutlineInputBorder(
+                      gapPadding: 5,
+                        borderRadius: BorderRadius.circular(12.0))),
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -103,17 +102,42 @@ void _registerBtn ()
                 onPressed: _login,
                 child: const Text('Login'),
               ),
+              const SizedBox(
+                height: 10,
+              ),
+              const Text("Or continue with"),
+              Container(
+                margin: const EdgeInsets.only(
+                    left: 0, top: 10, right: 0, bottom: 20.0),
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      side: const BorderSide(color: Colors.grey),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 8),
+                    ),
+                    onPressed: _signWithGoogle,
+                    child:
+                        Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                      Image.asset(
+                        'lib/assets/google-icon.jpg',
+                        height: 24,
+                      ),
+                      const SizedBox(width: 10),
+                      const Text(
+                        'Google',
+                        style: TextStyle(color: Colors.black),
+                      )
+                    ])),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text("Don't have an account"),
                   TextButton(
-                      onPressed:
-                        _registerBtn ,
-
-                      child: const Text('Register'))
+                      onPressed: _registerBtn, child: const Text('Register'))
                 ],
-              )
+              ),
             ],
           ),
         ),

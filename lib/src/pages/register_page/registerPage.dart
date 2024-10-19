@@ -39,6 +39,10 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              const FlutterLogo(
+                style: FlutterLogoStyle.horizontal,
+                size: 120,
+              ),
               const Text(
                 style: TextStyle(
                   fontSize: 20,
@@ -46,8 +50,14 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
 
                   "Create your AI journeys"),
+              const SizedBox(height: 10),
+
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Username'),
+                decoration:  InputDecoration(labelText: 'Username',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  )
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your username';
@@ -58,8 +68,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   _username = value!;
                 },
               ),
+              const SizedBox(height: 10),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Password'),
+                decoration:  InputDecoration(labelText: 'Password' ,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),)),
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -71,8 +84,12 @@ class _RegisterPageState extends State<RegisterPage> {
                   _password = value!;
                 },
               ),
+              const SizedBox(height: 10),
+
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Retype password'),
+                decoration:  InputDecoration(labelText: 'Retype password',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),),),
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty ) {
@@ -85,7 +102,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   _retypePassword = value!;
                 },
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
 
 
 
