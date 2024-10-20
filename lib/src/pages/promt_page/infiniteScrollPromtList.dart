@@ -50,6 +50,7 @@ class _InfiniteScrollListState extends State<InfinitescrollPromtlist> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: ListView.builder(
         controller: _scrollController,
         itemCount: _data.length + 1,
@@ -66,34 +67,69 @@ class _InfiniteScrollListState extends State<InfinitescrollPromtlist> {
               );
             }
           }
-          return ListTile(
-            leading: Icon(Icons.public),
-            title: Text("Prompt ${_data[index]}"),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min, // Để giữ cho Row có kích thước nhỏ nhất có thể
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(isFavorite?Icons.favorite:Icons.favorite_border), // Icon cho button đầu tiên
-                  onPressed: () {
-                    // Xử lý khi nhấn vào button edit
-                    setState(() {
-                      isFavorite=!isFavorite;
-                    });
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.delete), // Icon cho button thứ hai
-                  onPressed: () {
-                    // Xử lý khi nhấn vào button delete
-                    print('Delete button pressed');
-                  },
-                ),
-              ],
-            ),
-            onTap: () {
-              // Xử lý khi bấm vào ListTile
-              showDialog(context: context, builder: (context)=> PromptDialog());
+          return  GestureDetector(
+            onLongPress: () {
+              // Hiển thị menu khi nhấn lâu
+              showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return Container(
+                    padding: EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        ListTile(
+                          leading: Icon(Icons.edit),
+                          title: Text('Edit'),
+                          onTap: () {
+                            Navigator.pop(context); // Đóng bottom sheet
+                            print('Chỉnh sửa item $index');
+                          },
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.delete),
+                          title: Text('Delete'),
+                          onTap: () {
+                            Navigator.pop(context); // Đóng bottom sheet
+                            print('Xoá item $index');
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
             },
+            child: ListTile(
+              leading: Icon(Icons.public),
+              title: Text("Prompt ${_data[index]}"),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min, // Để giữ cho Row có kích thước nhỏ nhất có thể
+                children: <Widget>[
+                  IconButton(
+                    icon: Icon(isFavorite?Icons.favorite:Icons.favorite_border), // Icon cho button đầu tiên
+                    onPressed: () {
+                      // Xử lý khi nhấn vào button edit
+                      setState(() {
+                        isFavorite=!isFavorite;
+                      });
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.delete), // Icon cho button thứ hai
+                    onPressed: () {
+                      // Xử lý khi nhấn vào button delete
+                      print('Delete button pressed');
+                    },
+                  ),
+                ],
+              ),
+              onTap: () {
+                // Xử lý khi bấm vào ListTile
+                showDialog(context: context, builder: (context)=> PromptDialog());
+              },
+            ),
           );
         },
       ),
