@@ -33,10 +33,18 @@ class ForgetPasswordPage extends StatefulWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
 
-              const Text("Some text for instructions"),
+              const Text("Enter your email" ,
+              style: TextStyle(
+                fontSize: 18,
 
+              ),),
+              SizedBox(height: 10,),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Enter your email'),
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    labelText: 'Enter your email'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your email';
@@ -46,6 +54,7 @@ class ForgetPasswordPage extends StatefulWidget {
 
               ),
 
+              SizedBox(height: 40,),
 
               ElevatedButton(
                 onPressed: _ForgetPassword,
