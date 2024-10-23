@@ -9,32 +9,52 @@ import 'package:jarvis/src/pages/promt_page/promptPage.dart';
 import 'package:jarvis/src/pages/settings_page/settingsPage.dart';
 
 class NavigationMenu extends StatefulWidget{
-  const NavigationMenu({super.key});
+  const NavigationMenu({super.key, this.initialIndex = 0, this.pageTab = 0});
+
+  final int initialIndex;
+  final int pageTab;
 
   @override
   State<StatefulWidget> createState() => _NavigationMenuState();
 }
 
 class _NavigationMenuState extends State<NavigationMenu>{
-  int _selectedIndex=0;
+  late int _selectedIndex = 0;
+  late int _pageTab = 0;
+
   List <IconData> icons=[ Icons.home_outlined, Icons.chat_outlined, Icons.person, Icons.settings,Icons.email_outlined,Icons.library_books_outlined, Icons.account_circle_outlined ];
-  List <String> labels=["Home","Chat", "Personal", "Settings","Draft Email","Promt","Account"];
-  List <Widget> pages=[
-    const MyHomePage(title: 'Home'),
-    const ChatPage(title: 'Chat'),
-    const PersonalPage(title: 'Personal'),
-    const SettingsPage(title: 'Settings'),
-    const DraftEmailPage(title: 'Draft Email'),
-    const PromptManagementPage(title: "Promt"),
-    const AccountPage(title: "Account"),
-  ];
-  List <String> titles=["Home","Chat", "Personal", "Settings","Draft Email","Promt","Account"];
-  final pageController = PageController();
+  List <String> labels=["Home","Chat", "Personal", "Settings","Draft Email","Prompt","Account"];
+  late List<Widget> pages;
+
+  List <String> titles=["Home","Chat", "Personal", "Settings","Draft Email","Prompt","Account"];
+  final PageController pageController = PageController();
   void onPageChanged(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.initialIndex;
+    _pageTab = widget.pageTab;
+    pages = [
+      const MyHomePage(title: 'Home'),
+      const ChatPage(title: 'Chat'),
+      PersonalPage(title: 'Personal', tab: _pageTab),
+      const SettingsPage(title: 'Settings'),
+      const DraftEmailPage(title: 'Draft Email'),
+      const PromptManagementPage(title: "Promt"),
+      const AccountPage(title: "Account"),
+    ];
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      pageController.jumpToPage(_selectedIndex);
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar:AppBar(

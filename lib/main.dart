@@ -5,6 +5,7 @@ import 'package:jarvis/src/pages/chat_page/chatPage.dart';
 import 'package:jarvis/src/pages/draftEmail_page/draftEmail.dart';
 import 'package:jarvis/src/pages/home_page/homePage.dart';
 import 'package:jarvis/src/pages/login_page/loginPage.dart';
+import 'package:jarvis/src/pages/personal_page/knowledgeTab.dart';
 import 'package:jarvis/src/pages/personal_page/personalPage.dart';
 import 'package:jarvis/src/pages/promt_page/favouritePromptPage.dart';
 import 'package:jarvis/src/pages/promt_page/promtDetailPage.dart';
@@ -37,12 +38,12 @@ class MyApp extends StatelessWidget {
         Routes.login: (context)=> const LoginPage(title: "Login"),
         Routes.chat: (context)=> const ChatPage(title: "Chat"),
         Routes.personal: (context) => const PersonalPage(title: "Personal"),
+        Routes.personal_knowledgeTab: (context) => const NavigationMenu(initialIndex: 2, pageTab: 1,),
         Routes.settings: (context)=> const SettingsPage(title: "Settings"),
         Routes.home:(context) => const NavigationMenu(),
         Routes.upgrade:(context)=>const UpgradeOptionPage(title: "Price"),
         Routes.favorite:(context)=>const FavouritePromptPage(title: "Favorite"),
         Routes.detail_promt:(context)=> const PromtDetailPage(title: "Promt Details"),
-        Routes.home:(context) => const NavigationMenu(),
         Routes.draftEmail : (context) => const DraftEmailPage(title: "Draft Email"),
       },
     );
