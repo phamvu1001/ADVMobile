@@ -12,7 +12,6 @@ class BotsTab extends StatefulWidget {
 class _BotsTabState extends State<BotsTab> {
   String _selectedType = 'All';
   final TextEditingController _searchController = TextEditingController();
-
   final TextEditingController _botNameController = TextEditingController();
   final TextEditingController _botDescriptionController =
       TextEditingController();
