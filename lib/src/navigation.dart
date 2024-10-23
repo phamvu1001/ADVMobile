@@ -38,7 +38,6 @@ class _NavigationMenuState extends State<NavigationMenu>{
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar:AppBar(
-      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       title: Text(titles[_selectedIndex]),
     ) ,
     drawer: Drawer(

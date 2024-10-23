@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jarvis/src/pages/promt_page/ShiningBorderContainer.dart';
+import 'package:jarvis/src/pages/promt_page/shiningBorderContainer.dart';
 import 'package:jarvis/src/routes.dart';
 
 class UpgradeOptionPage extends StatefulWidget {

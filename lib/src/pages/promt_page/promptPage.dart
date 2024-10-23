@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jarvis/src/pages/promt_page/infiniteScrollPromtList.dart';
+import 'package:jarvis/src/pages/promt_page/promtDetailPage.dart';
 import 'package:jarvis/src/routes.dart';
 
 class PromptManagementPage extends StatelessWidget {
@@ -14,7 +15,6 @@ class PromptManagementPage extends StatelessWidget {
         child:
               Column(
                 children: [
-                  SearchBar(),
                   TabBar(
                     isScrollable: true,
                     tabs: [
@@ -61,13 +61,53 @@ class PublicPromtView extends StatefulWidget{
 }
 
 class _PublicPromtView extends State<PublicPromtView> {
+  String _selectedCategory= "All";
   @override
   Widget build(BuildContext context) =>Scaffold(
     body: Padding(
       padding: EdgeInsets.all(10),
       child: ScrollConfiguration(
           behavior: ScrollBehavior().copyWith(scrollbars: false),
-          child: InfinitescrollPromtlist()
+          child: Column(
+            children: [
+              SearchBar(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: IntrinsicWidth(
+                      child: DropdownButtonFormField<String>(
+                        isExpanded: false,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                              borderSide:
+                              const BorderSide(color: Colors.white, width: 2),
+                            )
+                        ),
+                        value: _selectedCategory,
+                        items: <String>['All', 'Category 1', 'Categoddddddddry 2']
+                            .map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                            alignment: Alignment.centerLeft,
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            _selectedCategory = newValue!;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Expanded(child: InfinitescrollPromtlist()),
+            ]
+          )
       ),
     ),
     floatingActionButton: FloatingActionButton(
@@ -94,12 +134,18 @@ class _PrivatePromtView extends State<PrivatePromtView>{
       padding: EdgeInsets.all(10),
       child: ScrollConfiguration(
           behavior: ScrollBehavior().copyWith(scrollbars: false),
-          child: InfinitescrollPromtlist()
+          child: Column(
+            children: [
+              SearchBar(),
+              Expanded(child:InfinitescrollPromtlist()),
+            ],
+          )
       ),
     ),
     floatingActionButton: FloatingActionButton(
-      tooltip: 'Increment',
-      onPressed: () {  },
+      onPressed: () {
+        Navigator.pushNamed(context, Routes.detail_promt,arguments:{"openMode":OpenMode.create});
+      },
       child: const Icon(Icons.add),
     ),
   );

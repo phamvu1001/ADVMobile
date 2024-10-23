@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:jarvis/src/pages/promt_page/promtDialog.dart';
+import 'package:jarvis/src/pages/promt_page/promtItemCard.dart';
 
 class InfinitescrollPromtlist extends StatefulWidget {
   @override
@@ -101,34 +102,18 @@ class _InfiniteScrollListState extends State<InfinitescrollPromtlist> {
                 },
               );
             },
-            child: ListTile(
-              leading: Icon(Icons.public),
-              title: Text("Prompt ${_data[index]}"),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min, // Để giữ cho Row có kích thước nhỏ nhất có thể
-                children: <Widget>[
-                  IconButton(
-                    icon: Icon(isFavorite?Icons.favorite:Icons.favorite_border), // Icon cho button đầu tiên
-                    onPressed: () {
-                      // Xử lý khi nhấn vào button edit
-                      setState(() {
-                        isFavorite=!isFavorite;
-                      });
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.delete), // Icon cho button thứ hai
-                    onPressed: () {
-                      // Xử lý khi nhấn vào button delete
-                      print('Delete button pressed');
-                    },
-                  ),
-                ],
-              ),
-              onTap: () {
-                // Xử lý khi bấm vào ListTile
-                showDialog(context: context, builder: (context)=> PromptDialog());
-              },
+            child: PromtItemCard(
+                index: index,
+                name: "name",
+                onTap: (){
+                  showDialog(context: context, builder: (context)=> PromptDialog());
+                },
+                isFavorite: isFavorite,
+                onFavoriteChange: (){
+                  setState(() {
+                    isFavorite=!isFavorite;
+                  });
+                }
             ),
           );
         },

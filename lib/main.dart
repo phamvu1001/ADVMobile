@@ -27,6 +27,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 58, 183, 129)),
         useMaterial3: true,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.white,
+        ),
+        scaffoldBackgroundColor: Colors.white,
       ),
       home: const LoginPage(title: 'Flutter Demo Home Page'),
       routes: {

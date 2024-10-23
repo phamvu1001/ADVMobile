@@ -11,7 +11,6 @@ class FavouritePromptPage extends StatelessWidget {
   Widget build(BuildContext context) =>Scaffold(
     appBar: AppBar(
       title: Text(title),
-      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
     ),
     body:Padding(
       padding: EdgeInsets.all(10),
