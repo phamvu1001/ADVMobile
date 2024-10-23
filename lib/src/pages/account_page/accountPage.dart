@@ -30,13 +30,14 @@ class AccountPage extends StatelessWidget {
           "Account",
           style: TextStyle(
             fontWeight: FontWeight.bold,
+            fontSize: 18,
           ),
         ),
         Container(
           padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
-            color: Colors.black12,
+            border: Border.all(color: Colors.lightBlue),
           ),
             child: Row(
                 children: [
@@ -79,13 +80,14 @@ class AccountPage extends StatelessWidget {
         "Token Usage",
         style: TextStyle(
           fontWeight: FontWeight.bold,
+          fontSize: 18,
         ),
       ),
       Container(
         padding:const EdgeInsets.fromLTRB(20, 10, 20, 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: Colors.black12,
+          border: Border.all(color: Colors.lightBlue),
         ),
         child: Column(
               children: [
@@ -143,7 +145,7 @@ class AccountPage extends StatelessWidget {
     padding: EdgeInsets.all(10),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(5),
-      color: Colors.black12,
+      border: Border.all(color: Colors.lightBlue),
     ),
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -155,7 +157,8 @@ class AccountPage extends StatelessWidget {
             Text(
               "Basic",
               style: TextStyle(
-                fontWeight: FontWeight.bold
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
               ) ,
             ),
           ],

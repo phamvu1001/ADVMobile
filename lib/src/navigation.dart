@@ -61,6 +61,7 @@ class _NavigationMenuState extends State<NavigationMenu>{
       title: Text(titles[_selectedIndex]),
     ) ,
     drawer: Drawer(
+      backgroundColor: Colors.white,
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -15,10 +15,8 @@ class UpgradeOptionPage extends StatefulWidget {
 class _UpgradeOptionPage extends State<UpgradeOptionPage>{
   @override
   Widget build(BuildContext context) =>Scaffold(
-    backgroundColor: Colors.black,
     appBar: AppBar(
       title: Text(widget.title),
-      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
     ),
     body:
     ScrollConfiguration(
@@ -28,9 +26,9 @@ class _UpgradeOptionPage extends State<UpgradeOptionPage>{
           spacing: 8.0,
           runSpacing: 8.0,
           children: [
-            buildOptionCard("", Colors.black12),
-            buildOptionCard("", Colors.black12),
-            buildOptionCard("", Colors.black12)
+            buildOptionCard("", Colors.transparent),
+            buildOptionCard("", Colors.transparent),
+            buildOptionCard("", Colors.transparent)
           ],
         ),
       ),
