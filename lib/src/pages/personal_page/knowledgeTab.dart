@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:jarvis/src/pages/personal_page/knowledgeDetails_page/knowledgeDetails.dart';
 
 class KnowledgeTab extends StatefulWidget {
   const KnowledgeTab({super.key});
@@ -26,7 +27,7 @@ class _KnowledgeTabState extends State<KnowledgeTab> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           LayoutBuilder(builder: (context, constraints) {
-            if (constraints.maxWidth > 600) {
+            if (MediaQuery.of(context).size.width > 600) {
               return Row(
                 children: [
                   Expanded(
@@ -119,8 +120,8 @@ class _KnowledgeTabState extends State<KnowledgeTab> {
                 return SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: ConstrainedBox(
-                      constraints:
-                          BoxConstraints(minWidth: constraints.maxWidth),
+                      constraints: BoxConstraints(
+                          minWidth: MediaQuery.of(context).size.width),
                       child: SingleChildScrollView(
                           scrollDirection: Axis.vertical,
                           child: DataTable(
@@ -136,26 +137,44 @@ class _KnowledgeTabState extends State<KnowledgeTab> {
                               (index) => DataRow(
                                 cells: [
                                   DataCell(
-                                    Row(
-                                      children: [
-                                        const Icon(Icons.book),
-                                        const SizedBox(width: 8.0),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text('Knowledge Name $index'),
-                                            Text(
-                                              'Knowledge Description $index',
-                                              style: TextStyle(
-                                                color: Colors.grey[600],
-                                                fontSize: 12.0,
+                                    MouseRegion(
+                                        cursor: SystemMouseCursors.click,
+                                        child: GestureDetector(
+                                          onTap: () => {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    KnowledgeDetails(
+                                                  knowledgeName:
+                                                      'Knowledge Name $index',
+                                                  units: 5,
+                                                  size: '10 MB',
+                                                ),
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                          },
+                                          child: Row(
+                                            children: [
+                                              const Icon(Icons.book),
+                                              const SizedBox(width: 8.0),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text('Knowledge Name $index'),
+                                                  Text(
+                                                    'Knowledge Description $index',
+                                                    style: TextStyle(
+                                                      color: Colors.grey[600],
+                                                      fontSize: 12.0,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        )),
                                   ),
                                   DataCell(Text(
                                       '5')), // Replace with actual units count
@@ -194,7 +213,9 @@ class _KnowledgeTabState extends State<KnowledgeTab> {
               borderRadius: BorderRadius.circular(4.0),
             ),
             content: Container(
-              width: MediaQuery.of(context).size.width > 600 ? MediaQuery.of(context).size.width * 0.5 : MediaQuery.of(context).size.width * 0.8,
+              width: MediaQuery.of(context).size.width > 600
+                  ? MediaQuery.of(context).size.width * 0.5
+                  : MediaQuery.of(context).size.width * 0.8,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [

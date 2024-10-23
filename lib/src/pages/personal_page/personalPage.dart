@@ -3,17 +3,19 @@ import 'package:jarvis/src/pages/personal_page/botsTab.dart';
 import 'package:jarvis/src/pages/personal_page/knowledgeTab.dart';
 
 class PersonalPage extends StatelessWidget {
-  const PersonalPage({super.key, required this.title});
+  const PersonalPage({super.key, required this.title, this.tab = 0});
 
   final String title;
+  final int tab;
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return const Scaffold(
+    return Scaffold(
      body: DefaultTabController(
         length: 2,
-        child: Column(
+        initialIndex: tab,
+        child: const Column(
           children: [
             TabBar(
               tabs: [
@@ -31,24 +33,6 @@ class PersonalPage extends StatelessWidget {
             ),
           ],
         ),
-        // child: Scaffold(
-        //   appBar: AppBar(
-        //     title: const Text('Personal'),
-        //     bottom: const TabBar(
-        //       tabs: [
-        //         Tab(text: 'Bots'),
-        //         Tab(text: 'Knowledge'),
-        //       ],
-        //     ),
-            
-        //   ),
-        //   body: const TabBarView(
-        //     children: [
-        //       BotsTab(),
-        //       KnowledgeTab(),
-        //     ],
-        //   ),
-        // ),
       )
     );
   }
