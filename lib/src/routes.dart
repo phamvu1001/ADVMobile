@@ -9,7 +9,7 @@ class Routes {
   static const detail_promt="/detail_promt/";
 
   static const draftEmail = '/draftEmail/';
-
+  static const personal_knowledgeTab = '/personal/knowledgeTab/';
 
 
 }
