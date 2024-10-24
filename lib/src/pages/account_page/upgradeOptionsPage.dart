@@ -46,6 +46,8 @@ Widget buildOptionCard(dynamic optionData, Color backgroundColor)=>
             borderRadius: BorderRadius.circular(30),
           ),
           child: AnimatedGradientBorder(
+            topColor: Color.fromARGB(255,96,92,148),
+            bottomColor: Colors.white ,
             child: Container(
               margin: EdgeInsets.all(10),
               child: Column(

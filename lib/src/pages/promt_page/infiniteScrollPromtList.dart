@@ -1,9 +1,13 @@
 
 import 'package:flutter/material.dart';
-import 'package:jarvis/src/pages/promt_page/promtDialog.dart';
+import 'package:jarvis/src/pages/promt_page/privatePromtDialog.dart';
+import 'package:jarvis/src/pages/promt_page/promtPage.dart';
+import 'package:jarvis/src/pages/promt_page/publicPromtDialog.dart';
 import 'package:jarvis/src/pages/promt_page/promtItemCard.dart';
 
 class InfinitescrollPromtlist extends StatefulWidget {
+  const InfinitescrollPromtlist({super.key,required this.isPublic});
+  final bool isPublic;
   @override
   _InfiniteScrollListState createState() => _InfiniteScrollListState();
 }
@@ -106,7 +110,7 @@ class _InfiniteScrollListState extends State<InfinitescrollPromtlist> {
                 index: index,
                 name: "name",
                 onTap: (){
-                  showDialog(context: context, builder: (context)=> PromptDialog());
+                  showDialog(context: context, builder: (context)=> widget.isPublic?PublicPromptDialog():PrivatePromptDialog(openMode: OpenMode.view,));
                 },
                 isFavorite: isFavorite,
                 onFavoriteChange: (){

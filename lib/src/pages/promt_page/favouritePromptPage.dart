@@ -16,7 +16,7 @@ class FavouritePromptPage extends StatelessWidget {
       padding: EdgeInsets.all(10),
       child: ScrollConfiguration(
           behavior: ScrollBehavior().copyWith(scrollbars: false),
-          child: InfinitescrollPromtlist()
+          child: InfinitescrollPromtlist(isPublic: true,)
       ),
     ),
   );

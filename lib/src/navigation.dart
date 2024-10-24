@@ -7,7 +7,7 @@ import 'package:jarvis/src/pages/chat_page/chatPage.dart';
 import 'package:jarvis/src/pages/draftEmail_page/draftEmail.dart';
 import 'package:jarvis/src/pages/home_page/homePage.dart';
 import 'package:jarvis/src/pages/personal_page/personalPage.dart';
-import 'package:jarvis/src/pages/promt_page/promptPage.dart';
+import 'package:jarvis/src/pages/promt_page/promtPage.dart';
 import 'package:jarvis/src/pages/settings_page/settingsPage.dart';
 import 'package:jarvis/src/routes.dart';
 
@@ -67,7 +67,7 @@ class _NavigationMenuState extends State<NavigationMenu>{
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar:AppBar(
-      title: Text(titles[_selectedIndex]),
+      title: Text(titles[_selectedIndex], style: TextStyle(color: Color.fromARGB(255,96,92,148)),),
     ) ,
     drawer: Drawer(
       backgroundColor: Colors.white,

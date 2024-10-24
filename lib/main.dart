@@ -8,7 +8,6 @@ import 'package:jarvis/src/pages/login_page/loginPage.dart';
 import 'package:jarvis/src/pages/personal_page/knowledgeTab.dart';
 import 'package:jarvis/src/pages/personal_page/personalPage.dart';
 import 'package:jarvis/src/pages/promt_page/favouritePromptPage.dart';
-import 'package:jarvis/src/pages/promt_page/promtDetailPage.dart';
 import 'package:jarvis/src/pages/register_page/registerPage.dart';
 import 'package:jarvis/src/pages/settings_page/settingsPage.dart';
 import 'package:jarvis/src/routes.dart';
@@ -24,9 +23,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 58, 183, 129)),
         useMaterial3: true,
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.white,
@@ -43,7 +42,6 @@ class MyApp extends StatelessWidget {
         Routes.home:(context) => const NavigationMenu(),
         Routes.upgrade:(context)=>const UpgradeOptionPage(title: "Price"),
         Routes.favorite:(context)=>const FavouritePromptPage(title: "Favorite"),
-        Routes.detail_promt:(context)=> const PromtDetailPage(title: "Promt Details"),
         Routes.draftEmail : (context) => const DraftEmailPage(title: "Draft Email"),
       },
     );
