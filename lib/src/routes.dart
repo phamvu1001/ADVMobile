@@ -8,6 +8,6 @@ class Routes {
   static const favorite="/favorite/";
   static const draftEmail = '/draftEmail/';
   static const personal_knowledgeTab = '/personal/knowledgeTab/';
-
+  static const knowledge_page = '/knowledge/';
 
 }

@@ -30,15 +30,14 @@ class _NavigationMenuState extends State<NavigationMenu>{
                           HugeIcons.strokeRoundedChatting01,
                           HugeIcons.strokeRoundedMailEdit02,
                           HugeIcons.strokeRoundedCollectionsBookmark,
-                          Icons.person,
                           HugeIcons.strokeRoundedChatBot,
                           HugeIcons.strokeRoundedDatabase,
                           HugeIcons.strokeRoundedSettings02,
                           HugeIcons.strokeRoundedUserCircle ];
-  List <String> labels=["Home","Chat", "Draft Email","Prompt","Personal","Chat bot","Knowledge base", "Settings","Account"];
+  List <String> labels=["Home","Chat", "Draft Email","Prompt","Chat bot","Knowledge base", "Settings","Account"];
   late List<Widget> pages;
 
-  List <String> titles=["Home","Chat","Draft Email","Prompt", "Personal","Chat bot","Knowledge base", "Settings","Account"];
+  List <String> titles=["Home","Chat","Draft Email","Prompt","Chat bot","Knowledge base", "Settings","Account"];
   final PageController pageController = PageController();
   void onPageChanged(int index) {
     setState(() {
@@ -56,7 +55,7 @@ class _NavigationMenuState extends State<NavigationMenu>{
       const ChatPage(title: 'Chat'),
       const DraftEmailPage(title: 'Draft Email'),
       const PromptManagementPage(title: "Promt"),
-      PersonalPage(title: 'Personal', tab: _pageTab),
+      // PersonalPage(title: 'Personal', tab: _pageTab),
       const ChatBotPage(),
       const KnowledgeBasePage(),
       const SettingsPage(title: 'Settings'),

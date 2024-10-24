@@ -79,6 +79,7 @@ class MyApp extends StatelessWidget {
         Routes.chat: (context)=> const ChatPage(title: "Chat"),
         Routes.personal: (context) => const PersonalPage(title: "Personal"),
         Routes.personal_knowledgeTab: (context) => const NavigationMenu(initialIndex: 2, pageTab: 1,),
+        Routes.knowledge_page: (context) => const NavigationMenu(initialIndex: 5),
         Routes.settings: (context)=> const SettingsPage(title: "Settings"),
         Routes.home:(context) => const NavigationMenu(),
         Routes.upgrade:(context)=>const UpgradeOptionPage(title: "Price"),
