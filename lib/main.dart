@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
         ),
         tabBarTheme: TabBarTheme(
           indicatorColor: Colors.blue,
-          labelColor: Colors.blue
+          labelColor: Colors.blue,
         ),
         floatingActionButtonTheme: FloatingActionButtonThemeData(
           foregroundColor: Colors.white,
@@ -69,6 +69,9 @@ class MyApp extends StatelessWidget {
             foregroundColor: Colors.blue,
           ),
         ),
+        bottomSheetTheme: BottomSheetThemeData(
+          backgroundColor: Colors.white,
+        )
       ),
       home: const LoginPage(title: 'Flutter Demo Home Page'),
       routes: {

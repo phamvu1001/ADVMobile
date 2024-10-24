@@ -114,6 +114,8 @@ class AccountPage extends StatelessWidget {
                 SizedBox(height: 5),
                 LinearProgressIndicator(
                   value: 0.5,
+                  color: Colors.blue,
+                  backgroundColor: Colors.blue.shade100,
                 ),
                 SizedBox(height: 5),
                 Row(

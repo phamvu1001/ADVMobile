@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:jarvis/src/pages/personal_page/knowledgeTab.dart';
 import 'package:jarvis/src/pages/personal_page/personalPage.dart';
 import 'package:jarvis/src/routes.dart';
@@ -96,7 +97,8 @@ class _KnowledgeTabState extends State<KnowledgeTab> {
                                 return Container();
                               }
                               return ListTile(
-                                leading: const Icon(Icons.book),
+                                tileColor: index%2==0?Colors.blue.shade50:Colors.transparent,
+                                leading: const Icon(HugeIcons.strokeRoundedDatabase),
                                 title: Text(knowledge['name']),
                                 subtitle: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,7 +116,7 @@ class _KnowledgeTabState extends State<KnowledgeTab> {
                                         : Icons.add,
                                     color: knowledge['added']
                                         ? Colors.red
-                                        : Colors.green,
+                                        : Colors.blue,
                                   ),
                                   onPressed: () {
                                     if (knowledge['added']) {
@@ -160,9 +162,9 @@ class _KnowledgeTabState extends State<KnowledgeTab> {
             ),
             style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4.0),
+                borderRadius: BorderRadius.circular(20.0),
               ),
-              backgroundColor: const Color.fromARGB(255, 58, 183, 129),
+              backgroundColor: Colors.blue,
               padding: const EdgeInsets.fromLTRB(8.0, 20.0, 13.0, 20.0),
             ),
           ),
@@ -181,20 +183,37 @@ class _KnowledgeTabState extends State<KnowledgeTab> {
               itemBuilder: (context, index) {
                 final knowledge = _addedKnowledgeList[index];
                 return Card(
+                  color: Colors.blue.shade50,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4.0)),
+                      borderRadius: BorderRadius.circular(20.0)),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Icon(Icons.book),
-                        const SizedBox(height: 8.0),
-                        Text(
-                          knowledge['name'],
-                          style: Theme.of(context).textTheme.bodyLarge,
+                        Row(
+                          children: [
+                            const Icon(HugeIcons.strokeRoundedDatabase),
+                            const SizedBox(width: 8.0),
+                            Text(
+                              knowledge['name'],
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                            Expanded(
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child: IconButton(
+                                  icon: Icon(Icons.remove, color: Colors.red,),
+                                  onPressed: () {
+
+                                  },
+                                ),
+                              ),
+                            )
+                          ],
                         ),
+                        SizedBox(height: 10,),
                         Text('Units: ${knowledge['units']}'),
                         Text('Size: ${knowledge['size']}'),
                         Text('Created: ${knowledge['createdTime']}'),

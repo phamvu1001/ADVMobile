@@ -100,11 +100,17 @@ class _ChatBotPage extends State<ChatBotPage> {
                   Row(
                     children: [
                       IntrinsicWidth(
-                        child: DropdownButtonFormField<String>(
+                        child: DropdownButtonFormField2<String>(
                           isExpanded: false,
+                          dropdownStyleData: DropdownStyleData(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                              )
+                          ),
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4.0),
+                                borderRadius: BorderRadius.circular(20.0),
                                 borderSide:
                                 const BorderSide(color: Colors.white, width: 2),
                               )),
@@ -131,17 +137,7 @@ class _ChatBotPage extends State<ChatBotPage> {
                         // width: constraints.maxWidth > 400
                         //     ? 400
                         //     : constraints.maxWidth * 0.6,
-                        child: TextFormField(
-                          controller: _searchController,
-                          decoration: InputDecoration(
-                            hintText: 'Search bots',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4.0),
-                              borderSide:
-                              const BorderSide(color: Colors.grey, width: 2),
-                            ),
-                          ),
-                        ),
+                        child: CustomSearchBar(),
                       ),
                     ],
                   ),
@@ -160,10 +156,9 @@ class _ChatBotPage extends State<ChatBotPage> {
                       ),
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4.0),
+                          borderRadius: BorderRadius.circular(20.0),
                         ),
-                        backgroundColor:
-                        const Color.fromARGB(255, 58, 183, 129),
+                        backgroundColor:Colors.blue,
                         padding:
                         const EdgeInsets.fromLTRB(8.0, 20.0, 13.0, 20.0),
                       ),
@@ -330,16 +325,8 @@ class _ChatBotPage extends State<ChatBotPage> {
                 onPressed: () {
                   Navigator.of(context).pop(); // Navigate to Bot Preview page
                 },
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4.0),
-                  ),
-                  backgroundColor: const Color.fromARGB(255, 58, 183, 129),
-                  padding: const EdgeInsets.fromLTRB(8.0, 15.0, 8.0, 15.0),
-                ),
                 child: const Text(
                   'Create',
-                  style: TextStyle(color: Colors.white),
                 ),
               )
             ],

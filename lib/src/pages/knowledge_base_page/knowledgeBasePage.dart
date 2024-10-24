@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:jarvis/src/pages/personal_page/knowledgeDetails_page/knowledgeDetails.dart';
 import 'package:jarvis/src/widgets/searchBar.dart';
 
@@ -91,10 +92,9 @@ class _KnowledgeBasePage extends State<KnowledgeBasePage> {
                       ),
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4.0),
+                          borderRadius: BorderRadius.circular(20.0),
                         ),
-                        backgroundColor:
-                        const Color.fromARGB(255, 58, 183, 129),
+                        backgroundColor:Colors.blue,
                         padding: const EdgeInsets.fromLTRB(8.0, 0.0, 13.0, 0.0),
                       ),
                     ),
@@ -107,6 +107,7 @@ class _KnowledgeBasePage extends State<KnowledgeBasePage> {
           Expanded(
             child: LayoutBuilder(
               builder: (context, constraints) {
+                bool showAllColumn=constraints.maxWidth>600;
                 return SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: ConstrainedBox(
@@ -115,12 +116,13 @@ class _KnowledgeBasePage extends State<KnowledgeBasePage> {
                       child: SingleChildScrollView(
                           scrollDirection: Axis.vertical,
                           child: DataTable(
-                            columns: const [
+                            headingTextStyle: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500),
+                            columns: [
                               DataColumn(label: Text('Knowledge')),
                               DataColumn(label: Text('Units')),
-                              DataColumn(label: Text('Size')),
-                              DataColumn(label: Text('Edit Time')),
-                              DataColumn(label: Text('Action')),
+                              if(showAllColumn) DataColumn(label: Text('Size')),
+                              if(showAllColumn) DataColumn(label: Text('Edit Time')),
+                              if(showAllColumn) DataColumn(label: Text('Action')),
                             ],
                             rows: List<DataRow>.generate(
                               10, // Replace with the actual number of knowledge items
@@ -130,6 +132,31 @@ class _KnowledgeBasePage extends State<KnowledgeBasePage> {
                                     MouseRegion(
                                         cursor: SystemMouseCursors.click,
                                         child: GestureDetector(
+                                          onLongPress: ()=>{
+                                            if(!showAllColumn){
+                                              showModalBottomSheet(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return Container(
+                                                  padding: EdgeInsets.all(16.0),
+                                                  child: Column(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: <Widget>[
+                                                      ListTile(
+                                                        leading: Icon(Icons.delete),
+                                                        title: Text('Delete'),
+                                                        onTap: () {
+                                                        },
+                                                      ),
+                                                      SizedBox(height: 30,)
+                                                    ],
+                                                  ),
+                                                );
+                                              },
+                                            )
+                                            }
+                                          },
                                           onTap: () => {
                                             Navigator.push(
                                               context,
@@ -146,7 +173,7 @@ class _KnowledgeBasePage extends State<KnowledgeBasePage> {
                                           },
                                           child: Row(
                                             children: [
-                                              const Icon(Icons.book),
+                                              const Icon(HugeIcons.strokeRoundedDatabase),
                                               const SizedBox(width: 8.0),
                                               Column(
                                                 crossAxisAlignment:
@@ -168,11 +195,11 @@ class _KnowledgeBasePage extends State<KnowledgeBasePage> {
                                   ),
                                   DataCell(Text(
                                       '5')), // Replace with actual units count
-                                  DataCell(Text(
+                                  if(showAllColumn) DataCell(Text(
                                       '10 MB')), // Replace with actual size
-                                  DataCell(Text(
+                                  if(showAllColumn) DataCell(Text(
                                       '2023-10-01')), // Replace with actual edit time
-                                  DataCell(
+                                  if(showAllColumn) DataCell(
                                     IconButton(
                                       icon: const Icon(Icons.delete),
                                       onPressed: () {

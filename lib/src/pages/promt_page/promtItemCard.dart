@@ -19,7 +19,7 @@ class PromtItemCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 10),
       child: Card(
-        color: Color.fromRGBO(245, 245, 255,1),
+        color: Colors.blue.shade50,
         shadowColor: Colors.blueAccent,
         child: ListTile(
           leading: Icon(Icons.public),

@@ -35,6 +35,7 @@ class _KnowledgeDetailsState extends State<KnowledgeDetails> {
                     Column(
                       children: [
                         ListTile(
+                          selectedColor: Colors.blue,
                           leading: const Icon(Icons.insert_drive_file),
                           title: const Text('Local files'),
                           onTap: () {
@@ -45,6 +46,7 @@ class _KnowledgeDetailsState extends State<KnowledgeDetails> {
                           selected: _selectedSource == 'Local files',
                         ),
                         ListTile(
+                          selectedColor: Colors.blue,
                           leading: const Icon(Icons.web),
                           title: const Text('Website'),
                           onTap: () {
@@ -158,9 +160,9 @@ class _KnowledgeDetailsState extends State<KnowledgeDetails> {
                   ),
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4.0),
+                      borderRadius: BorderRadius.circular(20.0),
                     ),
-                    backgroundColor: const Color.fromARGB(255, 58, 183, 129),
+                    backgroundColor: Colors.blue,
                     padding: const EdgeInsets.fromLTRB(8.0, 20.0, 13.0, 20.0),
                   ),
                 ),
@@ -176,51 +178,80 @@ class _KnowledgeDetailsState extends State<KnowledgeDetails> {
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                       child: DataTable(
-                    columns: const [
-                      DataColumn(label: Text('Unit')),
-                      DataColumn(label: Text('Source')),
-                      DataColumn(label: Text('Size')),
-                      DataColumn(label: Text('Create Time')),
-                      DataColumn(label: Text('Latest Update')),
-                      DataColumn(label: Text('Enable')),
-                      DataColumn(label: Text('Action')),
-                    ],
-                    rows: List<DataRow>.generate(
-                      10, // Replace with the actual number of units
-                      (index) => DataRow(
-                        cells: [
-                          DataCell(
-                            Row(
-                              children: [
-                                const Icon(Icons.insert_drive_file),
-                                const SizedBox(width: 8.0),
-                                Text('Unit Name $index.pdf'),
-                              ],
-                            ),
-                          ),
-                          DataCell(
-                              Text('Local file')), // Replace with actual source
-                          DataCell(Text('2 MB')), // Replace with actual size
-                          DataCell(Text(
-                              '2023-10-01')), // Replace with actual create time
-                          DataCell(Text(
-                              '2023-10-02')), // Replace with actual latest update
-                          DataCell(
-                            Switch(
-                              value: true, // Replace with actual enable state
-                              onChanged: (bool value) {
-                                // Handle enable/disable action
-                                 
-                              },
-                            ),
-                          ),
-                          DataCell(
-                            IconButton(
-                              icon: const Icon(Icons.delete),
-                              onPressed: () {
-                                // Handle delete action
-                              },
-                            ),
+                        headingTextStyle: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500),
+                        columns: [
+                          DataColumn(label: Text('Unit')),
+                          if(MediaQuery.of(context).size.width>600) DataColumn(label: Text('Source')),
+                          if(MediaQuery.of(context).size.width>600)DataColumn(label: Text('Size')),
+                          if(MediaQuery.of(context).size.width>600) DataColumn(label: Text('Create Time')),
+                          if(MediaQuery.of(context).size.width>600) DataColumn(label: Text('Latest Update')),
+                          DataColumn(label: Text('Enable')),
+                          if(MediaQuery.of(context).size.width>600) DataColumn(label: Text('Action')),
+                        ],
+                        rows: List<DataRow>.generate(
+                          10, // Replace with the actual number of units
+                          (index) => DataRow(
+                            cells: [
+                              DataCell(
+                                GestureDetector(
+                                  onLongPress: ()=>{
+                                    if(MediaQuery.of(context).size.width<600){
+                                      showModalBottomSheet(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return Container(
+                                            padding: EdgeInsets.all(16.0),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                ListTile(
+                                                  leading: Icon(Icons.delete),
+                                                  title: Text('Delete'),
+                                                  onTap: () {
+                                                  },
+                                                ),
+                                                SizedBox(height: 30,)
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      )
+                                    }
+                                  },
+                                  child: Row(
+                                    children: [
+                                      const Icon(Icons.insert_drive_file),
+                                      const SizedBox(width: 8.0),
+                                      Text('Unit Name $index.pdf'),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              if(MediaQuery.of(context).size.width>600) DataCell(
+                                  Text('Local file')), // Replace with actual source
+                              if(MediaQuery.of(context).size.width>600) DataCell(Text('2 MB')), // Replace with actual size
+                              if(MediaQuery.of(context).size.width>600) DataCell(Text(
+                                  '2023-10-01')), // Replace with actual create time
+                              if(MediaQuery.of(context).size.width>600) DataCell(Text(
+                                  '2023-10-02')), // Replace with actual latest update
+                              DataCell(
+                                Switch(
+                                  activeTrackColor: Colors.blue,
+                                  value: true, // Replace with actual enable state
+                                  onChanged: (bool value) {
+                                    // Handle enable/disable action
+
+                                  },
+                                ),
+                              ),
+                              if(MediaQuery.of(context).size.width>600) DataCell(
+                                IconButton(
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: () {
+                                    // Handle delete action
+                                  },
+                                ),
                           ),
                         ],
                       ),

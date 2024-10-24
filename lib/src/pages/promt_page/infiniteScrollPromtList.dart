@@ -62,7 +62,7 @@ class _InfiniteScrollListState extends State<InfinitescrollPromtlist> {
         itemBuilder: (context, index) {
           if (index == _data.length) {
             if(!isEnd) {
-              return Center(child: CircularProgressIndicator());
+              return Center(child: CircularProgressIndicator(color: Colors.blue,));
             }else{
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,
