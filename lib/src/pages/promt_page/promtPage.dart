@@ -2,6 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:jarvis/src/pages/promt_page/infiniteScrollPromtList.dart';
 import 'package:jarvis/src/routes.dart';
+import '../../widgets/searchBar.dart';
 import 'PrivatePromtDialog.dart';
 
 enum OpenMode{edit, view, create}
@@ -38,26 +39,7 @@ class PromptManagementPage extends StatelessWidget {
       ),
    );
 }
-class SearchBar extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(16),
-      child: TextFormField(
-        style: TextStyle(fontSize: 14),
-        textInputAction: TextInputAction.search,
-        decoration: InputDecoration(
-          labelText: 'Search',
-          border: OutlineInputBorder( borderRadius: BorderRadius.circular(20)),
-          prefixIcon: Icon(Icons.search),
-        ),
-          onFieldSubmitted: (value) {
-          print('Searching for: $value');
-        },
-      ),
-    );
-  }
-}
+
 class PublicPromtView extends StatefulWidget{
   @override
   State<StatefulWidget> createState() => _PublicPromtView();
@@ -75,16 +57,19 @@ class _PublicPromtView extends State<PublicPromtView> {
           behavior: ScrollBehavior().copyWith(scrollbars: false),
           child: Column(
             children: [
-              SearchBar(),
+              Padding(
+                padding: const EdgeInsets.only(left: 15, bottom: 5, right: 15),
+                child: CustomSearchBar(),
+              ),
               Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.only(left: 16.0),
                     child: IntrinsicWidth(
                       child: DropdownButtonFormField2<String>(
                         isExpanded: false,
                         decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                          contentPadding: const EdgeInsets.symmetric(vertical: 0),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
@@ -163,7 +148,10 @@ class _PrivatePromtView extends State<PrivatePromtView>{
           behavior: ScrollBehavior().copyWith(scrollbars: false),
           child: Column(
             children: [
-              SearchBar(),
+              Padding(
+                padding: const EdgeInsets.only(left: 15, bottom: 5, right: 15),
+                child: CustomSearchBar(),
+              ),
               Expanded(child:InfinitescrollPromtlist(isPublic: false,)),
             ],
           )

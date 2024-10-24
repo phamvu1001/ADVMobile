@@ -117,7 +117,7 @@ class _DraftEmailPageState extends State<DraftEmailPage> {
                     controller: _controller,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(20),
                       ),
                       hintText: 'Type a message...',
                     ),

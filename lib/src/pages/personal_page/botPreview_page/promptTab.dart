@@ -21,7 +21,7 @@ class PromptTab extends StatelessWidget {
               decoration: InputDecoration(
                 hintText: 'Type your prompts here...',
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
+                  borderRadius: BorderRadius.circular(20.0),
                 ),
               ),
             ),

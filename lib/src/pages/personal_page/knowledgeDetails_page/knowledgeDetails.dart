@@ -149,22 +149,23 @@ class _KnowledgeDetailsState extends State<KnowledgeDetails> {
                     Text('Size: ${widget.size}'),
                   ],
                 ),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    // Handle add unit action
-                    _showAddUnitDialog();
-                  },
-                  icon: const Icon(Icons.add, color: Colors.white),
-                  label: const Text(
-                    'Add unit',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
+                SizedBox(
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      // Handle add unit action
+                      _showAddUnitDialog();
+                    },
+                    icon: const Icon(Icons.add, color: Colors.white),
+                    label: const Text(
+                      'Add unit',
+                      style: TextStyle(color: Colors.white),
                     ),
-                    backgroundColor: Colors.blue,
-                    padding: const EdgeInsets.fromLTRB(8.0, 20.0, 13.0, 20.0),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      backgroundColor: Colors.blue,
+                    ),
                   ),
                 ),
               ],

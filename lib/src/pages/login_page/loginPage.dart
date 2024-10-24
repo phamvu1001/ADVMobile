@@ -100,7 +100,6 @@ class _LoginPageState extends State<LoginPage> {
                   child: const Text('Forgot password ?')),
               ElevatedButton(
                 style: ButtonStyle(
-
                   shape: WidgetStateProperty.all<RoundedRectangleBorder>(  RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.0),
                     side: const BorderSide(color: Colors.blue, width: 2.0), // Customize border color and width here
@@ -125,20 +124,21 @@ class _LoginPageState extends State<LoginPage> {
                       backgroundColor: Colors.white,
                       side: const BorderSide(color: Colors.grey),
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 8),
+                          horizontal: 56, vertical: 8),
                     ),
                     onPressed: _signWithGoogle,
                     child:
-                        Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                      Image.asset(
-                        'lib/assets/google-icon.jpg',
-                        height: 24,
-                      ),
-                      const SizedBox(width: 10),
-                      const Text(
-                        'Google',
-                        style: TextStyle(color: Colors.black),
-                      )
+                        Row(mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                          Image.asset(
+                            'lib/assets/google-icon.jpg',
+                            height: 24,
+                          ),
+                          const SizedBox(width: 10),
+                          const Text(
+                            'Google',
+                            style: TextStyle(color: Colors.black),
+                          )
                     ])),
               ),
               Row(

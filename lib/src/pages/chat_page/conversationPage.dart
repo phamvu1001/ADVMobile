@@ -39,16 +39,16 @@ class _conversationPage extends State<ConversationPage> {
     String _selectedTool = 'GPT 3.5';
     List<Map<String, Icon>> menuItems = [
       {
-        'GPT 3.5': const Icon(Icons.ac_unit_outlined),
+        'GPT 3.5': const Icon(Icons.ac_unit_outlined, color: Colors.blue,),
       },
       {
-        'GPT 4.0': const Icon(Icons.ac_unit_outlined),
+        'GPT 4.0': const Icon(Icons.ac_unit_outlined, color: Colors.blue),
       },
       {
-        'DALL·E': const Icon(Icons.ac_unit_outlined),
+        'DALL·E': const Icon(Icons.ac_unit_outlined, color: Colors.blue),
       },
       {
-        'Whisper': const Icon(Icons.ac_unit_outlined),
+        'Whisper': const Icon(Icons.ac_unit_outlined, color: Colors.blue),
       },
     ];
 
@@ -60,7 +60,7 @@ class _conversationPage extends State<ConversationPage> {
               Text(
                 "25",
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 14,
                 ),
               ),
               Image.asset(
@@ -135,67 +135,68 @@ class _conversationPage extends State<ConversationPage> {
             ),
 
             const Divider(),
-            Row(
-              children: [
-                IntrinsicWidth(
-                  child: DropdownButtonFormField2<String>(
-                    isExpanded: false,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(vertical: 15),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    dropdownStyleData: DropdownStyleData(
-                        decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                    )),
-                    value: _selectedTool,
-                    hint: const Text(
-                      'Select Tool',
-                      style: TextStyle(fontSize: 11),
-                    ),
-                    items: menuItems.map((entry) {
-                      final String key = entry.keys.first;
-                      final Icon icon = entry.values.first;
-
-                      return DropdownMenuItem<String>(
-                        value: key, // Use the key as the value
-                        child:
-                       TextButton.icon(
-                            onPressed: () => _toolAi(0),
-                            icon: icon,
-                            label: Text(key, style: const TextStyle(fontSize: 16)),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  IntrinsicWidth(
+                    child: DropdownButtonFormField2<String>(
+                      isExpanded: false,
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(vertical: 5),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedTool = value!;
-                      });
-                    },
-                    buttonStyleData: const ButtonStyleData(
-                      padding: EdgeInsets.only(right: 8),
-                    ),
-                    iconStyleData: const IconStyleData(
-                      icon: Icon(
-                        Icons.arrow_drop_down,
-                        color: Colors.black45,
                       ),
-                      iconSize: 24,
-                    ),
-                    menuItemStyleData: const MenuItemStyleData(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      dropdownStyleData: DropdownStyleData(
+                          decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      )),
+                      value: _selectedTool,
+                      hint: const Text(
+                        'Select Tool',
+                        style: TextStyle(fontSize: 11),
+                      ),
+                      items: menuItems.map((entry) {
+                        final String key = entry.keys.first;
+                        final Icon icon = entry.values.first;
+
+                        return DropdownMenuItem<String>(
+                          value: key, // Use the key as the value
+                          child:
+                          Row(
+                            children: [
+                                  icon,
+                                  Text(key, style: const TextStyle(fontSize: 14, color: Colors.blue)),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedTool = value!;
+                        });
+                      },
+                      iconStyleData: const IconStyleData(
+                        icon: Icon(
+                          Icons.arrow_drop_down,
+                          color: Colors.black45,
+                        ),
+                        iconSize: 24,
+                      ),
+                      menuItemStyleData: const MenuItemStyleData(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                      ),
                     ),
                   ),
-                ),
-                IconButton(
-                  onPressed: _handleHistoryBtn,
-                  icon: const Icon(Icons.access_alarms_rounded),
-                  tooltip: "History",
-                ),
-              ],
+                  IconButton(
+                    onPressed: _handleHistoryBtn,
+                    icon: const Icon(Icons.access_alarms_rounded),
+                    tooltip: "History",
+                  ),
+                ],
+              ),
             ),
 
             // Input Field and Send Button
@@ -209,7 +210,7 @@ class _conversationPage extends State<ConversationPage> {
                       controller: _controller,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(20),
                         ),
                         hintText: 'Type a message...',
                       ),

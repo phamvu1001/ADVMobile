@@ -159,8 +159,6 @@ class _ChatBotPage extends State<ChatBotPage> {
                           borderRadius: BorderRadius.circular(20.0),
                         ),
                         backgroundColor:Colors.blue,
-                        padding:
-                        const EdgeInsets.fromLTRB(8.0, 20.0, 13.0, 20.0),
                       ),
                     ),
                   )

@@ -65,21 +65,8 @@ class _KnowledgeBasePage extends State<KnowledgeBasePage> {
                 runSpacing: 8.0,
                 alignment: WrapAlignment.start,
                 children: [
-                  Expanded(
-                    child: TextFormField(
-                      controller: _searchController,
-                      decoration: InputDecoration(
-                        hintText: 'Search knowledge',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(4.0),
-                          borderSide:
-                          const BorderSide(color: Colors.grey, width: 0),
-                        ),
-                      ),
-                    ),
-                  ),
+                  CustomSearchBar(),
                   SizedBox(
-                    height: 48.0,
                     child: ElevatedButton.icon(
                       onPressed: () {
                         // Handle create knowledge action
@@ -103,7 +90,7 @@ class _KnowledgeBasePage extends State<KnowledgeBasePage> {
               );
             }
           }),
-          const SizedBox(height: 16.0),
+          const SizedBox(height: 8.0),
           Expanded(
             child: LayoutBuilder(
               builder: (context, constraints) {

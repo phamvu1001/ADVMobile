@@ -78,9 +78,11 @@ class _PreviewTabState extends State<PreviewTab> {
               Expanded(
                 child: TextField(
                   controller: _messageController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     hintText: 'Type a message',
-                    border: OutlineInputBorder(),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                   ),
                   onSubmitted: (value) => _sendMessage(),
                 ),

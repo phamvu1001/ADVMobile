@@ -36,12 +36,16 @@ class MyApp extends StatelessWidget {
         dialogBackgroundColor: Colors.white,
         inputDecorationTheme: InputDecorationTheme(
           floatingLabelStyle: TextStyle(
-          color: Colors.blue
+            color: Colors.blue,
+            fontSize: 14,
         ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
             borderSide: BorderSide(color: Colors.blue), // Màu viền khi được chọn
           ),
+          hintStyle: TextStyle(
+            fontSize: 14,
+          )
         ),
         textSelectionTheme: TextSelectionThemeData(
           cursorColor: Colors.black,
@@ -81,7 +85,7 @@ class MyApp extends StatelessWidget {
         Routes.personal_knowledgeTab: (context) => const NavigationMenu(initialIndex: 2, pageTab: 1,),
         Routes.knowledge_page: (context) => const NavigationMenu(initialIndex: 5),
         Routes.settings: (context)=> const SettingsPage(title: "Settings"),
-        Routes.home:(context) => const NavigationMenu(),
+        Routes.home:(context) => const NavigationMenu(initialIndex: 0,),
         Routes.upgrade:(context)=>const UpgradeOptionPage(title: "Price"),
         Routes.favorite:(context)=>const FavouritePromptPage(title: "Favorite"),
         Routes.draftEmail : (context) => const DraftEmailPage(title: "Draft Email"),

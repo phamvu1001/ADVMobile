@@ -166,7 +166,6 @@ class _KnowledgeTabState extends State<KnowledgeTab> {
                 borderRadius: BorderRadius.circular(20.0),
               ),
               backgroundColor: Colors.blue,
-              padding: const EdgeInsets.fromLTRB(8.0, 20.0, 13.0, 20.0),
             ),
           ),
           const SizedBox(height: 16.0),

@@ -13,7 +13,7 @@ import 'package:jarvis/src/pages/settings_page/settingsPage.dart';
 import 'package:jarvis/src/routes.dart';
 
 class NavigationMenu extends StatefulWidget{
-  const NavigationMenu({super.key, this.initialIndex = 1, this.pageTab = 0});
+  const NavigationMenu({super.key, this.initialIndex = 0, this.pageTab = 0});
 
   final int initialIndex;
   final int pageTab;
@@ -23,7 +23,7 @@ class NavigationMenu extends StatefulWidget{
 }
 
 class _NavigationMenuState extends State<NavigationMenu>{
-  late int _selectedIndex = 1;
+  late int _selectedIndex = 0;
   late int _pageTab = 1;
 
   List <IconData> icons=[ HugeIcons.strokeRoundedHome05,
@@ -186,7 +186,8 @@ class _NavigationMenuState extends State<NavigationMenu>{
             leading:  HugeIcon(icon: HugeIcons.strokeRoundedLogout01, color: Colors.black),
             title:  Text("Logout", style: TextStyle(fontWeight: FontWeight.w500),),
             onTap: (){
-              Navigator.pushNamed(context,Routes.login);
+              Navigator.pop(context, true);
+              Navigator.pop(context, true);
             },
           ),
         ),
