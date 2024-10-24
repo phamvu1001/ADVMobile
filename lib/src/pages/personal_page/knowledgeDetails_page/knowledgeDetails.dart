@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class KnowledgeDetails extends StatelessWidget {
+class KnowledgeDetails extends StatefulWidget {
   final String knowledgeName;
   final int units;
   final String size;
@@ -13,10 +13,119 @@ class KnowledgeDetails extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _KnowledgeDetailsState createState() => _KnowledgeDetailsState();
+}
+
+class _KnowledgeDetailsState extends State<KnowledgeDetails> {
+  String? _selectedSource;
+  bool _showFields = false;
+
+  void _showAddUnitDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: const Text('Add Unit'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (!_showFields)
+                    Column(
+                      children: [
+                        ListTile(
+                          leading: const Icon(Icons.insert_drive_file),
+                          title: const Text('Local files'),
+                          onTap: () {
+                            setState(() {
+                              _selectedSource = 'Local files';
+                            });
+                          },
+                          selected: _selectedSource == 'Local files',
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.web),
+                          title: const Text('Website'),
+                          onTap: () {
+                            setState(() {
+                              _selectedSource = 'Website';
+                            });
+                          },
+                          selected: _selectedSource == 'Website',
+                        ),
+                        // Add more ListTile widgets for other sources
+                      ],
+                    ),
+                  if (_showFields && _selectedSource == 'Local files')
+                    Column(
+                      children: [
+                        TextField(
+                          decoration: const InputDecoration(
+                            labelText: 'File Path',
+                          ),
+                        ),
+                        // Add more fields for local files if needed
+                      ],
+                    ),
+                  if (_showFields && _selectedSource == 'Website')
+                    Column(
+                      children: [
+                        TextField(
+                          decoration: const InputDecoration(
+                            labelText: 'URL',
+                          ),
+                        ),
+                        // Add more fields for website if needed
+                      ],
+                    ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    setState(() {
+                      _showFields = false;
+                    });
+                  },
+                  child: const Text('Cancel'),
+                ),
+                if (!_showFields)
+                  ElevatedButton(
+                    onPressed: _selectedSource != null
+                        ? () {
+                            setState(() {
+                              _showFields = true;
+                            });
+                          }
+                        : null,
+                    child: const Text('Next'),
+                  ),
+                if (_showFields)
+                  ElevatedButton(
+                    onPressed: () {
+                      // Handle add unit action
+                      Navigator.of(context).pop();
+                      setState(() {
+                        _showFields = false;
+                      });
+                    },
+                    child: const Text('Add'),
+                  ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(knowledgeName),
+        title: Text(widget.knowledgeName),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -30,16 +139,17 @@ class KnowledgeDetails extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      knowledgeName,
+                      widget.knowledgeName,
                       style: Theme.of(context).textTheme.labelLarge,
                     ),
-                    Text('Units: $units'),
-                    Text('Size: $size'),
+                    Text('Units: ${widget.units}'),
+                    Text('Size: ${widget.size}'),
                   ],
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
                     // Handle add unit action
+                    _showAddUnitDialog();
                   },
                   icon: const Icon(Icons.add, color: Colors.white),
                   label: const Text(
