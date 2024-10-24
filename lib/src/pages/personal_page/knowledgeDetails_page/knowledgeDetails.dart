@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jarvis/src/pages/knowledge_base_page/dataUnitDialog.dart';
 
 class KnowledgeDetails extends StatefulWidget {
   final String knowledgeName;
@@ -194,6 +195,11 @@ class _KnowledgeDetailsState extends State<KnowledgeDetails> {
                             cells: [
                               DataCell(
                                 GestureDetector(
+                                  onTap: ()=> {
+                                    if(MediaQuery.of(context).size.width<600){
+                                      showDialog(context: context, builder: (context) =>DataUnitDialog())
+                                    }
+                                  },
                                   onLongPress: ()=>{
                                     if(MediaQuery.of(context).size.width<600){
                                       showModalBottomSheet(
