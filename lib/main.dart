@@ -29,8 +29,46 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.white,
+          foregroundColor: Colors.blue,
+          titleTextStyle: TextStyle(fontWeight: FontWeight.w300,color: Colors.blue,fontSize: 20)
         ),
         scaffoldBackgroundColor: Colors.white,
+        dialogBackgroundColor: Colors.white,
+        inputDecorationTheme: InputDecorationTheme(
+          floatingLabelStyle: TextStyle(
+          color: Colors.blue
+        ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: BorderSide(color: Colors.blue), // Màu viền khi được chọn
+          ),
+        ),
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: Colors.black,
+        ),
+        tabBarTheme: TabBarTheme(
+          indicatorColor: Colors.blue,
+          labelColor: Colors.blue
+        ),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          foregroundColor: Colors.white,
+          backgroundColor: Colors.blue.shade300,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.blue,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4.0),
+              side: BorderSide(width: 1,color: Colors.blue.shade200)
+            ),
+          )
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            foregroundColor: Colors.blue,
+          ),
+        ),
       ),
       home: const LoginPage(title: 'Flutter Demo Home Page'),
       routes: {

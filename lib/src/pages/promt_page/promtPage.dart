@@ -89,6 +89,12 @@ class _PublicPromtView extends State<PublicPromtView> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                         ),
+                        dropdownStyleData: DropdownStyleData(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                            )
+                        ),
                         value: _selectedCategory,
                         hint: const Text(
                           'Select Category',
@@ -117,11 +123,6 @@ class _PublicPromtView extends State<PublicPromtView> {
                             color: Colors.black45,
                           ),
                           iconSize: 24,
-                        ),
-                        dropdownStyleData: DropdownStyleData(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
                         ),
                         menuItemStyleData: const MenuItemStyleData(
                           padding: EdgeInsets.symmetric(horizontal: 16),

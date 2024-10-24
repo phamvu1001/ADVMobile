@@ -1,11 +1,12 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:jarvis/src/pages/account_page/accountPage.dart';
+import 'package:jarvis/src/pages/chat_bot_page/chatBotPage.dart';
 import 'package:jarvis/src/pages/chat_page/chatPage.dart';
 import 'package:jarvis/src/pages/draftEmail_page/draftEmail.dart';
 import 'package:jarvis/src/pages/home_page/homePage.dart';
+import 'package:jarvis/src/pages/knowledge_base_page/knowledgeBasePage.dart';
 import 'package:jarvis/src/pages/personal_page/personalPage.dart';
 import 'package:jarvis/src/pages/promt_page/promtPage.dart';
 import 'package:jarvis/src/pages/settings_page/settingsPage.dart';
@@ -23,19 +24,21 @@ class NavigationMenu extends StatefulWidget{
 
 class _NavigationMenuState extends State<NavigationMenu>{
   late int _selectedIndex = 1;
-  late int _pageTab = 0;
+  late int _pageTab = 1;
 
   List <IconData> icons=[ HugeIcons.strokeRoundedHome05,
                           HugeIcons.strokeRoundedChatting01,
                           HugeIcons.strokeRoundedMailEdit02,
                           HugeIcons.strokeRoundedCollectionsBookmark,
                           Icons.person,
+                          HugeIcons.strokeRoundedChatBot,
+                          HugeIcons.strokeRoundedDatabase,
                           HugeIcons.strokeRoundedSettings02,
                           HugeIcons.strokeRoundedUserCircle ];
-  List <String> labels=["Home","Chat", "Draft Email","Prompt","Personal", "Settings","Account"];
+  List <String> labels=["Home","Chat", "Draft Email","Prompt","Personal","Chat bot","Knowledge base", "Settings","Account"];
   late List<Widget> pages;
 
-  List <String> titles=["Home","Chat","Draft Email","Prompt", "Personal", "Settings","Account"];
+  List <String> titles=["Home","Chat","Draft Email","Prompt", "Personal","Chat bot","Knowledge base", "Settings","Account"];
   final PageController pageController = PageController();
   void onPageChanged(int index) {
     setState(() {
@@ -54,6 +57,8 @@ class _NavigationMenuState extends State<NavigationMenu>{
       const DraftEmailPage(title: 'Draft Email'),
       const PromptManagementPage(title: "Promt"),
       PersonalPage(title: 'Personal', tab: _pageTab),
+      const ChatBotPage(),
+      const KnowledgeBasePage(),
       const SettingsPage(title: 'Settings'),
       const AccountPage(title: "Account"),
     ];
@@ -67,7 +72,7 @@ class _NavigationMenuState extends State<NavigationMenu>{
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar:AppBar(
-      title: Text(titles[_selectedIndex], style: TextStyle(color: Color.fromARGB(255,96,92,148)),),
+      title: Text(titles[_selectedIndex]),
     ) ,
     drawer: Drawer(
       backgroundColor: Colors.white,

@@ -173,11 +173,6 @@ class AccountPage extends StatelessWidget {
               },
               icon: const Icon(Icons.upgrade_sharp),
               label: const Text('Upgrade'),
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4.0),
-                ),
-              ),
             ),
             SizedBox(width: 20),
             ElevatedButton.icon(
@@ -185,11 +180,6 @@ class AccountPage extends StatelessWidget {
               },
               icon: const Icon(Icons.cancel_presentation_outlined),
               label: const Text('Cancel'),
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4.0),
-                ),
-              ),
             ),
           ]
         ),
