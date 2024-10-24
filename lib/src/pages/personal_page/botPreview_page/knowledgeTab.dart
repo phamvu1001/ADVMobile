@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:jarvis/src/pages/knowledge_base_page/knowledgeBasePage.dart';
 import 'package:jarvis/src/pages/personal_page/knowledgeTab.dart';
 import 'package:jarvis/src/pages/personal_page/personalPage.dart';
 import 'package:jarvis/src/routes.dart';
@@ -77,7 +78,7 @@ class _KnowledgeTabState extends State<KnowledgeTab> {
                       Navigator.of(context).pop();
                       // Navigate back to the knowledge creation tab
                       Navigator.pushNamed(
-                          context, Routes.personal_knowledgeTab);
+                          context, Routes.knowledge_page);
                     },
                     icon: const Icon(Icons.add),
                     label: const Text('Create Knowledge'),
@@ -206,7 +207,7 @@ class _KnowledgeTabState extends State<KnowledgeTab> {
                                 child: IconButton(
                                   icon: Icon(Icons.remove, color: Colors.red,),
                                   onPressed: () {
-
+                                    _removeKnowledge(knowledge);
                                   },
                                 ),
                               ),
