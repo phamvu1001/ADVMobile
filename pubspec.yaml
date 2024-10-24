@@ -66,6 +66,7 @@ flutter:
   assets:
   - lib/assets/google-icon.jpg
   - assets/
+  - lib/assets/fire-icon.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

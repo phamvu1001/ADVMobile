@@ -68,11 +68,44 @@ class _NavigationMenuState extends State<NavigationMenu>{
     });
   }
 
+  List<Widget> _buildActions() {
+    switch (_selectedIndex) {
+      case 1:
+        return [
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
 
+            },
+          ),
+        ];
+      case 2 :
+        return [
+
+            Row(children: [
+              Text(
+                "25",
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+              Image.asset(
+                'lib/assets/fire-icon.png',
+                height: 25,
+                width: 25,
+              ),
+            ])
+
+        ];
+      default:
+        return []; // Return an empty list for other indices
+    }
+  }
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar:AppBar(
       title: Text(titles[_selectedIndex]),
+      actions: _buildActions(),
     ) ,
     drawer: Drawer(
       backgroundColor: Colors.white,
@@ -139,7 +172,7 @@ class _NavigationMenuState extends State<NavigationMenu>{
         ],
       ),
   );
-  Widget buildBottomAction(BuildContext context) =>Container(
+  Widget buildBottomAction(BuildContext context) => Container(
     child: Column(
       children: [
         Divider(),

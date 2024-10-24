@@ -15,6 +15,14 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
 
 
+  void _newChat()
+  {
+
+    threads.add( ListTile(
+      leading: const CircleAvatar(),
+      title: Text("Nguyen van a "),
+    ));
+  }
   void _goToConversation()
   {
     Navigator.push(
@@ -41,6 +49,8 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+
         body: ListView(
       children:threads.map((thread)
     {

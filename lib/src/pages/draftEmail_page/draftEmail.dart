@@ -28,6 +28,7 @@ class _DraftEmailPageState extends State<DraftEmailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: Column(
         children: [
           Expanded(

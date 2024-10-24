@@ -42,9 +42,9 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Welcome to Jarvis'),
+        title: const Text('Welcome to Jarvis' ,style: TextStyle(fontWeight: FontWeight.bold) ,),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
@@ -99,6 +99,17 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: _forgetPassword,
                   child: const Text('Forgot password ?')),
               ElevatedButton(
+                style: ButtonStyle(
+
+                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                    side: const BorderSide(color: Colors.blue, width: 2.0), // Customize border color and width here
+
+                  ),),
+                  padding: WidgetStateProperty.all<EdgeInsets>(
+                    const EdgeInsets.symmetric(horizontal: 80.0, vertical: 12.0), // Customize padding here
+                  ),
+                ),
                 onPressed: _login,
                 child: const Text('Login'),
               ),
