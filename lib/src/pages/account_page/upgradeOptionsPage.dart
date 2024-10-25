@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jarvis/src/pages/promt_page/shiningBorderContainer.dart';
-import 'package:jarvis/src/routes.dart';
+import 'package:jarvis/src/pages/account_page/shiningBorderContainer.dart';
 
 class UpgradeOptionPage extends StatefulWidget {
   const UpgradeOptionPage({super.key, required this.title});

@@ -23,7 +23,7 @@ class ForgetPasswordPage extends StatefulWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Reset password'),
+        title: const Text('Reset password', style: TextStyle(fontWeight: FontWeight.w400),),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -42,7 +42,7 @@ class ForgetPasswordPage extends StatefulWidget {
               TextFormField(
                 decoration: InputDecoration(
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(20),
                     ),
                     labelText: 'Enter your email'),
                 validator: (value) {

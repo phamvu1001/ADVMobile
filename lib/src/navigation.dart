@@ -4,7 +4,7 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:jarvis/src/pages/account_page/accountPage.dart';
 import 'package:jarvis/src/pages/chat_bot_page/chatBotPage.dart';
 import 'package:jarvis/src/pages/chat_page/chatPage.dart';
-import 'package:jarvis/src/pages/draftEmail_page/draftEmail.dart';
+import 'package:jarvis/src/pages/draft_email_page/draftEmail.dart';
 import 'package:jarvis/src/pages/home_page/homePage.dart';
 import 'package:jarvis/src/pages/knowledge_base_page/knowledgeBasePage.dart';
 import 'package:jarvis/src/pages/personal_page/personalPage.dart';
@@ -80,16 +80,15 @@ class _NavigationMenuState extends State<NavigationMenu>{
         ];
       case 2 :
         return [
-
             Row(children: [
               Text(
                 "25",
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 14,
                 ),
               ),
               Image.asset(
-                'lib/assets/fire-icon.png',
+                'assets/fire-icon.png',
                 height: 25,
                 width: 25,
               ),
@@ -103,7 +102,7 @@ class _NavigationMenuState extends State<NavigationMenu>{
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar:AppBar(
-      title: Text(titles[_selectedIndex]),
+      title: Text(titles[_selectedIndex],),
       actions: _buildActions(),
     ) ,
     drawer: Drawer(
@@ -162,7 +161,7 @@ class _NavigationMenuState extends State<NavigationMenu>{
       ),
       child: Column(
         children: [
-          Text("Jarvis", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25,color: Colors.blueAccent),),
+          Text("Viras", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25,color: Colors.blueAccent),),
           Row(
             children: [
               Expanded(child: Container(child: Divider(),)),

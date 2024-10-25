@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'botPreview_page/botPreviewPage.dart';
+import '../chat_bot_page/botPreviewPage.dart';
 
 class BotsTab extends StatefulWidget {
   const BotsTab({super.key});

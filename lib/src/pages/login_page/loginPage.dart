@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jarvis/src/pages/register_page/registerPage.dart';
+import 'package:jarvis/src/pages/login_page/registerPage.dart';
 import 'package:jarvis/src/routes.dart';
 
 import 'forgetPasswordPage.dart';
@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
 
                  Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Image.asset("lib/assets/logo.png",
+                  children: [Image.asset("assets/1.png",
                     height: 120,
                     width: 120,)]
                 ) ,
@@ -70,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                   labelText: 'Username',
                   border: OutlineInputBorder(
                     gapPadding: 5,
-                    borderRadius: BorderRadius.circular(12.0),
+                    borderRadius: BorderRadius.circular(20.0),
                   ),
                 ),
                 validator: (value) {
@@ -91,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                     labelText: 'Password',
                     border: OutlineInputBorder(
                         gapPadding: 5,
-                        borderRadius: BorderRadius.circular(12.0))),
+                        borderRadius: BorderRadius.circular(20.0))),
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -114,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                       borderRadius: BorderRadius.circular(12.0),
                       side: const BorderSide(
                           color: Colors.blue,
-                          width: 2.0),
+                          width: 1.0),
                     ),
                   ),
                   padding: WidgetStateProperty.all<EdgeInsets>(
@@ -136,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
-                      side: const BorderSide(color: Colors.grey),
+                      side: const BorderSide(color: Colors.blue),
                       padding: const EdgeInsets.symmetric(
                           horizontal: 56, vertical: 8),
                     ),
@@ -144,13 +144,13 @@ class _LoginPageState extends State<LoginPage> {
                     child:
                         Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
                       Image.asset(
-                        'lib/assets/google-icon.jpg',
+                        'assets/google-icon.jpg',
                         height: 24,
                       ),
                       const SizedBox(width: 10),
                       const Text(
                         'Google',
-                        style: TextStyle(color: Colors.black),
+                        style: TextStyle(color: Colors.blue),
                       )
                     ])),
               ),

@@ -54,7 +54,7 @@ class _conversationPage extends State<ConversationPage> {
 
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Nguyen Van a'),
+          title: const Text("I am going to have an interview, what should", overflow: TextOverflow.fade,),
           actions: [
             Row(children: [
               Text(
@@ -64,7 +64,7 @@ class _conversationPage extends State<ConversationPage> {
                 ),
               ),
               Image.asset(
-                'lib/assets/fire-icon.png',
+                'assets/fire-icon.png',
                 height: 25,
                 width: 25,
               ),
@@ -93,14 +93,12 @@ class _conversationPage extends State<ConversationPage> {
                               title: Container(
                                 padding: const EdgeInsets.all(10.0),
                                 decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .inversePrimary,
+                                  color: Color.fromARGB(255, 235, 235, 235),
                                   borderRadius: BorderRadius.circular(12.0),
                                 ),
                                 child: Text(
                                   messages[index],
-                                  style: const TextStyle(color: Colors.white),
+                                  style: const TextStyle(color: Colors.black),
                                 ),
                               ),
                             ),
@@ -120,7 +118,7 @@ class _conversationPage extends State<ConversationPage> {
                               title: Container(
                                 padding: const EdgeInsets.all(10.0),
                                 decoration: BoxDecoration(
-                                  color: Theme.of(context).colorScheme.outline,
+                                  color: Colors.blue,
                                   borderRadius: BorderRadius.circular(12.0),
                                 ),
                                 child: Text(
@@ -143,7 +141,6 @@ class _conversationPage extends State<ConversationPage> {
                     child: DropdownButtonFormField2<String>(
                       isExpanded: false,
                       decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.symmetric(vertical: 5),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -220,14 +217,17 @@ class _conversationPage extends State<ConversationPage> {
                   IconButton(
                     icon: const Icon(Icons.camera_alt_outlined),
                     onPressed: _uploadImage,
+                    color: Colors.blue,
                   ),
                   IconButton(
                     icon: const Icon(Icons.image),
                     onPressed: _uploadImage,
+                    color: Colors.blue,
                   ),
                   IconButton(
                     icon: const Icon(Icons.send),
                     onPressed: _sendMessage,
+                    color: Colors.blue,
                   ),
                 ],
               ),

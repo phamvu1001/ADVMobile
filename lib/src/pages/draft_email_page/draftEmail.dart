@@ -17,7 +17,7 @@ class _DraftEmailPageState extends State<DraftEmailPage> {
 
   IconData? selectedIcon = Icons.invert_colors_on_sharp;
   bool isHuman = true;
-  String? _selectedChoice = "Sorry";
+  String? _selectedChoice = null;
 
   void _sendMessage() {
     if (_controller.text.isNotEmpty) {
@@ -67,14 +67,12 @@ class _DraftEmailPageState extends State<DraftEmailPage> {
                             title: Container(
                               padding: const EdgeInsets.all(10.0),
                               decoration: BoxDecoration(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .inversePrimary,
+                                color: Color.fromARGB(255, 235, 235, 235),
                                 borderRadius: BorderRadius.circular(12.0),
                               ),
                               child: Text(
                                 messages[index],
-                                style: const TextStyle(color: Colors.white),
+                                style: const TextStyle(color: Colors.black87),
                               ),
                             ),
                           ),
@@ -94,12 +92,10 @@ class _DraftEmailPageState extends State<DraftEmailPage> {
                             title: Container(
                               padding: const EdgeInsets.all(10.0),
                               decoration: BoxDecoration(
-
                                 color: Colors.blue,
                                 borderRadius: BorderRadius.circular(12.0),
                               ),
                               child: Text(
-
                                 messages[index],
                                 style: const TextStyle(color: Colors.white ),
                               ),
@@ -117,11 +113,15 @@ class _DraftEmailPageState extends State<DraftEmailPage> {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: FilterChip(
-
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      side: BorderSide(color: Colors.blue, width: 0.5)
+                    ),
                     avatar: Text(option['emoji']!),
-                    label: Text(option['label']!),
+                    label: Text(option['label']!, style: TextStyle(color: _selectedChoice==option['label']?Colors.white:Colors.blue),),
                     selected: _selectedChoice == option['label'],
-                    selectedColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                    selectedColor: Colors.blue,
                     showCheckmark: false,
                     onSelected: (bool selected) {
                       setState(() {
@@ -153,12 +153,13 @@ class _DraftEmailPageState extends State<DraftEmailPage> {
                 IconButton(
                   icon: const Icon(Icons.send),
                   onPressed: _sendMessage,
+                  color: Colors.blue,
                 ),
                 IntrinsicWidth(
                   child: DropdownButtonFormField2<IconData>(
                     isExpanded: false,
                     decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(vertical: 5),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),

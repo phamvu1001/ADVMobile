@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jarvis/src/pages/personal_page/botPreview_page/previewTab.dart';
-import 'package:jarvis/src/pages/personal_page/botPreview_page/promptTab.dart';
-import 'package:jarvis/src/pages/personal_page/botPreview_page/knowledgeTab.dart';
+import 'package:jarvis/src/pages/chat_bot_page/previewTab.dart';
+import 'package:jarvis/src/pages/chat_bot_page/promptTab.dart';
+import 'package:jarvis/src/pages/chat_bot_page/knowledgeTab.dart';
 
 class BotPreviewPage extends StatelessWidget {
   final String botName;

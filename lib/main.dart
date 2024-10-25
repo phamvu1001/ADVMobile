@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:jarvis/src/navigation.dart';
 import 'package:jarvis/src/pages/account_page/upgradeOptionsPage.dart';
 import 'package:jarvis/src/pages/chat_page/chatPage.dart';
-import 'package:jarvis/src/pages/draftEmail_page/draftEmail.dart';
+import 'package:jarvis/src/pages/draft_email_page/draftEmail.dart';
 import 'package:jarvis/src/pages/home_page/homePage.dart';
 import 'package:jarvis/src/pages/login_page/loginPage.dart';
 import 'package:jarvis/src/pages/personal_page/knowledgeTab.dart';
 import 'package:jarvis/src/pages/personal_page/personalPage.dart';
 import 'package:jarvis/src/pages/promt_page/favouritePromptPage.dart';
-import 'package:jarvis/src/pages/register_page/registerPage.dart';
+import 'package:jarvis/src/pages/login_page/registerPage.dart';
 import 'package:jarvis/src/pages/settings_page/settingsPage.dart';
 import 'package:jarvis/src/routes.dart';
 
@@ -30,15 +30,16 @@ class MyApp extends StatelessWidget {
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.white,
           foregroundColor: Colors.blue,
-          titleTextStyle: TextStyle(fontWeight: FontWeight.w300,color: Colors.blue,fontSize: 20)
+          titleTextStyle: TextStyle(fontWeight: FontWeight.w400,color: Colors.blue,fontSize: 20)
         ),
         scaffoldBackgroundColor: Colors.white,
         dialogBackgroundColor: Colors.white,
         inputDecorationTheme: InputDecorationTheme(
-          floatingLabelStyle: TextStyle(
-            color: Colors.blue,
-            fontSize: 14,
-        ),
+            contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            floatingLabelStyle: TextStyle(
+              color: Colors.blue,
+              fontSize: 14,
+          ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
             borderSide: BorderSide(color: Colors.blue), // Màu viền khi được chọn
@@ -49,6 +50,8 @@ class MyApp extends StatelessWidget {
         ),
         textSelectionTheme: TextSelectionThemeData(
           cursorColor: Colors.black,
+          selectionColor: Colors.blue.shade100,
+          selectionHandleColor: Colors.blue,
         ),
         tabBarTheme: TabBarTheme(
           indicatorColor: Colors.blue,

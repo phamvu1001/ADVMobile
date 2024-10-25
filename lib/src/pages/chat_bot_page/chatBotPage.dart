@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:intl/intl.dart';
 import 'package:jarvis/src/widgets/searchBar.dart';
-import '../personal_page/botPreview_page/botPreviewPage.dart';
+import 'botPreviewPage.dart';
 
 class ChatBotPage extends StatefulWidget {
   const ChatBotPage({super.key});
@@ -49,7 +49,7 @@ class _ChatBotPage extends State<ChatBotPage> {
                           .map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
-                          child: Text(value),
+                          child: Text(value,style: const TextStyle( fontSize: 14, ),),
                           alignment: Alignment.centerLeft,
                         );
                       }).toList(),
@@ -119,7 +119,7 @@ class _ChatBotPage extends State<ChatBotPage> {
                               .map((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
-                              child: Text(value),
+                              child: Text(value, style: TextStyle(fontSize: 14),),
                               alignment: Alignment.centerLeft,
                             );
                           }).toList(),

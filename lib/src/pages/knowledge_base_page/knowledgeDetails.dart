@@ -123,6 +123,7 @@ class _KnowledgeDetailsState extends State<KnowledgeDetails> {
                             labelText: 'Name',
                           ),
                         ),
+                        SizedBox(height:20),
                         TextField(
                           decoration: const InputDecoration(
                             labelText: 'Google Drive Credential',
@@ -139,11 +140,13 @@ class _KnowledgeDetailsState extends State<KnowledgeDetails> {
                             labelText: 'Name',
                           ),
                         ),
+                        SizedBox(height:20),
                         TextField(
                           decoration: const InputDecoration(
                             labelText: 'Slack Workspace',
                           ),
                         ),
+                        SizedBox(height:20),
                         TextField(
                           decoration: const InputDecoration(
                             labelText: 'Slack Bot Token',
@@ -160,16 +163,19 @@ class _KnowledgeDetailsState extends State<KnowledgeDetails> {
                             labelText: 'Name',
                           ),
                         ),
+                        SizedBox(height:20),
                         TextField(
                           decoration: const InputDecoration(
                             labelText: 'Wiki Page URL',
                           ),
                         ),
+                        SizedBox(height:20),
                         TextField(
                           decoration: const InputDecoration(
                             labelText: 'Confluence Username',
                           ),
                         ),
+                        SizedBox(height:20),
                         TextField(
                           decoration: const InputDecoration(
                             labelText: 'Confluence Access Token',

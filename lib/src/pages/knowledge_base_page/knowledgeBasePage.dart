@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:jarvis/src/pages/personal_page/knowledgeDetails_page/knowledgeDetails.dart';
+import 'package:jarvis/src/pages/knowledge_base_page/knowledgeDetails.dart';
 import 'package:jarvis/src/widgets/searchBar.dart';
 
 class KnowledgeBasePage extends StatefulWidget {

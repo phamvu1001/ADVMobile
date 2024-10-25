@@ -30,7 +30,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sign up with Jarvis'),
+        title: const Text('Sign up with Viras', style: TextStyle(fontWeight: FontWeight.w400),),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -39,13 +39,16 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const FlutterLogo(
-                style: FlutterLogoStyle.horizontal,
-                size: 120,
-              ),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Image.asset("assets/1.png",
+                    height: 120,
+                    width: 120,)]
+              ) ,
               const Text(
                 style: TextStyle(
                   fontSize: 20,
+                  color: Colors.blue
 
                 ),
 
@@ -55,7 +58,7 @@ class _RegisterPageState extends State<RegisterPage> {
               TextFormField(
                 decoration:  InputDecoration(labelText: 'Username',
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(20),
                   )
                 ),
                 validator: (value) {
@@ -72,7 +75,7 @@ class _RegisterPageState extends State<RegisterPage> {
               TextFormField(
                 decoration:  InputDecoration(labelText: 'Password' ,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),)),
+                    borderRadius: BorderRadius.circular(20),)),
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -89,7 +92,7 @@ class _RegisterPageState extends State<RegisterPage> {
               TextFormField(
                 decoration:  InputDecoration(labelText: 'Retype password',
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),),),
+                    borderRadius: BorderRadius.circular(20),),),
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty ) {
@@ -109,6 +112,21 @@ class _RegisterPageState extends State<RegisterPage> {
               ElevatedButton(
                 onPressed: register,
                 child: const Text('Sign up'),
+                style: ButtonStyle(
+                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      side: const BorderSide(
+                          color: Colors.blue,
+                          width: 1.0),
+                    ),
+                  ),
+                  padding: WidgetStateProperty.all<EdgeInsets>(
+                    const EdgeInsets.symmetric(
+                        horizontal: 70.0,
+                        vertical: 12.0), // Customize padding here
+                  ),
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -121,28 +139,28 @@ class _RegisterPageState extends State<RegisterPage> {
                 ],
               ),
               Text("Or"),
+
               Container(
                 margin: EdgeInsets.only(left: 0, top: 20.0, right: 0, bottom: 0),
                 child:
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
-                      side: const BorderSide(color: Colors.grey),
-                      padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      side: const BorderSide(color: Colors.blue, width: 1),
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     ),
                     onPressed: () {
                       print("Sign in with Google");
                     },
                     child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
                       Image.asset(
-                        'lib/assets/google-icon.jpg',
+                        'assets/google-icon.jpg',
                         height: 24,
                       ),
                       const SizedBox(width: 10),
                       const Text(
                         'Sign in with Google',
-                        style: TextStyle(color: Colors.black),
+                        style: TextStyle(color: Colors.blue),
                       )
                     ])),
               ),

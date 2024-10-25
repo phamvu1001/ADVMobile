@@ -17,40 +17,33 @@ class _ChatPageState extends State<ChatPage> {
 
   void _newChat()
   {
-
     threads.add( ListTile(
-      leading: const CircleAvatar(),
-      title: Text("Nguyen van a "),
+      leading: const CircleAvatar(backgroundColor: Colors.blue,),
+      title: Text("I am going to have an interview, what should",maxLines: 1, overflow: TextOverflow.fade,),
     ));
   }
   void _goToConversation()
   {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => const ConversationPage()));  }
+    Navigator.push(context,MaterialPageRoute(builder: (context) => const ConversationPage()));  }
   List<ListTile> threads = [
     ListTile(
-      leading: const CircleAvatar(),
-      title: Text("Nguyen van a "),
+      leading: const CircleAvatar(backgroundColor: Colors.blue,),
+      title: Text("I am going to have an interview, what should",maxLines: 1, overflow: TextOverflow.fade,),
     ),
     ListTile(
-      leading: const CircleAvatar(),
-      title: Text("Nguyen van b"),
+      leading: const CircleAvatar(backgroundColor: Colors.blue,),
+      title: Text("I am going to have an interview, what should",maxLines: 1, overflow: TextOverflow.fade,),
 
     ),
     ListTile(
-      leading: const CircleAvatar(),
-      title: Text("Nguyen van c"),
-
+      leading: const CircleAvatar(backgroundColor: Colors.blue,),
+      title: Text("I am going to have an interview, what should",maxLines: 1, overflow: TextOverflow.fade,),
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-
         body: ListView(
       children:threads.map((thread)
     {
