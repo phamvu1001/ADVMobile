@@ -57,6 +57,39 @@ class _KnowledgeDetailsState extends State<KnowledgeDetails> {
                           },
                           selected: _selectedSource == 'Website',
                         ),
+                        ListTile(
+                          selectedColor: Colors.blue,
+                          leading: const Icon(Icons.drive_folder_upload),
+                          title: const Text('Google Drive'),
+                          onTap: () {
+                            setState(() {
+                              _selectedSource = 'Google Drive';
+                            });
+                          },
+                          selected: _selectedSource == 'Google Drive',
+                        ),
+                        ListTile(
+                          selectedColor: Colors.blue,
+                          leading: const Icon(Icons.chat),
+                          title: const Text('Slack'),
+                          onTap: () {
+                            setState(() {
+                              _selectedSource = 'Slack';
+                            });
+                          },
+                          selected: _selectedSource == 'Slack',
+                        ),
+                        ListTile(
+                          selectedColor: Colors.blue,
+                          leading: const Icon(Icons.book),
+                          title: const Text('Confluence'),
+                          onTap: () {
+                            setState(() {
+                              _selectedSource = 'Confluence';
+                            });
+                          },
+                          selected: _selectedSource == 'Confluence',
+                        ),
                         // Add more ListTile widgets for other sources
                       ],
                     ),
@@ -80,6 +113,69 @@ class _KnowledgeDetailsState extends State<KnowledgeDetails> {
                           ),
                         ),
                         // Add more fields for website if needed
+                      ],
+                    ),
+                  if (_showFields && _selectedSource == 'Google Drive')
+                    Column(
+                      children: [
+                        TextField(
+                          decoration: const InputDecoration(
+                            labelText: 'Name',
+                          ),
+                        ),
+                        TextField(
+                          decoration: const InputDecoration(
+                            labelText: 'Google Drive Credential',
+                          ),
+                        ),
+                        // Add more fields for Google Drive if needed
+                      ],
+                    ),
+                  if (_showFields && _selectedSource == 'Slack')
+                    Column(
+                      children: [
+                        TextField(
+                          decoration: const InputDecoration(
+                            labelText: 'Name',
+                          ),
+                        ),
+                        TextField(
+                          decoration: const InputDecoration(
+                            labelText: 'Slack Workspace',
+                          ),
+                        ),
+                        TextField(
+                          decoration: const InputDecoration(
+                            labelText: 'Slack Bot Token',
+                          ),
+                        ),
+                        // Add more fields for Slack if needed
+                      ],
+                    ),
+                  if (_showFields && _selectedSource == 'Confluence')
+                    Column(
+                      children: [
+                        TextField(
+                          decoration: const InputDecoration(
+                            labelText: 'Name',
+                          ),
+                        ),
+                        TextField(
+                          decoration: const InputDecoration(
+                            labelText: 'Wiki Page URL',
+                          ),
+                        ),
+                        TextField(
+                          decoration: const InputDecoration(
+                            labelText: 'Confluence Username',
+                          ),
+                        ),
+                        TextField(
+                          decoration: const InputDecoration(
+                            labelText: 'Confluence Access Token',
+                          ),
+                        ),
+                        // Add more fields for Confluence if needed
                       ],
                     ),
                 ],
