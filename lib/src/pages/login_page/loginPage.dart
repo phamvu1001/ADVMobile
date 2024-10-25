@@ -42,7 +42,10 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Welcome to Jarvis' ,style: TextStyle(fontWeight: FontWeight.bold) ,),
+        title: const Text(
+          'Welcome to Viras',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -51,14 +54,19 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const FlutterLogo(
-                size: 120,
-                style: FlutterLogoStyle.horizontal,
-              ),
+              // Logo
+
+                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Image.asset("lib/assets/logo.png",
+                    height: 120,
+                    width: 120,)]
+                ) ,
+
+
+             const SizedBox(height: 20,),
               TextFormField(
-
                 decoration: InputDecoration(
-
                   labelText: 'Username',
                   border: OutlineInputBorder(
                     gapPadding: 5,
@@ -75,13 +83,14 @@ class _LoginPageState extends State<LoginPage> {
                   _username = value!;
                 },
               ),
-              const SizedBox(height: 10, ),
+              const SizedBox(
+                height: 10,
+              ),
               TextFormField(
-
                 decoration: InputDecoration(
                     labelText: 'Password',
                     border: OutlineInputBorder(
-                      gapPadding: 5,
+                        gapPadding: 5,
                         borderRadius: BorderRadius.circular(12.0))),
                 obscureText: true,
                 validator: (value) {
@@ -100,13 +109,18 @@ class _LoginPageState extends State<LoginPage> {
                   child: const Text('Forgot password ?')),
               ElevatedButton(
                 style: ButtonStyle(
-                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                    side: const BorderSide(color: Colors.blue, width: 2.0), // Customize border color and width here
-
-                  ),),
+                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      side: const BorderSide(
+                          color: Colors.blue,
+                          width: 2.0),
+                    ),
+                  ),
                   padding: WidgetStateProperty.all<EdgeInsets>(
-                    const EdgeInsets.symmetric(horizontal: 80.0, vertical: 12.0), // Customize padding here
+                    const EdgeInsets.symmetric(
+                        horizontal: 80.0,
+                        vertical: 12.0), // Customize padding here
                   ),
                 ),
                 onPressed: _login,
@@ -128,17 +142,16 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     onPressed: _signWithGoogle,
                     child:
-                        Row(mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                          Image.asset(
-                            'lib/assets/google-icon.jpg',
-                            height: 24,
-                          ),
-                          const SizedBox(width: 10),
-                          const Text(
-                            'Google',
-                            style: TextStyle(color: Colors.black),
-                          )
+                        Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                      Image.asset(
+                        'lib/assets/google-icon.jpg',
+                        height: 24,
+                      ),
+                      const SizedBox(width: 10),
+                      const Text(
+                        'Google',
+                        style: TextStyle(color: Colors.black),
+                      )
                     ])),
               ),
               Row(
