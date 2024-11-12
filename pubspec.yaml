@@ -41,6 +41,8 @@ dependencies:
   glowy_borders: ^1.0.2
   hugeicons: ^0.0.7
   dropdown_button2: ^2.3.9
+  http: ^1.2.2
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:

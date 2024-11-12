@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:jarvis/src/routes.dart';
 
+import '../../helpers/string_helper.dart';
+import '../../services/authServices.dart';
+
 
 
 class RegisterPage extends StatefulWidget {
@@ -17,10 +20,25 @@ class _RegisterPageState extends State<RegisterPage> {
   String _username = '';
   String _password = '';
   String _retypePassword = '';
-  void register ()
-  {
-    // validate
-    print("Register succesfully");
+  Future<void> register ()
+  async {
+    await AuthService.signUp(email: "rai637d540@kisoq.com", password: "12345Ab?678");
+    backToLogin();
+    if(!isValidEmail(_username)){
+      //todo: alert
+      print(1);
+      return;
+    }
+    if(!isValidPassword(_password)){
+      //todo: alert
+      print(2);
+      return;
+    }
+    if(_password!=_retypePassword){
+      //todo: alert
+      print(3);
+      return;
+    }
   }
   void backToLogin() {
     Navigator.pop(context);

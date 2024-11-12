@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:jarvis/src/pages/login_page/registerPage.dart';
+import 'package:jarvis/src/providers/authProvider.dart';
 import 'package:jarvis/src/routes.dart';
+import 'package:jarvis/src/services/authServices.dart';
+import 'package:provider/provider.dart';
 
 import 'forgetPasswordPage.dart';
 
@@ -18,8 +21,14 @@ class _LoginPageState extends State<LoginPage> {
   String _username = '';
   String _password = '';
 
-  void _login() {
-    Navigator.pushNamed(context, Routes.home);
+  void _login(AuthProvider authProvider) async {
+    await AuthService.loginWithBasicSignIn(
+        email: "rai637d540@kisoq.com",
+        password: "12345Ab?678",
+        onSuccess: (token){
+          authProvider.signIn(token);
+          Navigator.pushNamed(context, Routes.home);
+        });
   }
 
   void _signWithGoogle() {
@@ -40,6 +49,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = context.watch<AuthProvider>();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -123,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                         vertical: 12.0), // Customize padding here
                   ),
                 ),
-                onPressed: _login,
+                onPressed:()=> _login(authProvider),
                 child: const Text('Login'),
               ),
               const SizedBox(

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/authProvider.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key, required this.title});
@@ -9,6 +12,8 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = context.watch<AuthProvider>();
+
     return Padding(
       padding: EdgeInsets.only(top:10, left: 20, right: 20),
       child: ScrollConfiguration(
@@ -42,7 +47,7 @@ class MyHomePage extends StatelessWidget {
               SizedBox(height: 20,),
               GestureDetector(
                 onTap: (){
-
+                  print(authProvider.token);
                 },
                 child: Container(
                   padding: EdgeInsets.all(10),
