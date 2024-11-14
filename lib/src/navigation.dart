@@ -4,6 +4,7 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:jarvis/src/pages/account_page/accountPage.dart';
 import 'package:jarvis/src/pages/chat_bot_page/chatBotPage.dart';
 import 'package:jarvis/src/pages/chat_page/chatPage.dart';
+import 'package:jarvis/src/pages/chat_page/conversationPage.dart';
 import 'package:jarvis/src/pages/draft_email_page/draftEmail.dart';
 import 'package:jarvis/src/pages/home_page/homePage.dart';
 import 'package:jarvis/src/pages/knowledge_base_page/knowledgeBasePage.dart';
@@ -73,8 +74,9 @@ class _NavigationMenuState extends State<NavigationMenu>{
         return [
           IconButton(
             icon: Icon(Icons.add),
-            onPressed: () {
-
+            onPressed: () { 
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const ConversationPage()));
             },
           ),
         ];
