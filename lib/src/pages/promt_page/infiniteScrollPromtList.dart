@@ -1,51 +1,55 @@
 
 import 'package:flutter/material.dart';
+import 'package:jarvis/src/models/prompt.dart';
 import 'package:jarvis/src/pages/promt_page/privatePromtDialog.dart';
 import 'package:jarvis/src/pages/promt_page/promtPage.dart';
 import 'package:jarvis/src/pages/promt_page/publicPromtDialog.dart';
 import 'package:jarvis/src/pages/promt_page/promtItemCard.dart';
+import 'package:jarvis/src/services/promptServices.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/authProvider.dart';
 
 class InfinitescrollPromtlist extends StatefulWidget {
-  const InfinitescrollPromtlist({super.key,required this.isPublic});
+  InfinitescrollPromtlist({super.key,required this.isPublic,required this.isRefresh,required this.loadMore, required this.hasNext, required this.promptList, required this.isLoading, this.onDelete, this.onUpdate});
   final bool isPublic;
+  bool hasNext;
+  bool isLoading;
+  bool isRefresh;
+  final loadMore;
+  final onDelete;
+  final onUpdate;
+
+  List<PromptModel> promptList;
   @override
   _InfiniteScrollListState createState() => _InfiniteScrollListState();
 }
 
 class _InfiniteScrollListState extends State<InfinitescrollPromtlist> {
-  List<int> _data = [];
-  int _currentMax = 0;
-  bool isFavorite=false;
-  bool isEnd=false;
   ScrollController _scrollController = ScrollController(initialScrollOffset: -50);
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(() {
-      if(_scrollController.position.maxScrollExtent<=0){
-        _loadMoreData();
+      if(_scrollController.position.maxScrollExtent<=0 &&!widget.isLoading){
+        widget.loadMore();
       }
       if (_scrollController.position.pixels >=
-          _scrollController.position.maxScrollExtent && !isEnd) {
-        _loadMoreData();
+          _scrollController.position.maxScrollExtent && widget.hasNext&&!widget.isLoading) {
+        widget.loadMore();
       }
     });
   }
 
-  Future<void> _loadMoreData() async{
-    await Future.delayed(Duration(seconds: 3));
-    setState(() {
-      if(_data.length==10){
-        isEnd=true;
-        return;
-      }
-      for (int i = _currentMax; i < _currentMax + 10; i++) {
-        _data.add(i);
-      }
-      _currentMax = _data.length;
-    });
+  @override
+  void didUpdateWidget(covariant InfinitescrollPromtlist oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if(widget.isRefresh==true && oldWidget.isRefresh==false){
+      _scrollController.jumpTo(-50);
+    }
   }
+
   @override
   void dispose() {
     _scrollController.dispose();
@@ -54,14 +58,16 @@ class _InfiniteScrollListState extends State<InfinitescrollPromtlist> {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = context.watch<AuthProvider>();
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: ListView.builder(
         controller: _scrollController,
-        itemCount: _data.length + 1,
+        itemCount: widget.promptList.length + 1,
         itemBuilder: (context, index) {
-          if (index == _data.length) {
-            if(!isEnd) {
+          if (index == widget.promptList.length) {
+            if(widget.hasNext) {
               return Center(child: CircularProgressIndicator(color: Colors.blue,));
             }else{
               return Row(
@@ -88,7 +94,7 @@ class _InfiniteScrollListState extends State<InfinitescrollPromtlist> {
                           leading: Icon(Icons.edit),
                           title: Text('Edit'),
                           onTap: () {
-                            Navigator.pop(context); // Đóng bottom sheet
+                            Navigator.pop(context);
                             print('Chỉnh sửa item $index');
                           },
                         ),
@@ -96,7 +102,7 @@ class _InfiniteScrollListState extends State<InfinitescrollPromtlist> {
                           leading: Icon(Icons.delete),
                           title: Text('Delete'),
                           onTap: () {
-                            Navigator.pop(context); // Đóng bottom sheet
+                            Navigator.pop(context);
                             print('Xoá item $index');
                           },
                         ),
@@ -107,17 +113,34 @@ class _InfiniteScrollListState extends State<InfinitescrollPromtlist> {
               );
             },
             child: PromtItemCard(
-                index: index,
-                name: "name",
+                prompt: widget.promptList[index],
                 onTap: (){
-                  showDialog(context: context, builder: (context)=> widget.isPublic?PublicPromptDialog():PrivatePromptDialog(openMode: OpenMode.view,));
+                  showDialog(context: context, builder: (context)=>
+                  widget.isPublic?
+                  PublicPromptDialog(prompt:widget.promptList[index]):PrivatePromptDialog(openMode: OpenMode.view,prompt: widget.promptList[index],));
                 },
-                isFavorite: isFavorite,
+                isFavorite: true,
                 onFavoriteChange: (){
                   setState(() {
-                    isFavorite=!isFavorite;
+                    if(widget.promptList[index].isFavorite==true){
+                      widget.promptList[index].isFavorite=false;
+                    }else if(widget.promptList[index].isFavorite==false){
+                      widget.promptList[index].isFavorite=true;
+                    }
                   });
-                }
+                  if(widget.promptList[index].isFavorite==true){
+                    PromptServices().addPromptToFavorite(id: widget.promptList[index].id!, accessToken: authProvider.token!);
+                  }else if(widget.promptList[index].isFavorite==false){
+                    PromptServices().removePromptFromFavorite(id: widget.promptList[index].id!, accessToken: authProvider.token!);
+                  }
+                },
+                onDelete:()=> widget.isPublic?null:widget.onDelete(index,authProvider.token),
+                onUpdate: (){
+                  showDialog(context: context, builder: (context)=>PrivatePromptDialog(
+                    openMode: OpenMode.edit,
+                    onUpdate: (PromptModel updated)=>widget.onUpdate(index, authProvider.token, updated),
+                    prompt: widget.promptList[index],));
+                },
             ),
           );
         },
