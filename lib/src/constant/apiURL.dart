@@ -13,7 +13,7 @@ class APIURL{
   //AI chat
   static const doAIChat="$apiURL/api/v1/ai-chat";
   static const getConversations="$apiURL/api/v1/ai-chat/conversations";
-  static getConsercationHistory(String conversationId)=>"$apiURL/api/v1/ai-chat/conversations/$conversationId/messages";
+  static getConversationHistory(String conversationId)=>"$apiURL/api/v1/ai-chat/conversations/$conversationId/messages";
   static const sendMessage="$apiURL/api/v1/ai-chat/messages";
 
 
