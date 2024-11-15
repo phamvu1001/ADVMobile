@@ -61,34 +61,14 @@ class _PrivatePromtView extends State<PrivatePromtView>{
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 15, bottom: 5, right: 15),
-                  child: CustomSearchBar(onTextChange: (value){
-                    _typingTimer?.cancel();
-                    _typingTimer = Timer(debounceDuration, () {
-                      if(value.toString().trim()==queryText){
-                        return;
-                      }
-                      offset = 0;
-                      queryText = value;
-                      setState(() {
-                        foundPrompt.clear();
-                        isRefresh=true;
-                        hasNext = true;
-                        isLoading=false;
-                      });
-                    });
-                  },),
+                  child: CustomSearchBar(onTextChange: (value)=>onQueryTextChange(value.toString()),),
                 ),
                 Expanded(child:InfinitescrollPromtlist(
                   isRefresh:isRefresh,
                   isPublic: false,
                   loadMore:()=> handleQuery(queryText, authProvider.token!),
                   hasNext: hasNext,
-                  onDelete: (int index, String token){
-                    PromptServices().deletePrompt(id: foundPrompt[index].id!, accessToken: token);
-                    setState(() {
-                      foundPrompt.removeAt(index);
-                    });
-                  },
+                  onDelete: (int index, String token)=>onDeletePrivatePrompt(index, token),
                   onUpdate:onUpdate,
                   promptList: foundPrompt,
                   isLoading: isLoading,)),
@@ -127,6 +107,28 @@ class _PrivatePromtView extends State<PrivatePromtView>{
       foundPrompt.addAll(_searchPrompt);
       isLoading=false;
       isRefresh=false;
+    });
+  }
+  void onQueryTextChange(String text){
+    _typingTimer?.cancel();
+    _typingTimer = Timer(debounceDuration, () {
+      if(text.toString().trim()==queryText){
+        return;
+      }
+      offset = 0;
+      queryText = text;
+      setState(() {
+        foundPrompt.clear();
+        isRefresh=true;
+        hasNext = true;
+        isLoading=false;
+      });
+    });
+  }
+  void onDeletePrivatePrompt (int index, String token){
+    PromptServices().deletePrompt(id: foundPrompt[index].id!, accessToken: token);
+    setState(() {
+      foundPrompt.removeAt(index);
     });
   }
 }

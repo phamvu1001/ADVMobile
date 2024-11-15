@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jarvis/src/navigation.dart';
 import 'package:jarvis/src/pages/account_page/upgradeOptionsPage.dart';
 import 'package:jarvis/src/pages/chat_page/chatPage.dart';
+import 'package:jarvis/src/pages/chat_page/conversationPage.dart';
 import 'package:jarvis/src/pages/draft_email_page/draftEmail.dart';
 import 'package:jarvis/src/pages/home_page/homePage.dart';
 import 'package:jarvis/src/pages/login_page/loginPage.dart';
@@ -100,6 +101,7 @@ class MyApp extends StatelessWidget {
           Routes.upgrade:(context)=>const UpgradeOptionPage(title: "Price"),
           Routes.favorite:(context)=>const FavouritePromptPage(title: "Favorite"),
           Routes.draftEmail : (context) => const DraftEmailPage(title: "Draft Email"),
+          Routes.newchat: (context)=> const ConversationPage(),
         },
       ),
     );

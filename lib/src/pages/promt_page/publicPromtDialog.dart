@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:jarvis/src/models/prompt.dart';
+import 'package:jarvis/src/pages/chat_page/conversationPage.dart';
 import 'package:jarvis/src/pages/promt_page/promtPage.dart';
 import 'package:jarvis/src/routes.dart';
 
@@ -27,38 +28,19 @@ class PublicPromptDialog extends StatelessWidget{
               Container(
                 child: Row(
                     children: [
-                      Expanded(child: Column(
-                            children: [
-                              Row(children: [
-                                Expanded(child:
-                                  Text(
-                                "Promt Details",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              )
-                              ]
-                              ),
-                            ]
-                      ),),
+                      Text("Promt Details",style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,),),
                       Expanded(child:
-                        Column(
-                          children: [
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                              IconButton(
-                                icon: Icon(Icons.close), // Icon cho button đầu tiên
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              )
-                            ]
-                            ),
-                          ]
-                      ),),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                          IconButton(
+                            icon: Icon(Icons.close), // Icon cho button đầu tiên
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          )
+                        ]
+                        ),),
                     ]
                 ),
               ),
@@ -91,6 +73,7 @@ class PublicPromptDialog extends StatelessWidget{
                   children: <Widget>[
                       ElevatedButton.icon(
                         onPressed: () {
+                          Navigator.pushNamed(context,Routes.newchat,arguments: prompt.content);
                         },
                         icon: const Icon(HugeIcons.strokeRoundedChatting01,color: Colors.blue,),
                         label: const Text('Chat', style: TextStyle(color: Colors.blue),),

@@ -4,7 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:jarvis/src/models/prompt.dart';
+import 'package:jarvis/src/pages/chat_page/conversationPage.dart';
 import 'package:jarvis/src/pages/promt_page/promtPage.dart';
+import 'package:jarvis/src/routes.dart';
 import 'package:jarvis/src/services/promptServices.dart';
 import 'package:provider/provider.dart';
 
@@ -30,26 +32,36 @@ class _PrivatePromtDialog extends State<PrivatePromptDialog>{
     _promtController=TextEditingController(text: widget.openMode==OpenMode.create?"":widget.prompt?.content!);
     _nameController=TextEditingController(text: widget.openMode==OpenMode.create?"":widget.prompt?.title!);
   }
-  bool checkValidData(){
-    if(_nameController.text.trim()==""){
-      setState(() {
-        isValidTitle=false;
-      });
+  bool checkEmpty(String text){
+    if(text.trim()==""){
       return false;
     }
-    setState(() {
-      isValidTitle=true;
-    });
-    if(_promtController.text.trim()==""){
-      setState(() {
-        isValidContent=false;
-      });
-      return false;
-    }
-    setState(() {
-      isValidContent=true;
-    });
     return true;
+  }
+
+  void onSaveButtonTap(BuildContext context, String token){
+    setState(() {
+      isValidTitle=checkEmpty(_nameController.text.toString());
+      isValidContent=checkEmpty(_promtController.text.toString());
+    });
+    if(!(isValidContent&&isValidTitle)){
+      return;
+    }
+    if(widget.openMode==OpenMode.create){
+      PromptServices().createNewPrivatePrompt(
+          toBeCreatedPromt: new PromptModel(
+              title: _nameController.text,
+              isPublic: false,
+              content: _promtController.text),
+          accessToken: token);
+      widget.onCreate();
+    }else{
+      //update
+      widget.prompt?.title=_nameController.text;
+      widget.prompt?.content=_promtController.text;
+      widget.onUpdate(widget.prompt);
+    }
+    Navigator.pop(context);
   }
   @override
   Widget build(BuildContext context) {
@@ -69,159 +81,43 @@ class _PrivatePromtDialog extends State<PrivatePromptDialog>{
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Row(
-                    children: [
-                      Text(
-                      widget.openMode==OpenMode.create?"Create New Promt":"Promt Details",
-                      style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,),),
-                      Expanded(child:
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              IconButton(icon: Icon(Icons.close), onPressed: () {
-                                  Navigator.of(context).pop();
-                                },)
-                            ]
-                        ),
-                      ),
-                    ]
+                children: [
+                  Text(
+                  widget.openMode==OpenMode.create?"Create New Promt":"Promt Details",
+                  style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,),),
+                  Expanded(child:
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(icon: Icon(Icons.close), onPressed: () {
+                              Navigator.of(context).pop();
+                            },)
+                        ]
+                    ),
+                  ),
+                ]
                 ),
               Divider(),
-              Text("Name",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),),
-              SizedBox(height: 10,),
-              if(!isValidTitle)Container(
-                padding: EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Colors.red.shade50,
-                ),
-                child: Text("Name cannot be empty!",style: TextStyle(fontSize: 14),),
-              ),
-              Container(
-                padding: EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Color.fromARGB(255, 242, 242, 242),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                        child: TextField(
-                          cursorColor: Colors.black,
-                          style: TextStyle(fontSize: 14, color: Colors.black),
-                          maxLines: 5,
-                          minLines: 1,
-                          controller: _nameController,
-                          enabled: widget.openMode==OpenMode.view?false:true,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            hintText: "Enter your promt name here",
-                            focusedBorder: InputBorder.none,
-                          ),
-                          keyboardType: TextInputType.multiline,
-                        )
-                    ),
-                  ],
-                ),
-              ),
+              buildPropertyFrame(context, "Name", "Name cannot be empty", null, "Enter your prompt name here",
+                                                                        isValidTitle, _nameController, widget.openMode),
               Divider(),
-              Text("Prompt",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),),
-              SizedBox(height: 10,),
-              if(!isValidContent)Container(
-                padding: EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Colors.red.shade50,
-                ),
-                child: Text("Content cannot be empty!",style: TextStyle(fontSize: 14),),
-              ),
-              SizedBox(height: 10,),
-              Container(
-                padding: EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Colors.blue.shade50,
-                ),
-                child: Text("Using square brackets to specify user inputs",style: TextStyle(fontSize: 14),),
-              ),
-              SizedBox(height: 20,),
-              Container(
-                padding: EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Color.fromARGB(255, 242, 242, 242),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                        child: TextField(
-                          cursorColor: Colors.black,
-                          style: TextStyle(fontSize: 14, color: Colors.black),
-                          maxLines: 5,
-                          minLines: 1,
-                          controller: _promtController,
-                          enabled: widget.openMode==OpenMode.view?false:true,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            hintText: "Enter your promt here",
-                            focusedBorder: InputBorder.none,
-                          ),
-                          keyboardType: TextInputType.multiline,
-                        )
-                    ),
-                  ],
-                ),
-              ),
+              buildPropertyFrame(context, "Content", "Content cannot be empty", null, "Enter your prompt content here",
+                  isValidContent, _promtController, widget.openMode),
               SizedBox(height: 20,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   if(widget.openMode==OpenMode.view)ElevatedButton.icon(
                     onPressed: () {
+                      Navigator.pushNamed(context,Routes.newchat,arguments: _promtController.text);
                     },
                     icon: const Icon(HugeIcons.strokeRoundedChatting01,color: Colors.blue,),
                     label: const Text('Chat', style: TextStyle(color: Colors.blue),),
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6.0),
-                        side: BorderSide(width: 1, color: Colors.blue.shade100),
-                      ),
-                      backgroundColor: Colors.white,
-                    ),
                   ),
                   if(widget.openMode!=OpenMode.view)ElevatedButton.icon(
-                    onPressed: () {
-                      if(!checkValidData()){
-                        return;
-                      }
-                      if(widget.openMode==OpenMode.create){
-                          Navigator.pop(context);
-                          PromptServices().createNewPrivatePrompt(
-                              toBeCreatedPromt: new PromptModel(
-                                  title: _nameController.text,
-                                  isPublic: false,
-                                  content: _promtController.text),
-                              accessToken: authProvider.token!);
-                          widget.onCreate();
-                      }else{
-                        //update
-                        widget.prompt?.title=_nameController.text;
-                        widget.prompt?.content=_promtController.text;
-                        widget.onUpdate(widget.prompt);
-                        Navigator.pop(context);
-                      }
-
-                    },
+                    onPressed: () =>onSaveButtonTap(context,authProvider.token!),
                     icon: const Icon(HugeIcons.strokeRoundedDownload01,color: Colors.blue,),
                     label: const Text('Save', style: TextStyle(color: Colors.blue),),
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6.0),
-                        side: BorderSide(width: 1, color: Colors.blue.shade100),
-                      ),
-                      backgroundColor: Colors.white,
-                    ),
                   ),
                 ],
               ),
@@ -229,6 +125,67 @@ class _PrivatePromtDialog extends State<PrivatePromptDialog>{
           ),
         ),
       ),
+    );
+  }
+  Widget buildPropertyFrame(
+      BuildContext context,
+      String name,
+      String? alert,
+      String? note,
+      String? hint,
+      bool? checkValidVariable,
+      TextEditingController controller,
+      OpenMode mode){
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(name,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14),),
+        if(!checkValidVariable!)Container(
+          padding: EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            color: Colors.red.shade50,
+          ),
+          child: Text(alert!,style: TextStyle(fontSize: 14),),
+        ),
+        if(note!=null)Container(
+          padding: EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            color: Colors.blue.shade50,
+          ),
+          child: Text(note!,style: TextStyle(fontSize: 14),),
+        ),
+        Container(
+          padding: EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            color: Color.fromARGB(255, 242, 242, 242),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                  child: TextField(
+                    cursorColor: Colors.black,
+                    style: TextStyle(fontSize: 14, color: Colors.black),
+                    maxLines: 5,
+                    minLines: 1,
+                    controller: controller,
+                    enabled: mode==OpenMode.view?false:true,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      hintText: hint??"",
+                      focusedBorder: InputBorder.none,
+                    ),
+                    keyboardType: TextInputType.multiline,
+                  )
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

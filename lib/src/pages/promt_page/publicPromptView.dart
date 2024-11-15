@@ -47,92 +47,48 @@ class _PublicPromtView extends State<PublicPromtView> {
         child: ScrollConfiguration(
             behavior: ScrollBehavior().copyWith(scrollbars: false),
             child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(
                         left: 15, bottom: 5, right: 15),
-                    child: CustomSearchBar(onTextChange: (value) {
-                      _typingTimer?.cancel();
-                      _typingTimer = Timer(debounceDuration, () {
-                        if(value.toString().trim()==queryText){
-                          return;
-                        }
-                        offset = 0;
-                        queryText = value;
-                        setState(() {
-                          foundPrompt.clear();
-                          isRefresh=true;
-                          hasNext = true;
-                          isLoading=false;
-                        });
-                      });
-
-                    },),
+                    child: CustomSearchBar(onTextChange: (value) =>onQueryTextChange(value.toString()),),
                   ),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: IntrinsicWidth(
-                          child: DropdownButtonFormField2<String>(
-                            isExpanded: false,
-                            decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 0),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
-                            dropdownStyleData: DropdownStyleData(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                )
-                            ),
-                            hint: const Text(
-                              'Select Category',
-                              style: TextStyle(fontSize: 14),
-                            ),
-                            items: category.map((item) =>
-                                DropdownMenuItem<String>(
-                                  value: item["value"],
-                                  child: Text(
-                                    item["name"]!,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                )).toList(),
-                            onChanged: (value) {
-                              if(value.toString().trim()==queryText){
-                                return;
-                              }
-                              offset = 0;
-                              setState(() {
-                                isRefresh=true;
-                                _selectedCategory=value;
-                                hasNext = true;
-                                foundPrompt.clear();
-                                isLoading=false;
-                              });
-                            },
-                            buttonStyleData: const ButtonStyleData(
-                              padding: EdgeInsets.only(right: 8),
-                            ),
-                            iconStyleData: const IconStyleData(
-                              icon: Icon(
-                                Icons.arrow_drop_down,
-                                color: Colors.black45,
-                              ),
-                              iconSize: 24,
-                            ),
-                            menuItemStyleData: const MenuItemStyleData(
-                              padding: EdgeInsets.symmetric(horizontal: 16),
-                            ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: IntrinsicWidth(
+                      child: DropdownButtonFormField2<String>(
+                        isExpanded: false,
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 0),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
                           ),
                         ),
+                        dropdownStyleData: DropdownStyleData(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                            )
+                        ),
+                        hint: const Text('Select Category',style: TextStyle(fontSize: 14),),
+                        items: category.map((item) =>
+                            DropdownMenuItem<String>(
+                              value: item["value"],
+                              child: Text(item["name"]!, style: const TextStyle(fontSize: 14,),),
+                            )).toList(),
+                        onChanged: (value) =>onSlectedCategoryChange(value.toString()),
+                        buttonStyleData: const ButtonStyleData(
+                          padding: EdgeInsets.only(right: 8),
+                        ),
+                        iconStyleData: const IconStyleData(
+                          icon: Icon(Icons.arrow_drop_down, color: Colors.black45,),iconSize: 24,),
+                        menuItemStyleData: const MenuItemStyleData(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                        ),
                       ),
-                    ],
+                    ),
                   ),
                   Expanded(child: InfinitescrollPromtlist(isPublic: true,
                     loadMore: () => handleQuery(queryText, _selectedCategory, authProvider.token!),
@@ -176,5 +132,36 @@ class _PublicPromtView extends State<PublicPromtView> {
         isLoading=false;
         isRefresh=false;
       });
+  }
+
+  void onQueryTextChange(String text){
+    _typingTimer?.cancel();
+    _typingTimer = Timer(debounceDuration, () {
+      if(text.toString().trim()==queryText){
+        return;
+      }
+      offset = 0;
+      queryText = text;
+      setState(() {
+        foundPrompt.clear();
+        isRefresh=true;
+        hasNext = true;
+        isLoading=false;
+      });
+    });
+  }
+
+  void onSlectedCategoryChange(String value) {
+    if(value.toString().trim()==queryText){
+      return;
+    }
+    offset = 0;
+    setState(() {
+      isRefresh=true;
+      _selectedCategory=value;
+      hasNext = true;
+      foundPrompt.clear();
+      isLoading=false;
+    });
   }
 }

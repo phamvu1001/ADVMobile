@@ -8,6 +8,7 @@ import 'package:jarvis/src/models/chat/assistant_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:jarvis/src/models/chat/conversation.dart';
 import 'package:jarvis/src/models/chat/conversation_item.dart';
+import 'package:jarvis/src/pages/chat_page/suggestPromptList.dart';
 import 'package:jarvis/src/providers/authProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -73,7 +74,8 @@ class _conversationPage extends State<ConversationPage> {
   final TextEditingController _controller = TextEditingController();
   String? selectedTool = 'GPT 3.5';
   bool isHuman = true;
-
+  bool isShowPrompt=false;//pvu
+  String queryPromt="";//pvu
   @override
   void initState() {
     super.initState();
@@ -196,10 +198,39 @@ class _conversationPage extends State<ConversationPage> {
     return;
   }
 
+  //pvu
+  void onTextChange(String value){
+    if((value.endsWith(" ")||value.isEmpty)&&isShowPrompt){
+      setState(() {
+        isShowPrompt=false;
+      });
+      return;
+    }
+    if(value.lastIndexOf("/")>value.lastIndexOf(" ") &&
+        value.lastIndexOf("/")>value.lastIndexOf("  ") &&
+        value.lastIndexOf("/")>value.lastIndexOf('\n') &&
+        value.contains("/")){
+      setState(() {
+        isShowPrompt=true;
+      });
+      queryPromt=value.substring(value.lastIndexOf("/")+1);
+    }
+  }
+  void onSuggestSelected(String prompt){
+    _controller.text=_controller.text.substring(0,_controller.text.lastIndexOf("/"));
+    _controller.text+=prompt;
+    setState(() {
+      isShowPrompt=false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-
+    final String? data = ModalRoute.of(context)!.settings.arguments as String?;//pvu
+    if (data!=null){
+      _controller.text+=data;
+    }
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -284,7 +315,7 @@ class _conversationPage extends State<ConversationPage> {
               ),
             ),
             const Divider(),
-            Padding(
+            if(!isShowPrompt)Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
@@ -347,6 +378,7 @@ class _conversationPage extends State<ConversationPage> {
                 ],
               ),
             ),
+            if(isShowPrompt)SuggestPromptList(onSelectedItem: onSuggestSelected,queryPrompt: queryPromt,accessToken: authProvider.token!,),
             // Input Field and Send Button
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -355,6 +387,7 @@ class _conversationPage extends State<ConversationPage> {
                   // Input field
                   Expanded(
                     child: TextField(
+                      onChanged: (value)=>onTextChange(value.toString()),//pvu
                       controller: _controller,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
