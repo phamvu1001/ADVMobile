@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:jarvis/src/models/chat/conversation.dart';
 import 'package:jarvis/src/models/chat/conversation_item.dart';
 import 'package:jarvis/src/providers/authProvider.dart';
+import 'package:jarvis/src/widgets/TypingIndicator.dart';
 import 'package:provider/provider.dart';
 
 class ConversationPage extends StatefulWidget {
@@ -39,33 +40,60 @@ class _conversationPage extends State<ConversationPage> {
         Assistant(id: 'claude-3-haiku-20240307', name: 'Claude 3 Haiku')
   };
 
-  List<Map<Assistant, Icon>> menuItems = [
+  Map<String, Widget> assistantIcons = {
+    'claude-3-haiku-20240307': ClipOval(
+        child: Image.asset('assets/claude_3_haiku.png',
+            width: 30, height: 30, fit: BoxFit.cover)),
+    'claude-3-sonnet-20240229': ClipOval(
+        child: Image.asset('assets/claude_3_haiku.png',
+            width: 30, height: 30, fit: BoxFit.cover)),
+    'gemini-1.5-flash-latest': ClipOval(
+        child: Image.asset('assets/gemini.png',
+            width: 30, height: 30, fit: BoxFit.cover)),
+    'gemini-1.5-pro-latest': ClipOval(
+        child: Image.asset('assets/gemini_15_pro.png',
+            width: 30, height: 30, fit: BoxFit.cover)),
+    'gpt-4o': ClipOval(
+        child: Image.asset('assets/gpt-4.webp',
+            width: 30, height: 30, fit: BoxFit.cover)),
+    'gpt-4o-mini': ClipOval(
+        child: Image.asset('assets/gpt_4o_mini.jpg',
+            width: 30, height: 30, fit: BoxFit.cover)),
+  };
+
+  List<Map<Assistant, Widget>> menuItems = [
     {
       Assistant(id: 'claude-3-haiku-20240307', name: 'Claude 3 Haiku'):
-          const Icon(
-        Icons.ac_unit_outlined,
-        color: Colors.blue,
-      ),
+          ClipOval(
+              child: Image.asset('assets/claude_3_haiku.png',
+                  width: 30, height: 30, fit: BoxFit.cover)),
     },
     {
       Assistant(id: 'claude-3-sonnet-20240229', name: 'Claude 3.5 Sonnet'):
-          const Icon(Icons.ac_unit_outlined, color: Colors.blue),
+          ClipOval(
+              child: Image.asset('assets/claude_3_haiku.png',
+                  width: 30, height: 30, fit: BoxFit.cover)),
     },
     {
       Assistant(id: 'gemini-1.5-flash-latest', name: 'Gemini 1.5 Flash'):
-          const Icon(Icons.ac_unit_outlined, color: Colors.blue),
+          ClipOval(
+              child: Image.asset('assets/gemini.png',
+                  width: 30, height: 30, fit: BoxFit.cover)),
     },
     {
-      Assistant(id: 'gemini-1.5-pro-latest', name: 'Gemini 1.5 Pro'):
-          const Icon(Icons.ac_unit_outlined, color: Colors.blue),
+      Assistant(id: 'gemini-1.5-pro-latest', name: 'Gemini 1.5 Pro'): ClipOval(
+          child: Image.asset('assets/gemini_15_pro.png',
+              width: 30, height: 30, fit: BoxFit.cover)),
     },
     {
-      Assistant(id: 'gpt-4o', name: 'GPT-4o'):
-          const Icon(Icons.ac_unit_outlined, color: Colors.blue),
+      Assistant(id: 'gpt-4o', name: 'GPT-4o'): ClipOval(
+          child: Image.asset('assets/gpt-4.webp',
+              width: 30, height: 30, fit: BoxFit.cover)),
     },
     {
-      Assistant(id: 'gpt-4o-mini', name: 'GPT-4o mini'):
-          const Icon(Icons.ac_unit_outlined, color: Colors.blue),
+      Assistant(id: 'gpt-4o-mini', name: 'GPT-4o mini'): ClipOval(
+          child: Image.asset('assets/gpt_4o_mini.jpg',
+              width: 30, height: 30, fit: BoxFit.cover)),
     },
   ];
   final List<String> messages = [];
@@ -129,7 +157,6 @@ class _conversationPage extends State<ConversationPage> {
           print(item.query);
           print(item.answer);
         }
-
       });
     } else {
       // Handle error
@@ -142,6 +169,21 @@ class _conversationPage extends State<ConversationPage> {
     if (_controller.text.isNotEmpty) {
       print(_controller.text);
       print(token);
+
+      setState(() {
+        conversation.messages.add(Message(
+          role: 'user',
+          content: _controller.text,
+          assistant: assistants[_selectedAssistantId]!,
+        ));
+
+        conversationItems.add(ConversationItem(
+          query: _controller.text,
+          answer: '...',
+          createdAt: DateTime.now().millisecondsSinceEpoch,
+        ));
+      });
+
       final response = await http.post(
         Uri.parse(APIURL.sendMessage),
         headers: {
@@ -165,24 +207,29 @@ class _conversationPage extends State<ConversationPage> {
           conversation.id = data['conversationId'] as String;
 
           conversation.messages.add(Message(
-              role: 'user',
-              content: _controller.text,
-              assistant: assistants[_selectedAssistantId]!));
-          conversation.messages.add(Message(
               role: 'model',
               content: data['message'],
               assistant: assistants[_selectedAssistantId]!));
 
-          conversationItems.add(ConversationItem(
-              query: _controller.text,
-              answer: data['message'] as String,
-              createdAt: DateTime.now().millisecondsSinceEpoch));
-          _controller.clear();
+          conversationItems.last = ConversationItem(
+            query: _controller.text,
+            answer: data['message'] as String,
+            createdAt: DateTime.now().millisecondsSinceEpoch,
+          );
         });
       } else {
         // Handle error
+        setState(() {
+          conversationItems.last = ConversationItem(
+            query: _controller.text,
+            answer: 'Failed to get a response. Please try again.',
+            createdAt: DateTime.now().millisecondsSinceEpoch,
+          );
+        });
         print('Failed to send message');
       }
+
+      _controller.clear();
     }
   }
 
@@ -229,6 +276,8 @@ class _conversationPage extends State<ConversationPage> {
               child: ListView.builder(
                 itemCount: conversationItems.length,
                 itemBuilder: (context, index) {
+                  final item = conversationItems[index];
+
                   return Column(
                     children: [
                       Align(
@@ -237,7 +286,8 @@ class _conversationPage extends State<ConversationPage> {
                           widthFactor: 0.8,
                           child: ListTile(
                             horizontalTitleGap: 5,
-                            trailing: const CircleAvatar(child: Icon(Icons.person)),
+                            trailing:
+                                const CircleAvatar(child: Icon(Icons.person)),
                             title: Container(
                               padding: const EdgeInsets.all(10.0),
                               decoration: BoxDecoration(
@@ -258,22 +308,35 @@ class _conversationPage extends State<ConversationPage> {
                           widthFactor: 0.8,
                           child: ListTile(
                             horizontalTitleGap: 5,
-                            leading: const CircleAvatar(
-                                backgroundColor: Colors.black12,
-                                child: Icon(
-                                  Icons.person,
-                                  color: Colors.black,
-                                )),
+                            leading: CircleAvatar(
+                                // backgroundColor: Colors.black12,
+                                backgroundColor: Colors.transparent,
+                                child: assistantIcons[_selectedAssistantId]),
+                                // Icon(
+                                //   Icons.person,
+                                //   color: Colors.black,
+                                // )),
                             title: Container(
                               padding: const EdgeInsets.all(10.0),
                               decoration: BoxDecoration(
-                                color: Colors.blue,
+                                // color: Colors.blue,
+                                color: item.answer == '...'
+                                    ? Colors.transparent
+                                    : Colors.blue,
                                 borderRadius: BorderRadius.circular(12.0),
                               ),
-                              child: Text(
-                                conversationItems[index].answer,
-                                style: const TextStyle(color: Colors.white),
-                              ),
+                              child: item.answer == '...'
+                                  ? Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        TypingIndicator()
+                                      ],
+                                    )
+                                  : Text(
+                                      conversationItems[index].answer,
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
                             ),
                           ),
                         ),
@@ -290,17 +353,19 @@ class _conversationPage extends State<ConversationPage> {
                 children: [
                   IntrinsicWidth(
                     child: DropdownButtonFormField2<String>(
-                      isExpanded: false,
+                      isExpanded: true,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
+                        isDense: false,
                       ),
                       dropdownStyleData: DropdownStyleData(
-                          decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                      )),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
                       value: _selectedAssistantId,
                       hint: const Text(
                         'Select Tool',
@@ -308,13 +373,16 @@ class _conversationPage extends State<ConversationPage> {
                       ),
                       items: menuItems.map((entry) {
                         final Assistant key = entry.keys.first;
-                        final Icon icon = entry.values.first;
+                        final Widget icon = entry.values.first;
 
                         return DropdownMenuItem<String>(
                           value: key.id, // Use the key as the value
                           child: Row(
                             children: [
-                              icon,
+                              ClipOval(
+                                  child: SizedBox(
+                                      width: 30, height: 30, child: icon)),
+                              const SizedBox(width: 10),
                               Text(key.name,
                                   style: const TextStyle(
                                       fontSize: 14, color: Colors.blue)),
@@ -326,6 +394,32 @@ class _conversationPage extends State<ConversationPage> {
                         setState(() {
                           _selectedAssistantId = value!;
                         });
+                      },
+                      selectedItemBuilder: (BuildContext context) {
+                        return menuItems.map((entry) {
+                          final Assistant key = entry.keys.first;
+                          final Widget icon = entry.values.first;
+
+                          return Row(
+                            children: [
+                              ClipOval(
+                                child: SizedBox(
+                                  width: 25,
+                                  height: 25,
+                                  child: icon,
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Text(
+                                key.name,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                            ],
+                          );
+                        }).toList();
                       },
                       iconStyleData: const IconStyleData(
                         icon: Icon(
@@ -377,7 +471,8 @@ class _conversationPage extends State<ConversationPage> {
                   ),
                   IconButton(
                     icon: const Icon(Icons.send),
-                    onPressed: () async => await _sendMessage(authProvider.token),
+                    onPressed: () async =>
+                        await _sendMessage(authProvider.token),
                     color: Colors.blue,
                   ),
                 ],
