@@ -92,7 +92,8 @@ class MyApp extends StatelessWidget {
         home: const LoginPage(title: 'Flutter Demo Home Page'),
         routes: {
           Routes.login: (context)=> const LoginPage(title: "Login"),
-          Routes.chat: (context)=> const ChatPage(title: "Chat"),
+          // Routes.chat: (context) => const ChatPage(title: "Chat"),
+          Routes.chat: (context) => const NavigationMenu(initialIndex: 1),
           Routes.personal: (context) => const PersonalPage(title: "Personal"),
           Routes.personal_knowledgeTab: (context) => const NavigationMenu(initialIndex: 2, pageTab: 1,),
           Routes.knowledge_page: (context) => const NavigationMenu(initialIndex: 5),

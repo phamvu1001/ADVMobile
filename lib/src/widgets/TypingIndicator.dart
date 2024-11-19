@@ -28,8 +28,8 @@ class _TypingIndicatorState extends State<TypingIndicator>
       animation: _dotCount,
       builder: (context, build) {
         String dots = '.' * _dotCount.value;
-        return Text('Typing$dots',
-          style: const TextStyle(color: Colors.blue, fontSize: 14));
+        return Text(dots,
+          style: const TextStyle(color: Colors.blue, fontSize: 30));
       }
     );
   }      

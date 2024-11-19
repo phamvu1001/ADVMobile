@@ -15,6 +15,7 @@ class APIURL{
   static const getConversations="$apiURL/api/v1/ai-chat/conversations";
   static getConversationHistory(String conversationId)=>"$apiURL/api/v1/ai-chat/conversations/$conversationId/messages";
   static const sendMessage="$apiURL/api/v1/ai-chat/messages";
+  static const getUsage="$apiURL/api/v1/tokens/usage";
 
 
   //Prompt
