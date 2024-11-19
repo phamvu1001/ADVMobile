@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:jarvis/src/models/prompt.dart';
 
 class PromtItemCard extends StatelessWidget {
   const PromtItemCard({
     super.key,
-    required this.index,
-    required this.name,
+    required this.prompt,
     required this.onTap,
     required this.isFavorite,
     required this.onFavoriteChange,
+    this.onDelete,
+    this.onUpdate,
   });
+
   final VoidCallback onTap;
-  final int index;
-  final String name;
+  final PromptModel prompt;
   final bool isFavorite;
   final VoidCallback onFavoriteChange;
+  final onDelete;
+  final onUpdate;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -23,20 +27,21 @@ class PromtItemCard extends StatelessWidget {
         shadowColor: Colors.blueAccent,
         child: ListTile(
           leading: Icon(Icons.public),
-          title: Text("Prompt ${index}"),
+          title: Text(prompt.title!),
           trailing: Row(
-            mainAxisSize: MainAxisSize.min, // Để giữ cho Row có kích thước nhỏ nhất có thể
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              IconButton(
-                icon: Icon(isFavorite?Icons.favorite:Icons.favorite_border,color: Colors.red,), // Icon cho button đầu tiên
+              if(prompt.isPublic==true)IconButton(
+                icon: Icon(prompt.isFavorite!?Icons.favorite:Icons.favorite_border,color: Colors.red,),
                 onPressed: onFavoriteChange,
               ),
-              IconButton(
-                icon: Icon(Icons.delete), // Icon cho button thứ hai
-                onPressed: () {
-                  // Xử lý khi nhấn vào button delete
-                  print('Delete button pressed');
-                },
+              if(prompt.isPublic==false)IconButton(
+                icon: Icon(Icons.delete),
+                onPressed:onDelete,
+              ),
+              if(prompt.isPublic==false)IconButton(
+                icon: Icon(Icons.mode_edit_outlined),
+                onPressed: onUpdate,
               ),
             ],
           ),

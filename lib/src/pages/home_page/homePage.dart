@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jarvis/src/pages/chat_page/suggestPromptList.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/authProvider.dart';
@@ -128,7 +129,6 @@ class MyHomePage extends StatelessWidget {
               SizedBox(height: 20,),
               GestureDetector(
                 onTap: (){
-
                 },
                 child: Container(
                   padding: EdgeInsets.all(10),
