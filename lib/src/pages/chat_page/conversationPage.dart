@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:jarvis/src/builders/scrollableCodeBlockBuilder.dart';
 import 'package:jarvis/src/constant/apiURL.dart';
 import 'package:jarvis/src/models/chat/assistant_model.dart';
 import 'package:http/http.dart' as http;
@@ -14,6 +16,7 @@ import 'package:jarvis/src/providers/authProvider.dart';
 import 'package:jarvis/src/routes.dart';
 import 'package:jarvis/src/widgets/TypingIndicator.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ConversationPage extends StatefulWidget {
   const ConversationPage(
@@ -307,7 +310,7 @@ class _conversationPage extends State<ConversationPage> {
       if (_scrollController.hasClients) {
         _scrollController.animateTo(
           _scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 500),
           curve: Curves.easeOut,
         );
       }
@@ -439,6 +442,7 @@ class _conversationPage extends State<ConversationPage> {
                                                     fontSize: 22,
                                                     color: Colors.white),
                                                 strong: const TextStyle(
+                                                    fontSize: 20,
                                                     fontWeight:
                                                         FontWeight.bold),
                                                 em: const TextStyle(
@@ -446,13 +450,35 @@ class _conversationPage extends State<ConversationPage> {
                                                         FontStyle.italic),
                                                 blockquote: const TextStyle(
                                                     color: Colors.white70),
-                                                code: const TextStyle(
-                                                  fontFamily: 'Courier',
-                                                  color: Colors.white70,
-                                                  backgroundColor:
-                                                      Colors.black26,
-                                                ),
+                                                code: GoogleFonts.firaCode(
+                                                  color: Colors.black54,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 16
+                                                )
                                               ),
+                                              builders: {
+                                                'codeblock': ScrollableCodeblockbuilder(
+                                                  codeStyle: GoogleFonts.firaCode(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 16
+                                                  )
+                                                ),
+                                              },
+                                              selectable: true,
+                                              onTapLink: (text, href, title) async {
+                                                if (href != null) {
+                                                  final Uri url = Uri.parse(href);
+                                                  if (await canLaunchUrl(url)) {
+                                                    await launchUrl(
+                                                      url,
+                                                      mode: LaunchMode.externalApplication
+                                                    );
+                                                  } else {
+                                                    print('Could not launch $url');
+                                                  }
+                                                }
+                                              },
                                             )))
                             ],
                           ),

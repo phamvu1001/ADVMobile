@@ -72,11 +72,13 @@ class _ChatPageState extends State<ChatPage> {
         return ListTile(
           leading: const CircleAvatar(
             backgroundColor: Colors.blue,
+            radius: 8,
           ),
           title: Text(
             thread.title,
             maxLines: 1,
             overflow: TextOverflow.fade,
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500)
           ),
           onTap: () => _goToConversation(thread.id, thread.title),
         );

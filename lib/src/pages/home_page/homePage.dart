@@ -140,7 +140,7 @@ class MyHomePage extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Text("Explore promt library", style:TextStyle(fontSize: 14, fontWeight: FontWeight.bold),),
+                          Text("Explore prompt library", style:TextStyle(fontSize: 14, fontWeight: FontWeight.bold),),
                         ],
                       ),
                       Row(
