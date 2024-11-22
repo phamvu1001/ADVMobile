@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jarvis/src/services/authServices.dart';
+import 'package:jarvis/src/pages/chat_page/suggestPromptList.dart';
 import 'package:provider/provider.dart';
-
 import '../../providers/authProvider.dart';
 
 class MyHomePage extends StatelessWidget {
@@ -132,7 +132,6 @@ class MyHomePage extends StatelessWidget {
               SizedBox(height: 20,),
               GestureDetector(
                 onTap: (){
-
                 },
                 child: Container(
                   padding: EdgeInsets.all(10),
@@ -144,7 +143,7 @@ class MyHomePage extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Text("Explore promt library", style:TextStyle(fontSize: 14, fontWeight: FontWeight.bold),),
+                          Text("Explore prompt library", style:TextStyle(fontSize: 14, fontWeight: FontWeight.bold),),
                         ],
                       ),
                       Row(

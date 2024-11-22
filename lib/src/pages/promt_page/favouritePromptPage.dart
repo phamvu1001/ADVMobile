@@ -47,22 +47,7 @@ class _FavoritePromptPage extends State<FavouritePromptPage>{
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 15, bottom: 5, right: 15),
-                  child: CustomSearchBar(onTextChange: (value){
-                    _typingTimer?.cancel();
-                    _typingTimer = Timer(debounceDuration, () {
-                      if(value.toString().trim()==queryText){
-                        return;
-                      }
-                      offset = 0;
-                      queryText = value;
-                      setState(() {
-                        foundPrompt.clear();
-                        isRefresh=true;
-                        hasNext = true;
-                        isLoading=false;
-                      });
-                    });
-                  },),
+                  child: CustomSearchBar(onTextChange: (value)=>onQueryTextChange(value.toString()),),
                 ),
                 Expanded(child:InfinitescrollPromtlist(
                   isPublic: true,
@@ -100,6 +85,23 @@ class _FavoritePromptPage extends State<FavouritePromptPage>{
       foundPrompt.addAll(_searchPrompt);
       isLoading=false;
       isRefresh=false;
+    });
+  }
+  
+  void onQueryTextChange(String text){
+    _typingTimer?.cancel();
+    _typingTimer = Timer(debounceDuration, () {
+      if(text.toString().trim()==queryText){
+        return;
+      }
+      offset = 0;
+      queryText = text;
+      setState(() {
+        foundPrompt.clear();
+        isRefresh=true;
+        hasNext = true;
+        isLoading=false;
+      });
     });
   }
 }

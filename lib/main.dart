@@ -6,6 +6,7 @@ import 'package:jarvis/src/constant/apiURL.dart';
 import 'package:jarvis/src/navigation.dart';
 import 'package:jarvis/src/pages/account_page/upgradeOptionsPage.dart';
 import 'package:jarvis/src/pages/chat_page/chatPage.dart';
+import 'package:jarvis/src/pages/chat_page/conversationPage.dart';
 import 'package:jarvis/src/pages/draft_email_page/draftEmail.dart';
 import 'package:jarvis/src/pages/home_page/homePage.dart';
 import 'package:jarvis/src/pages/login_page/loginPage.dart';
@@ -120,7 +121,8 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
           Routes.login: (context)=> const LoginPage(title: "Login"),
-          Routes.chat: (context)=> const ChatPage(title: "Chat"),
+          // Routes.chat: (context) => const ChatPage(title: "Chat"),
+          Routes.chat: (context) => const NavigationMenu(initialIndex: 1),
           Routes.personal: (context) => const PersonalPage(title: "Personal"),
           Routes.personal_knowledgeTab: (context) => const NavigationMenu(initialIndex: 2, pageTab: 1,),
           Routes.knowledge_page: (context) => const NavigationMenu(initialIndex: 5),
@@ -129,6 +131,7 @@ class MyApp extends StatelessWidget {
           Routes.upgrade:(context)=>const UpgradeOptionPage(title: "Price"),
           Routes.favorite:(context)=>const FavouritePromptPage(title: "Favorite"),
           Routes.draftEmail : (context) => const DraftEmailPage(title: "Draft Email"),
+          Routes.newchat: (context)=> const ConversationPage(),
         },
       ),
     );
