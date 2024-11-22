@@ -8,10 +8,12 @@ import 'package:jarvis/src/pages/chat_page/conversationPage.dart';
 import 'package:jarvis/src/pages/draft_email_page/draftEmail.dart';
 import 'package:jarvis/src/pages/home_page/homePage.dart';
 import 'package:jarvis/src/pages/knowledge_base_page/knowledgeBasePage.dart';
+import 'package:jarvis/src/pages/login_page/loginPage.dart';
 import 'package:jarvis/src/pages/personal_page/personalPage.dart';
 import 'package:jarvis/src/pages/promt_page/promtPage.dart';
 import 'package:jarvis/src/pages/settings_page/settingsPage.dart';
 import 'package:jarvis/src/routes.dart';
+import 'package:jarvis/src/services/authServices.dart';
 
 class NavigationMenu extends StatefulWidget{
   const NavigationMenu({super.key, this.initialIndex = 0, this.pageTab = 0});
@@ -187,8 +189,11 @@ class _NavigationMenuState extends State<NavigationMenu>{
             leading:  HugeIcon(icon: HugeIcons.strokeRoundedLogout01, color: Colors.black),
             title:  Text("Logout", style: TextStyle(fontWeight: FontWeight.w500),),
             onTap: (){
-              Navigator.pop(context, true);
-              Navigator.pop(context, true);
+              AuthService.logOut();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginPage(title: "title")),
+              );
             },
           ),
         ),
