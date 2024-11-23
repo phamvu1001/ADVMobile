@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:jarvis/src/services/authServices.dart';
 import 'package:jarvis/src/pages/chat_page/suggestPromptList.dart';
 import 'package:provider/provider.dart';
-
 import '../../providers/authProvider.dart';
 
 class MyHomePage extends StatelessWidget {
@@ -43,6 +43,9 @@ class MyHomePage extends StatelessWidget {
               Row(
                 children: [
                   Text("Here are some of my amazing powers.", style:TextStyle(fontSize: 14),),
+                  TextButton(onPressed: (){
+                    AuthService.refreshToken();
+                  }, child: Text("Refresh")),
                 ],
               ),
               SizedBox(height: 20,),

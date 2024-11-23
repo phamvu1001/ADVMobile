@@ -46,6 +46,10 @@ dependencies:
   dropdown_button2: ^2.3.9
   http: ^1.2.2
   provider: ^6.1.2
+  google_sign_in: ^6.2.2
+  shared_preferences: ^2.3.3
+
+
 
 dev_dependencies:
   flutter_test:

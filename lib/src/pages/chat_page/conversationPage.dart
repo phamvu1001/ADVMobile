@@ -12,6 +12,7 @@ import 'package:jarvis/src/models/chat/assistant_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:jarvis/src/models/chat/conversation.dart';
 import 'package:jarvis/src/models/chat/conversation_item.dart';
+import 'package:jarvis/src/pages/chat_page/guide_view.dart';
 import 'package:jarvis/src/pages/chat_page/suggestPromptList.dart';
 import 'package:jarvis/src/providers/authProvider.dart';
 import 'package:jarvis/src/routes.dart';
@@ -241,6 +242,7 @@ class _conversationPage extends State<ConversationPage> {
         ),
         body: Column(
           children: [
+            if(conversationItems.length==0)buildGuideView(context),
             Expanded(
               child: ListView.builder(
                 controller: _scrollController,

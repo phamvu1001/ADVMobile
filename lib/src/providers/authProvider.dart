@@ -5,7 +5,6 @@ class AuthProvider extends ChangeNotifier {
 
   void signIn(String token) {
     this.token = token;
-    print(token);
     notifyListeners();
   }
 

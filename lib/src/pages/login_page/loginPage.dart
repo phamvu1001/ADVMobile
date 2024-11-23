@@ -21,19 +21,28 @@ class _LoginPageState extends State<LoginPage> {
   String _username = '';
   String _password = '';
 
-  void _login(AuthProvider authProvider) async {
+    void _login(AuthProvider authProvider , String username ,String password) async {
+      if (username.isEmpty || password.isEmpty)
+      {
+        showDialog(context: context, builder: (BuildContext context) {
+          return const AlertDialog(
+            title: Text('Missing field'),
+            content: Text('Please fill out all fields'),
+          );
+        },);
+      }
+      else {
     await AuthService.loginWithBasicSignIn(
-        email: "rai637d540@kisoq.com",
-        password: "12345Ab?678",
+        email: username ,
+        password: password,
         onSuccess: (token){
           authProvider.signIn(token);
           Navigator.pushNamed(context, Routes.home);
         });
+      }
   }
 
-  void _signWithGoogle() {
-    print('sign with google ');
-  }
+
 
   void _registerBtn() {
     Navigator.push(
@@ -50,6 +59,13 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final authProvider = context.watch<AuthProvider>();
+
+    TextEditingController usernameController = TextEditingController()  ;
+    TextEditingController passwordController =  TextEditingController() ;
+
+    usernameController.text = "rai637d540@kisoq.com";
+    passwordController.text  ="12345Ab?678";
+
 
     return Scaffold(
       appBar: AppBar(
@@ -77,6 +93,7 @@ class _LoginPageState extends State<LoginPage> {
 
              const SizedBox(height: 20,),
               TextFormField(
+                controller: usernameController,
                 decoration: InputDecoration(
                   labelText: 'Username',
                   border: OutlineInputBorder(
@@ -98,6 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                 height: 10,
               ),
               TextFormField(
+                controller: passwordController,
                 decoration: InputDecoration(
                     labelText: 'Password',
                     border: OutlineInputBorder(
@@ -134,7 +152,7 @@ class _LoginPageState extends State<LoginPage> {
                         vertical: 12.0), // Customize padding here
                   ),
                 ),
-                onPressed:()=> _login(authProvider),
+                onPressed:()=> _login(authProvider, usernameController.text, passwordController.text),
                 child: const Text('Login'),
               ),
               const SizedBox(
@@ -151,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 56, vertical: 8),
                     ),
-                    onPressed: _signWithGoogle,
+                    onPressed: AuthService.signInWithGoogle,
                     child:
                         Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
                       Image.asset(
