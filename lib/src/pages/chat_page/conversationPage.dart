@@ -7,13 +7,16 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jarvis/src/builders/scrollableCodeBlockBuilder.dart';
 import 'package:jarvis/src/constant/apiURL.dart';
+import 'package:jarvis/src/constant/assistants.dart';
 import 'package:jarvis/src/models/chat/assistant_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:jarvis/src/models/chat/conversation.dart';
 import 'package:jarvis/src/models/chat/conversation_item.dart';
+import 'package:jarvis/src/pages/chat_page/guide_view.dart';
 import 'package:jarvis/src/pages/chat_page/suggestPromptList.dart';
 import 'package:jarvis/src/providers/authProvider.dart';
 import 'package:jarvis/src/routes.dart';
+import 'package:jarvis/src/services/chatServices.dart';
 import 'package:jarvis/src/widgets/TypingIndicator.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -34,75 +37,7 @@ class _conversationPage extends State<ConversationPage> {
   Conversation conversation = Conversation(id: '', messages: []);
   String _selectedAssistantId = 'gpt-4o-mini';
   int _remaingUsage = 50;
-  Map<String, Assistant> assistants = {
-    'gpt-4o-mini': Assistant(id: 'gpt-4o-mini', name: 'GPT-4o mini'),
-    'gpt-4o': Assistant(id: 'gpt-4o', name: 'GPT-4o'),
-    'gemini-1.5-pro-latest':
-        Assistant(id: 'gemini-1.5-pro-latest', name: 'Gemini 1.5 Pro'),
-    'gemini-1.5-flash-latest':
-        Assistant(id: 'gemini-1.5-flash-latest', name: 'Gemini 1.5 Flash'),
-    'claude-3-sonnet-20240229':
-        Assistant(id: 'claude-3-sonnet-20240229', name: 'Claude 3.5 Sonnet'),
-    'claude-3-haiku-20240307':
-        Assistant(id: 'claude-3-haiku-20240307', name: 'Claude 3 Haiku')
-  };
 
-  Map<String, Widget> assistantIcons = {
-    'claude-3-haiku-20240307': ClipOval(
-        child: Image.asset('assets/claude_3_haiku.png',
-            width: 30, height: 30, fit: BoxFit.cover)),
-    'claude-3-sonnet-20240229': ClipOval(
-        child: Image.asset('assets/claude_3_haiku.png',
-            width: 30, height: 30, fit: BoxFit.cover)),
-    'gemini-1.5-flash-latest': ClipOval(
-        child: Image.asset('assets/gemini.png',
-            width: 30, height: 30, fit: BoxFit.cover)),
-    'gemini-1.5-pro-latest': ClipOval(
-        child: Image.asset('assets/gemini_15_pro.png',
-            width: 30, height: 30, fit: BoxFit.cover)),
-    'gpt-4o': ClipOval(
-        child: Image.asset('assets/gpt-4.webp',
-            width: 30, height: 30, fit: BoxFit.cover)),
-    'gpt-4o-mini': ClipOval(
-        child: Image.asset('assets/gpt_4o_mini.jpg',
-            width: 30, height: 30, fit: BoxFit.cover)),
-  };
-
-  List<Map<Assistant, Widget>> menuItems = [
-    {
-      Assistant(id: 'claude-3-haiku-20240307', name: 'Claude 3 Haiku'):
-          ClipOval(
-              child: Image.asset('assets/claude_3_haiku.png',
-                  width: 30, height: 30, fit: BoxFit.cover)),
-    },
-    {
-      Assistant(id: 'claude-3-sonnet-20240229', name: 'Claude 3.5 Sonnet'):
-          ClipOval(
-              child: Image.asset('assets/claude_3_haiku.png',
-                  width: 30, height: 30, fit: BoxFit.cover)),
-    },
-    {
-      Assistant(id: 'gemini-1.5-flash-latest', name: 'Gemini 1.5 Flash'):
-          ClipOval(
-              child: Image.asset('assets/gemini.png',
-                  width: 30, height: 30, fit: BoxFit.cover)),
-    },
-    {
-      Assistant(id: 'gemini-1.5-pro-latest', name: 'Gemini 1.5 Pro'): ClipOval(
-          child: Image.asset('assets/gemini_15_pro.png',
-              width: 30, height: 30, fit: BoxFit.cover)),
-    },
-    {
-      Assistant(id: 'gpt-4o', name: 'GPT-4o'): ClipOval(
-          child: Image.asset('assets/gpt-4.webp',
-              width: 30, height: 30, fit: BoxFit.cover)),
-    },
-    {
-      Assistant(id: 'gpt-4o-mini', name: 'GPT-4o mini'): ClipOval(
-          child: Image.asset('assets/gpt_4o_mini.jpg',
-              width: 30, height: 30, fit: BoxFit.cover)),
-    },
-  ];
   final List<String> messages = [];
   List<ConversationItem> conversationItems = [];
   final TextEditingController _controller = TextEditingController();
@@ -124,74 +59,40 @@ class _conversationPage extends State<ConversationPage> {
   }
 
   Future<void> fetchAvailableToken(token) async {
-    final response = await http.get(
-      Uri.parse(APIURL.getUsage),
-      headers: {
-        'Authorization': 'Bearer $token',
-        'x-jarvis-guid': '361331f8-fc9b-4dfe-a3f7-6d9a1e8b289b',
-      },
-    );
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      setState(() {
-        _remaingUsage = data['availableTokens'] as int;
-      });
-    }
+    final data = await ChatService().getAvailableToken(accessToken: token);
+    setState(() {
+      _remaingUsage = data['availableTokens'] as int;
+    });
   }
 
   Future<void> fetchConversationHistory(
       conversationId, assistantId, token) async {
-    if (conversationId == '') {
-      return;
-    }
+    final items = await ChatService().getConversationHistory(
+        accessToken: token,
+        assistantId: _selectedAssistantId,
+        conversationId: conversationId);
+    if (items == []) return;
 
-    final response = await http.get(
-      Uri.parse(APIURL.getConversationHistory(conversationId) +
-          '?assistantId=$assistantId&assistantModel=dify'),
-      headers: {
-        'Authorization': 'Bearer $token',
-        'x-jarvis-guid': '361331f8-fc9b-4dfe-a3f7-6d9a1e8b289b',
-      },
-    );
+    setState(() {
+      conversation.id = conversationId ?? '';
+      conversationItems = items.map((item) {
+        conversation.messages.add(Message(
+            role: 'user',
+            content: item['query'],
+            assistant: Assistants.assistants[_selectedAssistantId]!));
+        conversation.messages.add(Message(
+            role: 'model',
+            content: item['answer'],
+            assistant: Assistants.assistants[_selectedAssistantId]!));
 
-    print(response.statusCode);
-    print(response.body);
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      final items = data['items'] as List;
-
-      setState(() {
-        conversation.id = conversationId ?? '';
-        conversationItems = items.map((item) {
-          conversation.messages.add(Message(
-              role: 'user',
-              content: item['query'],
-              assistant: assistants[_selectedAssistantId]!));
-          conversation.messages.add(Message(
-              role: 'model',
-              content: item['answer'],
-              assistant: assistants[_selectedAssistantId]!));
-
-          return ConversationItem(
-            query: item['query'] ?? '',
-            answer: item['answer'] ?? '',
-            createdAt: item['createdAt'] ?? '',
-            files: (item['files'] as List<dynamic>).cast<String>() ?? [],
-          );
-        }).toList();
-
-        print(conversationItems.length);
-        for (var item in conversationItems) {
-          print(item.query);
-          print(item.answer);
-        }
-      });
-    } else {
-      // Handle error
-      print('Failed to load conversation history');
-    }
+        return ConversationItem(
+          query: item['query'] ?? '',
+          answer: item['answer'] ?? '',
+          createdAt: item['createdAt'] ?? '',
+          files: (item['files'] as List<dynamic>).cast<String>() ?? [],
+        );
+      }).toList();
+    });
 
     _scrollToBottom();
   }
@@ -199,14 +100,11 @@ class _conversationPage extends State<ConversationPage> {
   // Send api request to chat with assistant
   Future<void> _sendMessage(token) async {
     if (_controller.text.isNotEmpty) {
-      print(_controller.text);
-      print(token);
-
       setState(() {
         conversation.messages.add(Message(
           role: 'user',
           content: _controller.text,
-          assistant: assistants[_selectedAssistantId]!,
+          assistant: Assistants.assistants[_selectedAssistantId]!,
         ));
 
         conversationItems.add(ConversationItem(
@@ -216,32 +114,27 @@ class _conversationPage extends State<ConversationPage> {
         ));
       });
 
-      final response = await http.post(
-        Uri.parse(APIURL.sendMessage),
-        headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json',
-        },
-        body: json.encode({
-          'content': _controller.text,
-          'metadata': {'conversation': conversation.toJson()},
-          'assistant': assistants[_selectedAssistantId]!.toJson(),
-        }),
-      );
-
-      print(json.encode(assistants[_selectedAssistantId]!.toJson()));
-      print(response.statusCode);
-      print(response.body);
-
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
+      final data = await ChatService().getModelResponse(
+          query: _controller.text,
+          assistantId: _selectedAssistantId,
+          conversation: conversation,
+          accessToken: token);
+      if (data == null) {
+        setState(() {
+          conversationItems.last = ConversationItem(
+            query: _controller.text,
+            answer: 'Failed to get a response. Please try again.',
+            createdAt: DateTime.now().millisecondsSinceEpoch,
+          );
+        });
+      } else {
         setState(() {
           conversation.id = data['conversationId'] as String;
 
           conversation.messages.add(Message(
               role: 'model',
               content: data['message'],
-              assistant: assistants[_selectedAssistantId]!));
+              assistant: Assistants.assistants[_selectedAssistantId]!));
 
           conversationItems.last = ConversationItem(
             query: _controller.text,
@@ -251,16 +144,6 @@ class _conversationPage extends State<ConversationPage> {
 
           _remaingUsage = data['remainingUsage'] as int;
         });
-      } else {
-        // Handle error
-        setState(() {
-          conversationItems.last = ConversationItem(
-            query: _controller.text,
-            answer: 'Failed to get a response. Please try again.',
-            createdAt: DateTime.now().millisecondsSinceEpoch,
-          );
-        });
-        print('Failed to send message');
       }
 
       _controller.clear();
@@ -359,6 +242,7 @@ class _conversationPage extends State<ConversationPage> {
         ),
         body: Column(
           children: [
+            if(conversationItems.length==0)buildGuideView(context),
             Expanded(
               child: ListView.builder(
                 controller: _scrollController,
@@ -410,7 +294,8 @@ class _conversationPage extends State<ConversationPage> {
                             children: [
                               CircleAvatar(
                                   backgroundColor: Colors.transparent,
-                                  child: assistantIcons[_selectedAssistantId]),
+                                  child: Assistants
+                                      .assistantIcons[_selectedAssistantId]),
                               const SizedBox(width: 10),
                               Flexible(
                                   fit: FlexFit.loose,
@@ -432,50 +317,54 @@ class _conversationPage extends State<ConversationPage> {
                                               data: conversationItems[index]
                                                   .answer,
                                               styleSheet: MarkdownStyleSheet(
-                                                p: const TextStyle(
-                                                    fontSize: 16,
-                                                    color: Colors.white),
-                                                h1: const TextStyle(
-                                                    fontSize: 24,
-                                                    color: Colors.white),
-                                                h2: const TextStyle(
-                                                    fontSize: 22,
-                                                    color: Colors.white),
-                                                strong: const TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                                em: const TextStyle(
-                                                    fontStyle:
-                                                        FontStyle.italic),
-                                                blockquote: const TextStyle(
-                                                    color: Colors.white70),
-                                                code: GoogleFonts.firaCode(
-                                                  color: Colors.black54,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 16
-                                                )
-                                              ),
+                                                  p: const TextStyle(
+                                                      fontSize: 16,
+                                                      color: Colors.white),
+                                                  h1: const TextStyle(
+                                                      fontSize: 24,
+                                                      color: Colors.white),
+                                                  h2: const TextStyle(
+                                                      fontSize: 22,
+                                                      color: Colors.white),
+                                                  strong: const TextStyle(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                  em: const TextStyle(
+                                                      fontStyle:
+                                                          FontStyle.italic),
+                                                  blockquote: const TextStyle(
+                                                      color: Colors.white70),
+                                                  code: GoogleFonts.firaCode(
+                                                      color: Colors.black54,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 16)),
                                               builders: {
-                                                'codeblock': ScrollableCodeblockbuilder(
-                                                  codeStyle: GoogleFonts.firaCode(
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 16
-                                                  )
-                                                ),
+                                                'codeblock':
+                                                    ScrollableCodeblockbuilder(
+                                                        codeStyle: GoogleFonts
+                                                            .firaCode(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontSize: 16)),
                                               },
                                               selectable: true,
-                                              onTapLink: (text, href, title) async {
+                                              onTapLink:
+                                                  (text, href, title) async {
                                                 if (href != null) {
-                                                  final Uri url = Uri.parse(href);
+                                                  final Uri url =
+                                                      Uri.parse(href);
                                                   if (await canLaunchUrl(url)) {
-                                                    await launchUrl(
-                                                      url,
-                                                      mode: LaunchMode.externalApplication
-                                                    );
+                                                    await launchUrl(url,
+                                                        mode: LaunchMode
+                                                            .externalApplication);
                                                   } else {
-                                                    print('Could not launch $url');
+                                                    print(
+                                                        'Could not launch $url');
                                                   }
                                                 }
                                               },
@@ -515,7 +404,7 @@ class _conversationPage extends State<ConversationPage> {
                           'Select Tool',
                           style: TextStyle(fontSize: 11),
                         ),
-                        items: menuItems.map((entry) {
+                        items: Assistants.menuItems.map((entry) {
                           final Assistant key = entry.keys.first;
                           final Widget icon = entry.values.first;
 
@@ -540,7 +429,7 @@ class _conversationPage extends State<ConversationPage> {
                           });
                         },
                         selectedItemBuilder: (BuildContext context) {
-                          return menuItems.map((entry) {
+                          return Assistants.menuItems.map((entry) {
                             final Assistant key = entry.keys.first;
                             final Widget icon = entry.values.first;
 

@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:jarvis/src/providers/authProvider.dart';
+import 'package:jarvis/src/routes.dart';
 import 'package:provider/provider.dart';
 
 class ChatPage extends StatefulWidget {
@@ -67,22 +68,53 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListView(
-      children: threads.map((thread) {
-        return ListTile(
-          leading: const CircleAvatar(
-            backgroundColor: Colors.blue,
-            radius: 8,
+        body: Column(
+          children: [
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.black12, // Màu nền của ListTile
+                borderRadius: BorderRadius.circular(15), // Bo góc 15px
+              ),
+              child: ListTile(
+                onTap: ()=>{
+                  Navigator.pushNamed(context, Routes.newchat)
+                },
+                title: Center(
+                  child: Row(
+                    children: [
+                      Icon(Icons.add_circle_outline),
+                      SizedBox(width: 20,),
+                      Text(
+                        'Create new chat thread',
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ),
-          title: Text(
-            thread.title,
-            maxLines: 1,
-            overflow: TextOverflow.fade,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500)
-          ),
-          onTap: () => _goToConversation(thread.id, thread.title),
-        );
-      }).toList(),
-    ));
+            Expanded(
+              child: ListView(
+                    children: threads.map((thread) {
+              return ListTile(
+                leading: const CircleAvatar(
+                  backgroundColor: Colors.blue,
+                  radius: 8,
+                ),
+                title: Text(
+                  thread.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.fade,
+                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500)
+                ),
+                onTap: () => _goToConversation(thread.id, thread.title),
+              );
+                    }).toList(),
+                  ),
+            ),
+          ],
+        ));
   }
 }
