@@ -62,14 +62,15 @@ class _LoginPageState extends State<LoginPage> {
     TextEditingController usernameController = TextEditingController()  ;
     TextEditingController passwordController =  TextEditingController() ;
 
-    usernameController.text = "rai637d540@kisoq.com";
-    passwordController.text  ="12345Ab?678";
+    usernameController.text =_username;
+    passwordController.text  =_password;
 
 
     return Stack(
       children: [
         Scaffold(
           appBar: AppBar(
+            automaticallyImplyLeading: false,
             title: const Text(
               'Welcome to Viras',
               style: TextStyle(fontWeight: FontWeight.bold),
@@ -94,9 +95,10 @@ class _LoginPageState extends State<LoginPage> {
 
                  const SizedBox(height: 20,),
                   TextFormField(
+                    onChanged: (value)=> _username=value.toString(),
                     controller: usernameController,
                     decoration: InputDecoration(
-                      labelText: 'Username',
+                      labelText: 'Email',
                       border: OutlineInputBorder(
                         gapPadding: 5,
                         borderRadius: BorderRadius.circular(20.0),
@@ -104,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter your username';
+                        return 'Please enter your email';
                       }
                       return null;
                     },
@@ -116,6 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                     height: 10,
                   ),
                   TextFormField(
+                    onChanged: (value)=> _password=value.toString(),
                     controller: passwordController,
                     decoration: InputDecoration(
                         labelText: 'Password',
@@ -153,7 +156,7 @@ class _LoginPageState extends State<LoginPage> {
                             vertical: 12.0), // Customize padding here
                       ),
                     ),
-                    onPressed:()=> _login(authProvider, usernameController.text, passwordController.text),
+                    onPressed:()=> _login(authProvider, usernameController.text.toString(), passwordController.text.toString()),
                     child: const Text('Login'),
                   ),
                   const SizedBox(

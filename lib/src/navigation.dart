@@ -190,10 +190,7 @@ class _NavigationMenuState extends State<NavigationMenu>{
             title:  Text("Logout", style: TextStyle(fontWeight: FontWeight.w500),),
             onTap: (){
               AuthService.logOut();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginPage(title: "Login")),
-              );
+              Navigator.pushReplacementNamed(context, Routes.login);
             },
           ),
         ),

@@ -206,7 +206,7 @@ class _conversationPage extends State<ConversationPage> {
     final String? data =
         ModalRoute.of(context)!.settings.arguments as String?; //pvu
     if (data != null) {
-      _controller.text += data;
+      _controller.text = data;
     }
     return Scaffold(
         appBar: AppBar(
@@ -491,6 +491,8 @@ class _conversationPage extends State<ConversationPage> {
                       onChanged: (value) =>
                           onTextChange(value.toString()), //pvu
                       controller: _controller,
+                      maxLines: 5,
+                      minLines: 1,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),

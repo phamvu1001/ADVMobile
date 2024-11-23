@@ -43,9 +43,6 @@ class MyHomePage extends StatelessWidget {
               Row(
                 children: [
                   Text("Here are some of my amazing powers.", style:TextStyle(fontSize: 14),),
-                  TextButton(onPressed: (){
-                    AuthService.refreshToken();
-                  }, child: Text("Refresh")),
                 ],
               ),
               SizedBox(height: 20,),

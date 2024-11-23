@@ -58,6 +58,7 @@ class AuthService {
 
     if (response.statusCode != 200) {
       print("-------------------------------------");
+      print(jsonDecode['details']);
       throw Exception(jsonDecode['message']);
     }
     token = jsonDecode['token']["accessToken"];
