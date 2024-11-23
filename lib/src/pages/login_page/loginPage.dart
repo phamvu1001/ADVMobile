@@ -22,23 +22,15 @@ class _LoginPageState extends State<LoginPage> {
   String _password = '';
 
     void _login(AuthProvider authProvider , String username ,String password) async {
-      if (username.isEmpty || password.isEmpty)
-      {
-        showDialog(context: context, builder: (BuildContext context) {
-          return const AlertDialog(
-            title: Text('Missing field'),
-            content: Text('Please fill out all fields'),
-          );
-        },);
-      }
-      else {
-    await AuthService.loginWithBasicSignIn(
-        email: username ,
-        password: password,
-        onSuccess: (token){
-          authProvider.signIn(token);
-          Navigator.pushNamed(context, Routes.home);
-        });
+      if (_formKey.currentState!.validate()) {
+        await AuthService.loginWithBasicSignIn(
+          email: username,
+          password: password,
+          onSuccess: (token) {
+            authProvider.signIn(token);
+            Navigator.pushNamed(context, Routes.home);
+          },
+        );
       }
   }
 
@@ -47,8 +39,8 @@ class _LoginPageState extends State<LoginPage> {
   void _registerBtn() {
     Navigator.push(
         context,
-        MaterialPageRoute(
-            builder: (context) => const RegisterPage(title: "Register")));
+        MaterialPageRoute(builder: (context) => const RegisterPage(title: "Sign up")));
+
   }
 
   void _forgetPassword() {

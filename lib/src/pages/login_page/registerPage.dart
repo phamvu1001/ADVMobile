@@ -3,6 +3,7 @@ import 'package:jarvis/src/routes.dart';
 
 import '../../helpers/string_helper.dart';
 import '../../services/authServices.dart';
+import 'loginPage.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key, required this.title});
@@ -13,9 +14,9 @@ class RegisterPage extends StatefulWidget {
   State<RegisterPage> createState() => _RegisterPageState();
 }
 
-
 class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
+
   TextEditingController _username = TextEditingController();
   TextEditingController _email = TextEditingController();
   TextEditingController _password = TextEditingController();
@@ -30,7 +31,7 @@ class _RegisterPageState extends State<RegisterPage> {
           content: Text(content),
           actions: [
             TextButton(
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => Navigator.pop(context),
               child: const Text('OK'),
             ),
           ],
@@ -40,25 +41,12 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Future<void> register() async {
-    /*sample password : 0dcj9nGfzueon7f   */
 
-    if (!isValidEmail(_email.text)) {
-      return;
-    }
-    if (!isValidPassword(_password.text)) {
-      showAlertDialog('Password is too weak', "");
-      return;
-    }
-    if (_password.text != _retypePassword.text) {
-      showAlertDialog('Password mismatch', 'Passwords do not match');
-      print(3);
-      return;
-    }
-    print("Email: ${_email.text}");
-    print("Password: ${_password.text}");
-    print("Username: ${_username.text}");
-    bool isSuccess = await AuthService.signUp(
+     if (_formKey.currentState!.validate())
+    {
+      bool isSuccess = await AuthService.signUp(
         email: _email.text, password: _password.text, username: _username.text);
+
     // bool isSuccess = await AuthService.signUp(
     //     email: "duck2598@dotvu.net", password:  "12345Ab?678*", username: "daffwfwe");
     if (isSuccess == true) {
@@ -66,14 +54,18 @@ class _RegisterPageState extends State<RegisterPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Success"),
-            content: Text("Press OK to back to Login Page"),
+            title: const Text("Success"),
+            content: const Text("Press OK to back to Login Page"),
             actions: [
               TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: TextButton(child: const Text('OK'), onPressed: () {
-                  backToLogin();
-                },),
+                onPressed: () => {
+                  Navigator.pop(context),
+                  Navigator.pop(context),
+
+
+
+                },
+                child: const Text('OK'),
               ),
             ],
           );
@@ -81,7 +73,7 @@ class _RegisterPageState extends State<RegisterPage> {
       );
     } else {
       showAlertDialog("Fail", "Sign up is not successful");
-    }
+    }}
   }
 
   void backToLogin() {
@@ -141,6 +133,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       borderRadius: BorderRadius.circular(20),
                     )),
                 validator: (value) {
+                  if (!isValidEmail(_email.text)) {
+                    return 'Please enter a valid email ';
+                  }
                   if (value == null || value.isEmpty) {
                     return 'Please enter your email';
                   }
@@ -160,6 +155,13 @@ class _RegisterPageState extends State<RegisterPage> {
                     )),
                 obscureText: true,
                 validator: (value) {
+                  if (!isValidPassword(_password.text)) {
+                    return '''
+                          Password is too weak. Password must:
+                          - The length is longer than 8
+                          - Only contain number or character  (do not contain special character like  !, @, #, or space).
+                          ''';
+                  }
                   if (value == null || value.isEmpty) {
                     return 'Please enter your password';
                   }
@@ -183,7 +185,9 @@ class _RegisterPageState extends State<RegisterPage> {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your password';
                   }
-                  if (value != _password) return 'Is not similar to password';
+                  if (value != _password.text) {
+                    return 'Is not similar to password';
+                  }
                   return null;
                 },
                 onSaved: (value) {
@@ -231,7 +235,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       print("Sign in with Google");
                     },
                     child:
-                    Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                        Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
                       Image.asset(
                         'assets/google-icon.jpg',
                         height: 24,

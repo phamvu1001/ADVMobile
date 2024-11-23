@@ -206,14 +206,37 @@ class AuthService {
       getCurrentUser();
       return true;}
 
+
     /*Nếu hết hạn nhưng refresh chưa hết hạn */
     if (isCurrentTokenExpired && !isCurrentTokenRefreshExpired) {
+      await refreshToken();
+      return true;
+    }
+    if (await getTokenTimeLeft( token:token ) <= 30) {
       await refreshToken();
       return true;
     }
 
     /*Cả hai đều hết hạng */
     return false;
+  }
+
+  static Future<int> getTokenTimeLeft({required String token}) async {
+    if (token.isNotEmpty) {
+      try {
+        final payload = token.split('.')[1];
+        final decoded = utf8.decode(base64Url.decode(base64Url.normalize(payload)));
+        final data = json.decode(decoded);
+
+        final exp = data['exp'] as int;
+        final now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+
+        return exp - now;
+      } catch (e) {
+        print("Error parsing token: $e");
+      }
+    }
+    return 0; // Token hết hạn hoặc lỗi
   }
 
 

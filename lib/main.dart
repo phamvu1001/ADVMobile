@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -23,26 +24,53 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());
-
-
-
 }
-void _login(AuthProvider authProvider) async {
-  await AuthService.loginWithBasicSignIn(
-      email: "rai637d540@kisoq.com",
-      password: "12345Ab?678",
-      onSuccess: (token){
-        authProvider.signIn(token);
-      });
 
-}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
 
+    void startTokenRefreshTimer() {
+      Timer.periodic(const Duration(minutes: 1), (Timer t) async {
+        bool isValid = await AuthService.ensureTokenIsValid();
+        if (!isValid) {
+          print("Token has expired. User needs to login again.");
+          t.cancel();
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text("Session Expired"),
+                content: const Text("Please login again"),
+                actions: [
+                  TextButton(
+                    onPressed: () => {
+                      Navigator.pop(context),
+                     Navigator.pushNamed(context, Routes.login)
+                    },
+                    child: const Text('OK'),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+      });
+    }
+    void _login(AuthProvider authProvider) async {
+      await AuthService.loginWithBasicSignIn(
+          email: "rai637d540@kisoq.com",
+          password: "12345Ab?678",
+          onSuccess: (token){
+            authProvider.signIn(token);
+          });
+      startTokenRefreshTimer();
+    }
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -113,7 +141,9 @@ class MyApp extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasData && snapshot.data == true) {
+              startTokenRefreshTimer();
               return const NavigationMenu(initialIndex: 0,);
+
             } else {
               return const LoginPage(title: 'Login');
             }

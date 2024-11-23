@@ -192,7 +192,7 @@ class _NavigationMenuState extends State<NavigationMenu>{
               AuthService.logOut();
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const LoginPage(title: "title")),
+                MaterialPageRoute(builder: (context) => const LoginPage(title: "Login")),
               );
             },
           ),
