@@ -39,7 +39,6 @@ class MyApp extends StatelessWidget {
       Timer.periodic(const Duration(minutes: 1), (Timer t) async {
         bool isValid = await AuthService.ensureTokenIsValid();
         if (!isValid) {
-          print("Token has expired. User needs to login again.");
           t.cancel();
           showDialog(
             context: context,

@@ -32,14 +32,7 @@ android {
 
 
     /*Signing Configs để */
-    signingConfigs {
-        debug {
-            keyAlias 'upload'
-            keyPassword 'android'
-            storeFile file('upload-keystore.jks')
-            storePassword 'android'
-        }
-    }
+
 
     buildTypes {
         release {
