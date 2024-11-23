@@ -9,5 +9,7 @@ class Routes {
   static const draftEmail = '/draftEmail/';
   static const personal_knowledgeTab = '/personal/knowledgeTab/';
   static const knowledge_page = '/knowledge/';
+  static const newchat = '/newchat/';
+
 
 }
