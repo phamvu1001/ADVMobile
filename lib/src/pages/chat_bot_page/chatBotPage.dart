@@ -1,8 +1,13 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:intl/intl.dart';
+import 'package:jarvis/src/models/chat_bot/chat_bot.dart';
+import 'package:jarvis/src/providers/authProvider.dart';
+import 'package:jarvis/src/services/chatBotServices.dart';
 import 'package:jarvis/src/widgets/searchBar.dart';
+import 'package:provider/provider.dart';
 import 'botPreviewPage.dart';
 
 class ChatBotPage extends StatefulWidget {
@@ -17,10 +22,45 @@ class _ChatBotPage extends State<ChatBotPage> {
   final TextEditingController _searchController = TextEditingController();
   final TextEditingController _botNameController = TextEditingController();
   final TextEditingController _botDescriptionController =
-  TextEditingController();
+      TextEditingController();
+
+  List<ChatBot> _chatBots = [];
+
+  @override
+  void initState() {
+    super.initState();
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+
+    fetchChatBots(authProvider.token);
+  }
+
+  Future<void> fetchChatBots(token) async {
+    print(token);
+    final items = await ChatBotServices().getChatBots(
+        accessToken: token,
+        isFavorite: _selectedType == 'Favourite',
+        isPublished: _selectedType == 'Published');
+
+    if (items == []) return;
+
+    setState(() {
+      _chatBots = items.map((item) {
+        return ChatBot(
+            id: item['id'],
+            assistantName: item['assistantName'],
+            description: item['description'],
+            openAiAssistantId: item['openAiAssistantId'],
+            instructions: item['instructions'],
+            openAiThreadIdPlay: item['openAiThreadIdPlay'],
+            createdAt: item['createdAt'],
+            updatedAt: item['updatedAt']);
+      }).toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+
     return Column(
       children: [
         Padding(
@@ -33,24 +73,28 @@ class _ChatBotPage extends State<ChatBotPage> {
                     child: DropdownButtonFormField2<String>(
                       isExpanded: false,
                       dropdownStyleData: DropdownStyleData(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                        )
-                      ),
+                          decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      )),
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                            borderSide:
+                        borderRadius: BorderRadius.circular(20.0),
+                        borderSide:
                             const BorderSide(color: Colors.white, width: 2),
-                          )),
+                      )),
                       value: _selectedType,
                       items: <String>['All', 'Published', 'Favourite']
                           .map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
-                          child: Text(value,style: const TextStyle( fontSize: 14, ),),
                           alignment: Alignment.centerLeft,
+                          child: Text(
+                            value,
+                            style: const TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
                         );
                       }).toList(),
                       onChanged: (String? newValue) {
@@ -62,7 +106,7 @@ class _ChatBotPage extends State<ChatBotPage> {
                   ),
                   const SizedBox(width: 8),
                   // Search field
-                  Expanded(child: CustomSearchBar()),
+                  const Expanded(child: CustomSearchBar()),
                   if (MediaQuery.of(context).size.width > 600)
                     const SizedBox(
                       width: 8,
@@ -85,7 +129,7 @@ class _ChatBotPage extends State<ChatBotPage> {
                         ),
                         backgroundColor: Colors.blue,
                         padding:
-                        const EdgeInsets.fromLTRB(8.0, 20.0, 13.0, 20.0),
+                            const EdgeInsets.fromLTRB(8.0, 20.0, 13.0, 20.0),
                       ),
                     ),
                   )
@@ -104,22 +148,24 @@ class _ChatBotPage extends State<ChatBotPage> {
                           isExpanded: false,
                           dropdownStyleData: DropdownStyleData(
                               decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                              )
-                          ),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                          )),
                           decoration: InputDecoration(
                               border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                                borderSide:
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide:
                                 const BorderSide(color: Colors.white, width: 2),
-                              )),
+                          )),
                           value: _selectedType,
                           items: <String>['All', 'Published', 'Favourite']
                               .map((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
-                              child: Text(value, style: TextStyle(fontSize: 14),),
+                              child: Text(
+                                value,
+                                style: TextStyle(fontSize: 14),
+                              ),
                               alignment: Alignment.centerLeft,
                             );
                           }).toList(),
@@ -158,7 +204,7 @@ class _ChatBotPage extends State<ChatBotPage> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         ),
-                        backgroundColor:Colors.blue,
+                        backgroundColor: Colors.blue,
                       ),
                     ),
                   )
@@ -172,29 +218,36 @@ class _ChatBotPage extends State<ChatBotPage> {
             return GridView.builder(
               padding: const EdgeInsets.all(8.0),
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent:
-                MediaQuery.of(context).size.width < 600 ? MediaQuery.of(context).size.width : 400.0,
+                maxCrossAxisExtent: MediaQuery.of(context).size.width < 600
+                    ? MediaQuery.of(context).size.width
+                    : 400.0,
                 crossAxisSpacing: 8.0,
                 mainAxisSpacing: 4.0,
                 mainAxisExtent: 150.0,
               ),
-              itemCount: 5, // Seed number of bots
+              itemCount: _chatBots.length, // Seed number of bots
               itemBuilder: (context, index) {
                 /* Bot card (display bot information) */
+                ChatBot bot = _chatBots[index];
+                final DateFormat formatter = DateFormat('MMM d, yyyy, h:mm a');
+                final String formattedDate = formatter.format(bot.createdAt);
+
                 return MouseRegion(
                     cursor: SystemMouseCursors.click,
                     child: GestureDetector(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => BotPreviewPage(
-                                botName: 'Bot Name $index',
-                              )));
+                                    // botName: 'Bot Name $index',
+                                    botName: bot.assistantName,
+                                  )));
                         },
                         child: Card(
-                          color: Colors.white,
+                            color: Colors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
-                              side: BorderSide(color: Colors.blue.shade200, width: 1),
+                              side: BorderSide(
+                                  color: Colors.blue.shade200, width: 1),
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -204,20 +257,21 @@ class _ChatBotPage extends State<ChatBotPage> {
                                 children: [
                                   Row(
                                     children: [
-                                      const Icon(HugeIcons.strokeRoundedChatBot), // Bot Icon
+                                      const Icon(HugeIcons
+                                          .strokeRoundedChatBot), // Bot Icon
                                       const SizedBox(width: 8.0), // Spacing
                                       Expanded(
                                         // Allows text to take up remaining space
                                         child: Column(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                              CrossAxisAlignment.start,
                                           children: [
-                                            Text('Bot Name $index',
+                                            Text(bot.assistantName,
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .bodyLarge),
                                             Text(
-                                              'Bot Description $index',
+                                              bot.description,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodySmall,
@@ -246,17 +300,15 @@ class _ChatBotPage extends State<ChatBotPage> {
                                     child: Row(
                                       children: [
                                         const Spacer(),
-                                        Text(DateFormat('yyyy-MM-dd')
-                                            .format(DateTime.now())),
+                                        // Text(DateFormat('yyyy-MM-dd')
+                                        //     .format(DateTime.now())),
+                                        Text(formattedDate),
                                       ],
                                     ),
                                   ),
                                 ],
                               ),
-                            )
-                        )
-                    )
-                );
+                            ))));
               },
             );
           }),
@@ -288,7 +340,7 @@ class _ChatBotPage extends State<ChatBotPage> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4.0),
                           borderSide:
-                          const BorderSide(color: Colors.grey, width: 0),
+                              const BorderSide(color: Colors.grey, width: 0),
                         ),
                       )),
                   const SizedBox(height: 8.0),
@@ -300,7 +352,7 @@ class _ChatBotPage extends State<ChatBotPage> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(4.0),
                           borderSide:
-                          const BorderSide(color: Colors.grey, width: 0),
+                              const BorderSide(color: Colors.grey, width: 0),
                         ),
                       ))
                 ],

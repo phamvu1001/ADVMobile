@@ -26,4 +26,5 @@ class APIURL{
   static addPromptToFavorite(String id)=>"$apiURL/api/v1/prompts/$id/favorite";
   static removePromptToFavorite(String id)=>"$apiURL/api/v1/prompts/$id/favorite";
 
+  static const knowledgeBaseApiURL = "https://knowledge-api.dev.jarvis.cx";
 }
