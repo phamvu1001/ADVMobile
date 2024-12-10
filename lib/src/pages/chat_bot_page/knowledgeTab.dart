@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:jarvis/src/models/chat_bot/chat_bot.dart';
 import 'package:jarvis/src/pages/knowledge_base_page/knowledgeBasePage.dart';
 import 'package:jarvis/src/pages/personal_page/knowledgeTab.dart';
 import 'package:jarvis/src/pages/personal_page/personalPage.dart';
 import 'package:jarvis/src/routes.dart';
 
 class KnowledgeTab extends StatefulWidget {
-  const KnowledgeTab({Key? key}) : super(key: key);
+  final ChatBot chatbot;
+  const KnowledgeTab({super.key, required this.chatbot});
 
   @override
   _KnowledgeTabState createState() => _KnowledgeTabState();

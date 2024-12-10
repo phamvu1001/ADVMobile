@@ -201,6 +201,7 @@ class _BotsTabState extends State<BotsTab> {
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => BotPreviewPage(
+                                    botId: 'Bot ID $index',
                                     botName: 'Bot Name $index',
                                   )));
                         },

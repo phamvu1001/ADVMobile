@@ -1,11 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jarvis/src/providers/authProvider.dart';
+import 'package:provider/provider.dart';
 
 class CustomSearchBar extends StatelessWidget {
   final onTextChange;
   const CustomSearchBar({super.key, this.onTextChange });
   @override
   Widget build(BuildContext context) {
+    final AuthProvider authProvider = Provider.of<AuthProvider>(context);
+
     return Container(
       child: TextFormField(
         style: TextStyle(fontSize: 14),
@@ -20,7 +24,7 @@ class CustomSearchBar extends StatelessWidget {
           print('Searching for: $value');
         },
         onChanged: (value){
-          onTextChange(value);
+          onTextChange(value, authProvider);
         },
       ),
     );

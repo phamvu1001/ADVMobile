@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:jarvis/src/models/chat_bot/chat_bot.dart';
 
 class PromptTab extends StatelessWidget {
-  const PromptTab({Key? key}) : super(key: key);
+  final ChatBot chatBot;
+  const PromptTab({Key? key, required this.chatBot}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

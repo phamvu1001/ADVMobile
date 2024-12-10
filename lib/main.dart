@@ -81,6 +81,7 @@ class MyApp extends StatelessWidget {
             authProvider = AuthProvider();
             TokenManager.getToken().then((token) {
               if (token != null) {
+                print('Token Manager token: $token');
                 authProvider.signIn(token);
                 AuthService.signInKnowledgeBaseFromJarvis(token).then((knowledgeBaseToken) {
                   authProvider.knowledgeBaseSignIn(knowledgeBaseToken);

@@ -40,30 +40,72 @@ class _ChatBotPage extends State<ChatBotPage> {
   }
 
   Future<void> fetchChatBots(AuthProvider authProvider) async {
+    String searchText = _searchController.text;
+    print('selected type: $_selectedType');
     final items = await ChatBotServices().getChatBots(
-        accessToken: knowledgeBaseToken,
-        isFavorite: _selectedType == 'Favourite',
-        isPublished: _selectedType == 'Published');
+        accessToken: authProvider.knowledgeBaseToken,
+        searchText: searchText,
+        selectedType: _selectedType);
 
     if (items == []) return;
 
     setState(() {
       _chatBots = items.map((item) {
-        return ChatBot(
-            id: item['id'],
-            assistantName: item['assistantName'],
-            description: item['description'],
-            openAiAssistantId: item['openAiAssistantId'],
-            instructions: item['instructions'],
-            openAiThreadIdPlay: item['openAiThreadIdPlay'],
-            createdAt: item['createdAt'],
-            updatedAt: item['updatedAt']);
+        return ChatBot.fromJson(item);
       }).toList();
     });
   }
 
+  Future<ChatBot> createChatBot(AuthProvider authProvider) async {
+    print('bot name: ${_botNameController.text}');
+    print('bot description: ${_botDescriptionController.text}');
+    String botName = _botNameController.text;
+    String botDescription = _botDescriptionController.text;
+    final data = await ChatBotServices().createChatBot(
+        kbToken: authProvider.knowledgeBaseToken,
+        assistantName: botName,
+        description: botDescription);
+
+    return ChatBot.fromJson(data);
+  }
+
+  void fetchOnSearchTextChange(String searchText, AuthProvider authProvider) {
+    setState(() {
+      _searchController.text = searchText;
+    });
+
+    fetchChatBots(authProvider);
+  }
+
+  Future<void> changeChatBotFavorite(AuthProvider authProvider, ChatBot chatBot) async {
+    // Add chat bot to favorite
+    final data = await ChatBotServices().changeAIBotFavorite(
+        kbToken: authProvider.knowledgeBaseToken, assistantId: chatBot.id);
+    
+    setState(() {
+      chatBot.isFavorite = data['isFavorite']; 
+    });
+  }
+
+  Future<void> deleteChatbot(AuthProvider authProvider, ChatBot chatBot) async {
+    // Delete chat bot
+    final data = await ChatBotServices().deleteChatBot(
+        kbToken: authProvider.knowledgeBaseToken, assistantId: chatBot.id);
+    
+    if (data == true) {
+      // Remove chat bot from list
+      setState(() {
+        _chatBots.removeWhere((element) => element.id == chatBot.id);
+      });
+    }
+    else {
+      print('Failed to delete chat bot');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
 
     return Column(
       children: [
@@ -105,12 +147,13 @@ class _ChatBotPage extends State<ChatBotPage> {
                         setState(() {
                           _selectedType = newValue!;
                         });
+                        fetchChatBots(authProvider);
                       },
                     ),
                   ),
                   const SizedBox(width: 8),
                   // Search field
-                  const Expanded(child: CustomSearchBar()),
+                  Expanded(child: CustomSearchBar(onTextChange: fetchOnSearchTextChange,)),
                   if (MediaQuery.of(context).size.width > 600)
                     const SizedBox(
                       width: 8,
@@ -177,6 +220,7 @@ class _ChatBotPage extends State<ChatBotPage> {
                             setState(() {
                               _selectedType = newValue!;
                             });
+                            fetchChatBots(authProvider);
                           },
                         ),
                       ),
@@ -187,7 +231,7 @@ class _ChatBotPage extends State<ChatBotPage> {
                         // width: constraints.maxWidth > 400
                         //     ? 400
                         //     : constraints.maxWidth * 0.6,
-                        child: CustomSearchBar(),
+                        child: CustomSearchBar(onTextChange: fetchOnSearchTextChange,),
                       ),
                     ],
                   ),
@@ -242,7 +286,7 @@ class _ChatBotPage extends State<ChatBotPage> {
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => BotPreviewPage(
-                                    // botName: 'Bot Name $index',
+                                    botId: bot.id,
                                     botName: bot.assistantName,
                                   )));
                         },
@@ -286,15 +330,19 @@ class _ChatBotPage extends State<ChatBotPage> {
                                         ),
                                       ),
                                       IconButton(
-                                        icon: const Icon(Icons.favorite_border),
+                                        icon: bot.isFavorite == false ? 
+                                          const Icon(Icons.favorite_border) : 
+                                          const Icon(Icons.favorite, color: Colors.yellow,),
                                         onPressed: () {
                                           // Handle add to favourites action
+                                          changeChatBotFavorite(authProvider, bot);
                                         },
                                       ),
                                       IconButton(
                                         icon: const Icon(Icons.delete),
                                         onPressed: () {
                                           // Handle delete action
+                                          deleteChatbot(authProvider, bot);
                                         },
                                       ),
                                     ],
@@ -304,8 +352,6 @@ class _ChatBotPage extends State<ChatBotPage> {
                                     child: Row(
                                       children: [
                                         const Spacer(),
-                                        // Text(DateFormat('yyyy-MM-dd')
-                                        //     .format(DateTime.now())),
                                         Text(formattedDate),
                                       ],
                                     ),
@@ -376,8 +422,17 @@ class _ChatBotPage extends State<ChatBotPage> {
                 child: const Text('Cancel'),
               ),
               ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop(); // Navigate to Bot Preview page
+                onPressed: () async {
+                  final authProvider =
+                      Provider.of<AuthProvider>(context, listen: false);
+                  ChatBot newChatBot = await createChatBot(authProvider);
+                  Navigator.of(context).pop();
+                  // Navigate to Bot Preview page
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => BotPreviewPage(
+                            botId: newChatBot.id,
+                            botName: newChatBot.assistantName,
+                          )));
                 },
                 child: const Text(
                   'Create',

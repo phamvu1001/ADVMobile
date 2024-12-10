@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:jarvis/src/models/chat_bot/chat_bot.dart';
 
 class PreviewTab extends StatefulWidget {
-  const PreviewTab({Key? key}) : super(key: key);
+  final ChatBot chatBot;
+
+  const PreviewTab({Key? key, required this.chatBot}) : super(key: key);
 
   @override
   _PreviewTabState createState() => _PreviewTabState();

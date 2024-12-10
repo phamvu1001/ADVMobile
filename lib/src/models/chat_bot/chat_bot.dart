@@ -29,7 +29,7 @@ class ChatBot {
 
   // To Json
   // Factory constructor to create a ChatBot instance from JSON
-  factory ChatBot.fromJson(Map<String, dynamic> json) {
+  factory ChatBot.fromJson(Map<dynamic, dynamic> json) {
     return ChatBot(
       id: json['id'] ?? '',
       assistantName: json['assistantName'] ?? '',
