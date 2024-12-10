@@ -3,6 +3,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:jarvis/src/constant/apiURL.dart';
+import 'package:jarvis/src/providers/authProvider.dart';
 
 import '../pages/login_page/TokenManager.dart';
 
@@ -127,7 +128,29 @@ class AuthService {
     }
   }
 
+  static Future<String> signInKnowledgeBaseFromJarvis(String? token) async {
+    final response = await http.post(
+      Uri.parse(APIURL.knowledgeBaseApiURL + '/kb-core/v1/auth/external-sign-in'),
+      body: json.encode({
+        'token': token,
+      }),
+      headers: {
+        'x-jarvis-guid': '',
+        'Content-Type': 'application/json',
+      }
+    );
 
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      final accessToken = data['token']['accessToken'];
+
+      return accessToken;
+    }
+    else {
+      print('Failed to sign in with Jarvis');
+      return '';
+    }
+  }
 
 
   static Future<bool> signUp(
@@ -193,7 +216,7 @@ class AuthService {
     }
   }
 
-  static Future<bool> ensureTokenIsValid() async {
+  static Future<bool> ensureTokenIsValid({AuthProvider? authProvider}) async {
 
     token = await TokenManager.getToken() ?? '';
     tokenRefresh =  await TokenManager.getRefreshToken() ?? '';
@@ -205,17 +228,23 @@ class AuthService {
     /*nếu chưa hết hạn */
     if (!isCurrentTokenExpired){
       getCurrentUser();
-      return true;}
+      return true;
+    }
 
 
     /*Nếu hết hạn nhưng refresh chưa hết hạn */
     if (isCurrentTokenExpired && !isCurrentTokenRefreshExpired) {
-      await refreshToken();
+      token = await refreshToken();
       return true;
     }
     if (await getTokenTimeLeft( token:token ) <= 30) {
-      await refreshToken();
+      token = await refreshToken();
       return true;
+    }
+
+    if (authProvider != null) {
+      print('token: $token');
+      authProvider.signIn(token);
     }
 
     /*Cả hai đều hết hạng */
@@ -260,7 +289,7 @@ class AuthService {
     return true;
   }
 
-  static Future<void> refreshToken() async {
+  static Future<String> refreshToken() async {
 
     tokenRefresh = await TokenManager.getRefreshToken() as String;
 
@@ -286,8 +315,10 @@ class AuthService {
       /*Token Refresh không đổi*/
       await TokenManager.saveToken(newToken,tokenRefresh);
 
+      return newToken;
     } else {
       print("Fail ${response.reasonPhrase}");
+      return '';
     }
   }
 }

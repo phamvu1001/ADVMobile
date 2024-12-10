@@ -10,6 +10,7 @@ import 'package:jarvis/src/pages/chat_page/chatPage.dart';
 import 'package:jarvis/src/pages/chat_page/conversationPage.dart';
 import 'package:jarvis/src/pages/draft_email_page/draftEmail.dart';
 import 'package:jarvis/src/pages/home_page/homePage.dart';
+import 'package:jarvis/src/pages/login_page/TokenManager.dart';
 import 'package:jarvis/src/pages/login_page/loginPage.dart';
 import 'package:jarvis/src/pages/personal_page/knowledgeTab.dart';
 import 'package:jarvis/src/pages/personal_page/personalPage.dart';
@@ -35,9 +36,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    void startTokenRefreshTimer() {
+    void startTokenRefreshTimer(AuthProvider authProvider) {
       Timer.periodic(const Duration(minutes: 1), (Timer t) async {
-        bool isValid = await AuthService.ensureTokenIsValid();
+        print('start token refresh timer');
+        var isValid = await AuthService.ensureTokenIsValid(authProvider: authProvider);
+
         if (!isValid) {
           t.cancel();
           showDialog(
@@ -68,12 +71,25 @@ class MyApp extends StatelessWidget {
           onSuccess: (token){
             authProvider.signIn(token);
           });
-      startTokenRefreshTimer();
+      startTokenRefreshTimer(authProvider);
     }
+    AuthProvider authProvider;
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (_) => AuthProvider(),
+        ChangeNotifierProvider<AuthProvider>(
+          create: (_) {
+            authProvider = AuthProvider();
+            TokenManager.getToken().then((token) {
+              if (token != null) {
+                authProvider.signIn(token);
+                AuthService.signInKnowledgeBaseFromJarvis(token).then((knowledgeBaseToken) {
+                  authProvider.knowledgeBaseSignIn(knowledgeBaseToken);
+                });
+              }
+            });
+
+            return authProvider;
+          },
         ),
       ],
       child: MaterialApp(
@@ -140,7 +156,8 @@ class MyApp extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasData && snapshot.data == true) {
-              startTokenRefreshTimer();
+              AuthProvider authProvider = Provider.of<AuthProvider>(context, listen: false);
+              startTokenRefreshTimer(authProvider);
               return const NavigationMenu(initialIndex: 0,);
 
             } else {

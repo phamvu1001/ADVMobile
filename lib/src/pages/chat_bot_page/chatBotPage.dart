@@ -5,6 +5,7 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:intl/intl.dart';
 import 'package:jarvis/src/models/chat_bot/chat_bot.dart';
 import 'package:jarvis/src/providers/authProvider.dart';
+import 'package:jarvis/src/services/authServices.dart';
 import 'package:jarvis/src/services/chatBotServices.dart';
 import 'package:jarvis/src/widgets/searchBar.dart';
 import 'package:provider/provider.dart';
@@ -25,19 +26,22 @@ class _ChatBotPage extends State<ChatBotPage> {
       TextEditingController();
 
   List<ChatBot> _chatBots = [];
+  String knowledgeBaseToken = '';
 
   @override
   void initState() {
     super.initState();
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    setState(() {
+      knowledgeBaseToken = authProvider.knowledgeBaseToken!;
+    });
 
-    fetchChatBots(authProvider.token);
+    fetchChatBots(authProvider);
   }
 
-  Future<void> fetchChatBots(token) async {
-    print(token);
+  Future<void> fetchChatBots(AuthProvider authProvider) async {
     final items = await ChatBotServices().getChatBots(
-        accessToken: token,
+        accessToken: knowledgeBaseToken,
         isFavorite: _selectedType == 'Favourite',
         isPublished: _selectedType == 'Published');
 
