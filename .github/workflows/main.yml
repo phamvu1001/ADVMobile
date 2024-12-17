@@ -68,5 +68,4 @@ jobs:
         with:
           appId: ${{ secrets.APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.FIREBASE_TOKEN }}
-          file: build/app/outputs/apk/release/*.apk
-
+          file: build\app\outputs\flutter-apk\app-release.apk
