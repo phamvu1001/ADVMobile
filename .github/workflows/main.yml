@@ -11,7 +11,7 @@ name: "Build & Release"
 jobs:
   build:
     name: Build & Release
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       # 1. Kiểm tra mã nguồn từ repository
