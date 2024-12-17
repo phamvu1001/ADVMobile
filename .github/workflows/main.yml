@@ -42,6 +42,7 @@ jobs:
       # 7. Build APK debug và AAB
       - run: flutter build apk --debug --split-per-abi
       - run: flutter build appbundle --release
+      - run: flutter build apk --release
 
       # 8. Push APK Debug lên GitHub Releases
       - name: Push to Debug Releases
