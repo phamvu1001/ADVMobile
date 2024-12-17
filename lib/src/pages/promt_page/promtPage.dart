@@ -1,9 +1,9 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:jarvis/src/pages/promt_page/infiniteScrollPromtList.dart';
+import 'package:jarvis/src/pages/promt_page/privatePromtDialog.dart';
 import 'package:jarvis/src/routes.dart';
 import '../../widgets/searchBar.dart';
-import 'PrivatePromtDialog.dart';
 
 enum OpenMode{edit, view, create}
 
