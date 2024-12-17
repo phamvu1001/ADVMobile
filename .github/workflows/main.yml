@@ -1,0 +1,67 @@
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+
+name: "Build & Release"
+
+jobs:
+  build:
+    name: Build & Release
+    runs-on: windows-latest
+
+    steps:
+      # 1. Kiểm tra mã nguồn từ repository
+      - uses: actions/checkout@v3
+
+      # 2. Cài đặt Java (cho build Android)
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '17.x'
+
+      # 3. Thiết lập Flutter
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+
+      # 4. Cấu hình Flutter và kiểm tra môi trường
+      - run: flutter config --no-analytics
+      - run: flutter doctor
+
+      # 5. Cài dependencies
+      - run: flutter pub get
+
+      # 6. Chạy kiểm thử tự động
+      - run: flutter test
+
+      # 7. Build APK debug và AAB
+      - run: flutter build apk --debug --split-per-abi
+      - run: flutter build appbundle --release
+
+      # 8. Push APK Debug lên GitHub Releases
+      - name: Push to Debug Releases
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/app/outputs/apk/debug/*"
+          tag: v1.0.${{ github.run_number }}
+          token: ${{ secrets.TOKEN_CICD }}
+
+      # 9. Push APK Release và AAB lên GitHub Releases
+      - name: Push to Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: |
+            build/app/outputs/apk/release/*.apk
+            build/app/outputs/bundle/release/*.aab
+          tag: v1.0.${{ github.run_number }}
+          token: ${{ secrets.TOKEN_CICD }}
+
+      # 10. Deploy APK lên Firebase App Distribution
+      - name: Deploy APK to Firebase
+        run: firebase appdistribution:distribute build/app/outputs/apk/debug/app-debug.apk \
+          --app 1:691269644012:android:c8f3e59f32e228fadcbfc9
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
