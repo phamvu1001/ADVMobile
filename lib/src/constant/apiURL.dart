@@ -1,6 +1,6 @@
 
 class APIURL{
-  static const apiURL="https://api.dev.jarvis.cx";
+  static const apiURL="https://api.jarvis.cx";
 
   //Authentication
   static const getCurrentUser="$apiURL/api/v1/auth/me";
@@ -26,5 +26,5 @@ class APIURL{
   static addPromptToFavorite(String id)=>"$apiURL/api/v1/prompts/$id/favorite";
   static removePromptToFavorite(String id)=>"$apiURL/api/v1/prompts/$id/favorite";
 
-  static const knowledgeBaseApiURL = "https://knowledge-api.dev.jarvis.cx";
+  static const knowledgeBaseApiURL = "https://knowledge-api.jarvis.cx";
 }

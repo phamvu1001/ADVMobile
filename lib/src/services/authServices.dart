@@ -45,27 +45,35 @@ class AuthService {
     required String password,
     required Function(String) onSuccess,
   }) async {
-    final response = await post(
-      Uri.parse(APIURL.signIn),
-      body: {
-        'email': email,
-        'password': password,
-      },
-    );
+    try {
+      final response = await http.post(
+        Uri.parse(APIURL.signIn),
+        body: {
+          'email': email,
+          'password': password,
+        },
+      );
 
-    final jsonDecode = json.decode(response.body);
-    //print(jsonDecode);
+      print(response.statusCode);
+      print(response.body);
+      final jsonDecode = json.decode(response.body);
+      print(response.statusCode);
+      print(jsonDecode);
 
 
-    if (response.statusCode != 200) {
-      print("-------------------------------------");
-      print(jsonDecode['details']);
-      throw Exception(jsonDecode['message']);
+      if (response.statusCode != 200) {
+        print("-------------------------------------");
+        print(jsonDecode['details']);
+        throw Exception(jsonDecode['message']);
+      }
+      token = jsonDecode['token']["accessToken"];
+      tokenRefresh = jsonDecode['token']['refreshToken'];
+      await TokenManager.saveToken(token, tokenRefresh);
+      await onSuccess(token);
     }
-    token = jsonDecode['token']["accessToken"];
-    tokenRefresh = jsonDecode['token']['refreshToken'];
-    await TokenManager.saveToken(token, tokenRefresh);
-    await onSuccess(token);
+    catch (e) {
+      print('Error while signing in: $e');
+    }
   }
 
   /*TODO : not complete yet */

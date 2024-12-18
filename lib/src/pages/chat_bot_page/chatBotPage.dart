@@ -283,12 +283,16 @@ class _ChatBotPage extends State<ChatBotPage> {
                 return MouseRegion(
                     cursor: SystemMouseCursors.click,
                     child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
+                        onTap: () async {
+                          final result = await Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => BotPreviewPage(
                                     botId: bot.id,
                                     botName: bot.assistantName,
                                   )));
+                          print(result);
+                          if (result != null && result == 'updated') {
+                            await fetchChatBots(authProvider);
+                          }
                         },
                         child: Card(
                             color: Colors.white,
