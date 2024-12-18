@@ -82,23 +82,6 @@ class _NavigationMenuState extends State<NavigationMenu>{
             },
           ),
         ];
-      case 2 :
-        return [
-            Row(children: [
-              Text(
-                "25",
-                style: TextStyle(
-                  fontSize: 14,
-                ),
-              ),
-              Image.asset(
-                'assets/fire-icon.png',
-                height: 25,
-                width: 25,
-              ),
-            ])
-
-        ];
       default:
         return []; // Return an empty list for other indices
     }
